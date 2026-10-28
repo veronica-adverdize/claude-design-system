@@ -31,7 +31,45 @@ Examples that should trigger the workflow:
 - "Build a site for a ceramics studio in Portland …"
 - "My client runs a small architecture firm …"
 
-## The workflow
+## Build mode detection
+
+Before starting, determine which mode fits the request:
+
+**Direct build** — The user wants a complete, working website delivered in one go. Use this when:
+- The brief is clear and specific ("I need a website for a pet hotel with a booking system")
+- The user describes what they want built, not what they want explored
+- There is no mention of "options," "directions," "proposals," or "concepts"
+- The request includes concrete features (booking system, contact form, gallery, etc.)
+
+**Guided process** — The user wants creative exploration with options before building. Use this when:
+- The brief is vague or open-ended ("I need a website, not sure what style")
+- The user explicitly asks for options, directions, or proposals
+- The project is complex with multiple stakeholders or unclear positioning
+- The user says "explore," "show me options," or similar
+
+**When in doubt, ask one question:** "Would you like me to build this directly, or show you a few design directions first?" Do not default to the guided process for every request.
+
+### Direct build workflow
+
+For direct builds, compress the process into a single delivery:
+
+1. **Brand context** — Extract everything from the brief. State assumptions. Ask only if a critical detail is missing.
+2. **Internal direction** — Choose the best-fit direction internally. Do not present options or wait for selection.
+3. **Guidelines** — Define typography, colors, spacing, motion, and responsive behavior internally.
+4. **Build the complete site** — Deliver a full, working, single-file HTML page with ALL sections and ALL requested features. No "coming soon" teasers. No "more sections planned." Every section the site needs should be built.
+5. **Review** — Run quality checks. Present the finished site.
+
+The direct build must include:
+- Every feature the user requested (booking system, contact form, gallery, etc.)
+- Enough sections to make the site feel complete (typically 6-10 sections)
+- Real interactive functionality where requested (working forms, calendars, filtering, etc.)
+- A complete responsive design that works at all widths
+
+### Guided process workflow
+
+For guided builds, follow the full phased workflow below.
+
+## The workflow (guided process)
 
 ### Step 1 — Establish brand context
 
@@ -129,7 +167,17 @@ Keep brand facts and content constraints distinct from visual decisions. Keep pr
 
 Inspect the project directory first. If the project already has files (an existing `index.html`, component structure, framework config), preserve them. Create the sample as a separate file (e.g., `sample.html` or `sample/index.html`) unless the project is new and empty.
 
-Implement **only** the hero plus two supporting sections — no more. The sample proves the direction's composition, visual hierarchy, and pacing. It is not a draft of the full site. Do not expand a sample into a full page to satisfy Taste's picture floor (≥4 images) or motion floor (≥8 moving elements) — those apply at full-site scale (Step 7). Visually and interactively, include only what serves the sample's content.
+Build a substantial preview of the chosen direction. The sample must be large enough for the user to evaluate the design confidently.
+
+**Minimum sample scope:**
+- Hero section
+- 3-4 supporting sections that demonstrate different layout patterns
+- At least one interactive element if the site requires functionality
+- Enough content to show the design's rhythm and pacing
+
+Do NOT add "more coming soon" teasers or placeholder sections that say content is planned. Every section in the sample should be complete and polished. If a section is not ready, leave it out entirely rather than teasing it.
+
+Taste's picture floor (≥4 images) and motion floor (≥8 moving elements) apply at full-site scale (Step 7), not to the sample.
 
 Requirements for the sample:
 - A clear brand introduction in the hero (who this is, what they do)
@@ -217,6 +265,43 @@ When the user returns with a follow-up like "add an About page" or "change the h
 - Plan motion during art direction, not as an afterthought.
 - Do not deploy, modify live websites, call paid APIs, or generate images during design setup.
 - Do not install unreviewed tools or require paid reference subscriptions.
+
+## Image and media rules
+
+**When the user asks for "pictures," "photos," or "images":**
+- Use placeholder photography from Unsplash (via `https://images.unsplash.com/photo-[id]?w=800`) or similar free sources
+- Match the photos to the business concept (pets for a pet hotel, food for a restaurant, etc.)
+- Combine with custom SVG illustrations if appropriate, but photos come first when explicitly requested
+- Use `object-fit: cover` and proper aspect ratios
+- Include `alt` text describing what the photo should show
+
+**When the user asks for "icons" or "SVGs":**
+- Build custom inline SVGs that match the design's visual language
+- Do not rely solely on Font Awesome — create unique shapes when "custom-made" is requested
+- Match stroke weight, corner radius, and color to the overall design system
+
+**When the user asks for both pictures AND custom graphics:**
+- Deliver both. Photos for realistic content (facility, products, team). Custom SVGs for icons, decorative elements, and illustrations.
+- Do not substitute one for the other
+
+## Feature implementation rules
+
+**When the user requests specific functionality (booking system, contact form, shopping cart, gallery, calculator, etc.):**
+- Build a working interactive version, not a static mockup
+- The feature must be functional within the HTML file (client-side logic)
+- For booking/calendar: build a working date picker with time slots and a confirmation flow
+- For contact forms: build the form with validation (submission can show a success message)
+- For galleries: build a working lightbox or filtering system
+- For pricing: build interactive toggle (monthly/annual) if applicable
+
+**Never skip a requested feature.** If it cannot be fully built in a single HTML file, build the best possible client-side version and note what would need a backend.
+
+## Completeness rules
+
+- Never deliver an incomplete page. Every page must feel finished.
+- No "coming soon" sections, no "more chapters planned" teasers, no placeholder sections that admit they are placeholders.
+- If you generate multiple direction samples, each must be structurally distinct — different layout, different section order, different component patterns. Color and font swaps alone do not count as a different direction.
+- Never deliver duplicate files. Each file must contain meaningfully different content.
 
 ## Known limitations
 
