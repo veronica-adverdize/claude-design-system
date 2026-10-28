@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auraflow — Business Automation That Runs Itself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&family=Caveat:wght@500;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --text: #1a1625; --muted: #6b6480; --light: #9d96af;
+  --bg: #faf9fc; --white: #ffffff; --surface: #f3f1f7;
+  --purple: #7c3aed; --purple-dark: #6d28d9; --purple-light: #ede9fe;
+  --pink: #e879a8; --rose: #f472b6;
+  --gradient: linear-gradient(135deg, #7c3aed 0%, #e879a8 50%, #f9a8d4 100%);
+  --gradient-soft: linear-gradient(135deg, #ede9fe 0%, #fce7f3 100%);
+  --border: #e8e5f0; --shadow: 0 4px 24px rgba(124,58,237,0.08);
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-script: 'Caveat', cursive;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 16px; --radius-sm: 12px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+img { max-width: 100%; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 100px 0; }
+.text-center { text-align: center; }
+
+/* Typography */
+h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; font-weight: 700; }
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.03em; }
+h2 { font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: -0.02em; }
+h3 { font-size: 1.25rem; }
+.script { font-family: var(--font-script); font-weight: 500; }
+.mono { font-family: var(--font-mono); font-size: 0.85rem; }
+.muted { color: var(--muted); }
+.subtitle { font-size: 1.125rem; color: var(--muted); line-height: 1.7; max-width: 560px; }
+.section-label { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--purple); margin-bottom: 12px; }
+.gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; border-radius: 100px; font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; transition: all 0.3s var(--ease); min-height: 48px; }
+.btn-primary { background: var(--purple); color: #fff; box-shadow: 0 4px 20px rgba(124,58,237,0.3); }
+.btn-primary:hover { background: var(--purple-dark); box-shadow: 0 8px 32px rgba(124,58,237,0.4); transform: translateY(-2px); }
+.btn-secondary { background: var(--white); color: var(--text); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--purple); color: var(--purple); }
+.btn-ghost { color: var(--purple); background: transparent; border: 1.5px solid var(--purple); }
+.btn-ghost:hover { background: var(--purple); color: #fff; }
+.btn-dark { background: rgba(255,255,255,0.1); color: #fff; border: 1.5px solid rgba(255,255,255,0.2); }
+.btn-dark:hover { background: rgba(255,255,255,0.2); }
+.btn-sm { padding: 10px 24px; font-size: 0.875rem; }
+
+/* Nav */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; transition: all 0.3s ease; }
+.nav.scrolled { background: rgba(250,249,252,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.nav-logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.35rem; display: flex; align-items: center; gap: 10px; }
+.nav-logo .dot { width: 28px; height: 28px; border-radius: 8px; background: var(--purple); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 0.9rem; color: var(--muted); font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a.btn-primary { color: #fff; }
+.nav-links a.btn-primary:hover { color: #fff; }
+
+/* Hero */
+.hero { padding: 160px 0 80px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: -100px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(232,121,168,0.06) 0%, transparent 70%); pointer-events: none; }
+.hero-content { position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px 6px 6px; background: var(--white); border: 1px solid var(--border); border-radius: 100px; font-size: 0.8rem; color: var(--muted); margin-bottom: 28px; }
+.hero-badge .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; margin-left: 6px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.hero h1 { margin-bottom: 20px; }
+.hero .subtitle { margin: 0 auto 40px; }
+.hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Live demo mockup */
+.hero-demo { margin-top: 64px; position: relative; }
+.demo-window { background: var(--white); border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 24px 80px rgba(124,58,237,0.1), 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; max-width: 920px; margin: 0 auto; }
+.demo-toolbar { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-dot:nth-child(1) { background: #ef4444; }
+.demo-dot:nth-child(2) { background: #eab308; }
+.demo-dot:nth-child(3) { background: #22c55e; }
+.demo-toolbar-title { margin-left: 12px; font-size: 0.75rem; color: var(--light); font-family: var(--font-mono); }
+.demo-body { display: grid; grid-template-columns: 56px 1fr; min-height: 380px; }
+.demo-sidebar-icons { background: var(--text); padding: 16px 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.demo-sidebar-icons a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: rgba(255,255,255,0.4); font-size: 15px; transition: all 0.2s; }
+.demo-sidebar-icons a:hover, .demo-sidebar-icons a.active { color: #fff; background: rgba(255,255,255,0.1); }
+.demo-main { padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+.demo-chat { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+.chat-msg { display: flex; gap: 10px; align-items: flex-start; opacity: 0; transform: translateY(10px); transition: all 0.4s var(--ease); }
+.chat-msg.visible { opacity: 1; transform: translateY(0); }
+.chat-avatar { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.chat-avatar.user { background: var(--purple-light); color: var(--purple); }
+.chat-avatar.ai { background: var(--gradient-soft); color: var(--pink); }
+.chat-bubble { padding: 12px 16px; border-radius: 12px; font-size: 0.85rem; line-height: 1.55; max-width: 85%; }
+.chat-bubble.user-bubble { background: var(--purple); color: #fff; border-bottom-left-radius: 4px; }
+.chat-bubble.ai-bubble { background: var(--surface); color: var(--text); border-bottom-left-radius: 4px; }
+.chat-bubble .typing-dots { display: inline-flex; gap: 4px; }
+.chat-bubble .typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--light); animation: typingDot 1.4s infinite; }
+.chat-bubble .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.chat-bubble .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+.demo-input { display: flex; gap: 8px; align-items: center; padding: 12px 16px; background: var(--surface); border-radius: 12px; margin-top: auto; }
+.demo-input span { flex: 1; font-size: 0.8rem; color: var(--light); }
+.demo-input i { color: var(--purple); font-size: 14px; }
+
+/* Logo bar */
+.logo-bar { padding: 48px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.logo-bar p { font-size: 0.8rem; color: var(--light); text-align: center; margin-bottom: 28px; font-weight: 500; }
+.logo-row { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; opacity: 0.35; }
+.logo-row span { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; color: var(--text); }
+
+/* Features */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+.feature-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; transition: all 0.3s var(--ease); }
+.feature-card:hover { border-color: rgba(124,58,237,0.25); box-shadow: var(--shadow); transform: translateY(-4px); }
+.feature-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 20px; color: var(--purple); }
+.feature-card h3 { margin-bottom: 10px; }
+.feature-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+
+/* Product showcase tabs */
+.showcase { background: var(--surface); }
+.showcase-tabs { display: flex; gap: 4px; justify-content: center; margin-top: 48px; flex-wrap: wrap; }
+.showcase-tab { padding: 12px 24px; border-radius: 100px; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; color: var(--muted); background: var(--white); border: 1px solid var(--border); transition: all 0.25s; cursor: pointer; }
+.showcase-tab:hover { color: var(--text); }
+.showcase-tab.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+.showcase-panels { margin-top: 40px; }
+.showcase-panel { display: none; animation: fadeInPanel 0.4s var(--ease); }
+.showcase-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+@keyframes fadeInPanel { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.showcase-visual { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; min-height: 320px; position: relative; overflow: hidden; }
+.showcase-info h3 { font-size: 1.5rem; margin-bottom: 16px; }
+.showcase-info p { color: var(--muted); line-height: 1.7; margin-bottom: 20px; font-size: 0.95rem; }
+.showcase-info ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.showcase-info ul li { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--muted); }
+.showcase-info ul li i { color: var(--purple); width: 18px; font-size: 14px; }
+
+/* Showcase email visual */
+.email-visual { display: flex; flex-direction: column; gap: 10px; }
+.email-item { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); font-size: 0.8rem; transition: all 0.3s; }
+.email-item .priority { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.email-item .priority.high { background: #ef4444; }
+.email-item .priority.med { background: #eab308; }
+.email-item .priority.low { background: #22c55e; }
+.email-item .email-from { font-weight: 600; color: var(--text); min-width: 100px; }
+.email-item .email-subject { color: var(--muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.email-item .email-action { font-size: 0.7rem; padding: 3px 10px; border-radius: 100px; font-weight: 600; white-space: nowrap; }
+.email-item .email-action.drafted { background: var(--purple-light); color: var(--purple); }
+.email-item .email-action.flagged { background: #fef3c7; color: #92400e; }
+.email-item .email-action.archived { background: #f1f5f9; color: #64748b; }
+
+/* Showcase report visual */
+.report-visual { text-align: center; }
+.report-preview { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+.report-bars { display: flex; align-items: flex-end; justify-content: center; gap: 10px; height: 120px; margin: 16px 0; }
+.report-bar { width: 36px; border-radius: 6px 6px 0 0; background: var(--gradient-soft); position: relative; transition: height 1s var(--ease); }
+.report-bar .bar-fill { position: absolute; bottom: 0; left: 0; right: 0; border-radius: 6px 6px 0 0; background: var(--purple); transition: height 1.2s var(--ease); }
+.report-bar-label { font-size: 0.65rem; color: var(--light); margin-top: 6px; }
+
+/* How it works */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 56px; }
+.step { position: relative; padding: 40px 32px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); text-align: center; transition: all 0.3s var(--ease); }
+.step:hover { border-color: rgba(124,58,237,0.2); box-shadow: var(--shadow); }
+.step-number { width: 56px; height: 56px; border-radius: 50%; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; color: var(--purple); }
+.step-icon { font-size: 24px; color: var(--purple); margin-bottom: 16px; }
+.step h3 { margin-bottom: 10px; }
+.step p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+.step-connector { display: none; }
+
+/* Before/After toggle */
+.before-after { margin-top: 56px; }
+.ba-toggle { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 32px; }
+.ba-label { font-family: var(--font-heading); font-weight: 600; font-size: 0.9rem; color: var(--muted); transition: color 0.3s; }
+.ba-label.active { color: var(--text); }
+.ba-switch { width: 52px; height: 28px; border-radius: 100px; background: var(--border); position: relative; cursor: pointer; transition: background 0.3s; }
+.ba-switch.on { background: var(--purple); }
+.ba-switch .ba-knob { width: 22px; height: 22px; border-radius: 50%; background: #fff; position: absolute; top: 3px; left: 3px; transition: left 0.3s var(--ease); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+.ba-switch.on .ba-knob { left: 27px; }
+.ba-content { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.ba-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; transition: all 0.5s var(--ease); }
+.ba-card.dimmed { opacity: 0.4; transform: scale(0.97); }
+.ba-card h4 { font-size: 1rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.ba-card h4 i { font-size: 16px; }
+.ba-task { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--muted); }
+.ba-task:last-child { border-bottom: none; }
+.ba-task i { width: 20px; font-size: 12px; text-align: center; }
+.ba-task .time { margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; color: var(--light); }
+.ba-task.done { text-decoration: line-through; color: var(--light); }
+.ba-task.done i { color: #22c55e; }
+.ba-time-saved { text-align: center; margin-top: 24px; padding: 20px; background: var(--gradient-soft); border-radius: var(--radius-sm); }
+.ba-time-saved .big { font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--purple); }
+.ba-time-saved p { font-size: 0.85rem; color: var(--muted); }
+
+/* Who it's for - alternating rows */
+.persona-rows { display: flex; flex-direction: column; gap: 80px; margin-top: 64px; }
+.persona-row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.persona-row:nth-child(even) { direction: rtl; }
+.persona-row:nth-child(even) > * { direction: ltr; }
+.persona-visual { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; min-height: 320px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.persona-visual::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: var(--gradient-soft); opacity: 0.6; }
+.persona-visual .persona-scene { position: relative; z-index: 1; }
+.persona-info .role-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 100px; background: var(--purple-light); color: var(--purple); font-size: 0.8rem; font-weight: 600; margin-bottom: 16px; }
+.persona-info h3 { font-size: 1.5rem; margin-bottom: 12px; }
+.persona-info p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+.persona-info .persona-stats { display: flex; gap: 24px; }
+.persona-info .persona-stat { text-align: center; }
+.persona-info .persona-stat .num { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: var(--purple); }
+.persona-info .persona-stat .label { font-size: 0.75rem; color: var(--light); }
+/* Visual scene items */
+.scene-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg); border-radius: 10px; font-size: 0.8rem; margin-bottom: 8px; border: 1px solid var(--border); }
+.scene-item i { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.scene-item .done-line { text-decoration: line-through; color: var(--light); }
+.scene-badge { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 0.65rem; font-weight: 600; margin-left: auto; }
+
+/* Stats */
+.stats-section { background: var(--text); color: #fff; padding: 80px 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.stat { text-align: center; }
+.stat-number { font-family: var(--font-heading); font-size: 2.75rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+/* Integrations */
+.integrations-visual { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 48px; }
+.integration-pill { display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: var(--white); border: 1px solid var(--border); border-radius: 100px; font-size: 0.85rem; font-weight: 500; color: var(--text); transition: all 0.2s; cursor: pointer; }
+.integration-pill:hover { border-color: var(--purple); transform: translateY(-2px); box-shadow: var(--shadow); }
+.integration-pill i { font-size: 16px; }
+
+/* Testimonials */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+.testimonial-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+.testimonial-stars { color: #eab308; font-size: 14px; margin-bottom: 16px; display: flex; gap: 2px; }
+.testimonial-card blockquote { font-size: 0.925rem; color: var(--text); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; color: var(--purple); }
+.testimonial-author .name { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; }
+.testimonial-author .title { font-size: 0.75rem; color: var(--light); }
+
+/* Pricing */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; align-items: start; }
+.pricing-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px 32px; position: relative; transition: all 0.3s var(--ease); }
+.pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.pricing-card.featured { border: 2px solid var(--purple); box-shadow: 0 8px 40px rgba(124,58,237,0.12); }
+.pricing-card.featured::before { content: 'Most popular'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--purple); color: #fff; font-size: 0.75rem; font-weight: 600; padding: 4px 16px; border-radius: 100px; font-family: var(--font-heading); }
+.pricing-name { font-family: var(--font-heading); font-weight: 600; font-size: 1.1rem; margin-bottom: 4px; }
+.pricing-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
+.pricing-amount { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; margin-bottom: 4px; }
+.pricing-amount span { font-size: 0.9rem; font-weight: 400; color: var(--muted); }
+.pricing-period { font-size: 0.8rem; color: var(--light); margin-bottom: 28px; }
+.pricing-features { list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 12px; }
+.pricing-features li { font-size: 0.875rem; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+.pricing-features li i { color: var(--purple); font-size: 13px; width: 18px; text-align: center; }
+.pricing-card .btn { width: 100%; justify-content: center; }
+
+/* FAQ */
+.faq-list { max-width: 720px; margin: 56px auto 0; display: flex; flex-direction: column; gap: 8px; }
+.faq-item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.faq-question { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; text-align: left; cursor: pointer; transition: color 0.2s; gap: 16px; }
+.faq-question:hover { color: var(--purple); }
+.faq-question i { font-size: 14px; color: var(--light); transition: transform 0.3s var(--ease); flex-shrink: 0; }
+.faq-item.open .faq-question i { transform: rotate(180deg); color: var(--purple); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
+.faq-answer-inner { padding: 0 24px 20px; font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* Trust bar */
+.trust-bar { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; margin-top: 48px; }
+.trust-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 500; color: var(--muted); }
+.trust-item i { font-size: 20px; color: var(--purple); }
+
+/* CTA section */
+.cta-section { padding: 100px 0; }
+.cta-card { background: var(--text); border-radius: 24px; padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+.cta-card::before { content: ''; position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 60%); pointer-events: none; }
+.cta-card h2 { color: #fff; position: relative; margin-bottom: 16px; }
+.cta-card .subtitle { color: rgba(255,255,255,0.6); margin: 0 auto 36px; }
+.cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--border); padding: 56px 0 32px; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 48px; margin-bottom: 48px; }
+.footer-brand p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; max-width: 260px; margin-top: 12px; }
+.footer-col h4 { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 0.875rem; color: var(--muted); margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--purple); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--light); }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition-duration: 0.01s; transform: none; }
+  .chat-msg { transition-duration: 0.01s; transform: none; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } }
+  @keyframes typingDot { 0%, 100% { opacity: 0.5; } }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-panel.active { grid-template-columns: 1fr; }
+  .persona-row { grid-template-columns: 1fr; gap: 32px; }
+  .persona-row:nth-child(even) { direction: ltr; }
+  .testimonials-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+}
+@media (max-width: 768px) {
+  .section { padding: 64px 0; }
+  .hero { padding: 120px 0 64px; }
+  .nav-links { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .demo-body { grid-template-columns: 1fr; }
+  .demo-sidebar-icons { flex-direction: row; justify-content: center; padding: 8px 0; }
+  .ba-content { grid-template-columns: 1fr; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .logo-row { gap: 24px; }
+  .trust-bar { gap: 24px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .cta-card { padding: 48px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><div class="dot"><i class="fa-solid fa-bolt"></i></div> Auraflow</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#showcase">Product</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#" class="btn btn-sm btn-primary">Start free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero text-center">
+  <div class="container hero-content">
+    <div class="hero-badge reveal"><span class="badge-dot"></span> Now in public beta</div>
+    <h1 class="reveal reveal-d1">Your business runs on<br><span class="gradient-text">autopilot, not overtime</span></h1>
+    <p class="subtitle reveal reveal-d2" style="margin-left:auto;margin-right:auto;">Auraflow handles the repetitive work your team does every day. Emails, reports, data entry, scheduling. You set the rules once, then go do something that actually matters.</p>
+    <div class="hero-ctas reveal reveal-d3">
+      <a href="#" class="btn btn-primary"><i class="fa-solid fa-play"></i> Start free trial</a>
+      <a href="#" class="btn btn-secondary"><i class="fa-regular fa-circle-play"></i> Watch 2-min demo</a>
+    </div>
+
+    <!-- Interactive chat demo -->
+    <div class="hero-demo reveal">
+      <div class="demo-window">
+        <div class="demo-toolbar">
+          <div class="demo-dot"></div><div class="demo-dot"></div><div class="demo-dot"></div>
+          <span class="demo-toolbar-title">auraflow.app/dashboard</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-sidebar-icons">
+            <a href="#" class="active"><i class="fa-solid fa-house"></i></a>
+            <a href="#"><i class="fa-solid fa-comments"></i></a>
+            <a href="#"><i class="fa-solid fa-diagram-project"></i></a>
+            <a href="#"><i class="fa-solid fa-chart-line"></i></a>
+            <a href="#"><i class="fa-solid fa-plug"></i></a>
+            <a href="#"><i class="fa-solid fa-gear"></i></a>
+          </div>
+          <div class="demo-main">
+            <div class="demo-chat" id="demoChat">
+              <div class="chat-msg" data-delay="400">
+                <div class="chat-avatar user"><i class="fa-solid fa-user"></i></div>
+                <div class="chat-bubble user-bubble">Send a follow-up to every lead who opened our proposal but didn't reply within 48 hours.</div>
+              </div>
+              <div class="chat-msg" data-delay="1800">
+                <div class="chat-avatar ai"><i class="fa-solid fa-bolt"></i></div>
+                <div class="chat-bubble ai-bubble">Got it. I found 23 leads matching that criteria. Here's what I'll send:<br><br><strong style="color:var(--text);">Subject:</strong> Quick follow-up on your proposal<br><strong style="color:var(--text);">Tone:</strong> Friendly, not pushy<br><br>Want me to send now, or review drafts first?</div>
+              </div>
+              <div class="chat-msg" data-delay="3400">
+                <div class="chat-avatar user"><i class="fa-solid fa-user"></i></div>
+                <div class="chat-bubble user-bubble">Send them. Also set this up as a recurring automation.</div>
+              </div>
+              <div class="chat-msg" data-delay="4600">
+                <div class="chat-avatar ai"><i class="fa-solid fa-bolt"></i></div>
+                <div class="chat-bubble ai-bubble"><i class="fa-solid fa-check" style="color:#22c55e;margin-right:4px;"></i> Done. 23 follow-ups sent. I've also created a workflow: every Tuesday and Friday, I'll check for stale proposals and send follow-ups automatically. You'll get a summary each time.</div>
+              </div>
+            </div>
+            <div class="demo-input">
+              <i class="fa-solid fa-bolt" style="opacity:0.4;"></i>
+              <span>Ask Auraflow anything...</span>
+              <i class="fa-solid fa-paper-plane"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Logo bar -->
+<div class="logo-bar">
+  <div class="container">
+    <p>Trusted by 2,400+ operations teams</p>
+    <div class="logo-row">
+      <span>Stripe</span><span>Notion</span><span>Linear</span><span>Vercel</span><span>Webflow</span><span>Retool</span>
+    </div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">What it does</div>
+      <h2 class="reveal">Six things your team does every week<br>that <span class="script" style="font-size:1.15em;color:var(--purple);">nobody should do manually</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+        <h3>Email triage and replies</h3>
+        <p>Sorts your inbox by urgency, drafts responses in your voice, and flags anything that needs a human. Average response time drops from 4 hours to 12 minutes.</p>
+      </div>
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon"><i class="fa-solid fa-file-lines"></i></div>
+        <h3>Reports that write themselves</h3>
+        <p>Pulls numbers from your tools, builds the weekly report, and sends it to the right people. Monday morning updates without the Sunday night scramble.</p>
+      </div>
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
+        <h3>Calendar and scheduling</h3>
+        <p>Books meetings around your preferences, sends follow-ups, and reschedules conflicts without the six-email chain. It knows when you need focus time.</p>
+      </div>
+      <div class="feature-card reveal reveal-d3">
+        <div class="feature-icon"><i class="fa-solid fa-database"></i></div>
+        <h3>Data entry and cleanup</h3>
+        <p>Reads documents, invoices, and forms. Enters data into your systems with 99.2% accuracy. Flags anything it is not sure about instead of guessing.</p>
+      </div>
+      <div class="feature-card reveal reveal-d4">
+        <div class="feature-icon"><i class="fa-solid fa-route"></i></div>
+        <h3>Lead routing and CRM updates</h3>
+        <p>New leads go to the right sales rep based on territory, deal size, and availability. CRM fields stay current without anyone touching them.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+        <h3>Alerts and escalations</h3>
+        <p>Monitors KPIs, support queues, and deadlines. Pages the right person when something needs attention, not the whole channel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product showcase with tabs -->
+<section class="section showcase" id="showcase">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">See it in action</div>
+      <h2 class="reveal">Not just promises.<br><span class="script" style="font-size:1.15em;color:var(--purple);">Here is what actually happens.</span></h2>
+    </div>
+    <div class="showcase-tabs reveal">
+      <button class="showcase-tab active" data-tab="email"><i class="fa-solid fa-envelope"></i>&nbsp; Email</button>
+      <button class="showcase-tab" data-tab="reports"><i class="fa-solid fa-chart-bar"></i>&nbsp; Reports</button>
+      <button class="showcase-tab" data-tab="scheduling"><i class="fa-solid fa-calendar"></i>&nbsp; Scheduling</button>
+      <button class="showcase-tab" data-tab="workflows"><i class="fa-solid fa-sitemap"></i>&nbsp; Workflows</button>
+    </div>
+    <div class="showcase-panels">
+      <!-- Email panel -->
+      <div class="showcase-panel active" data-panel="email">
+        <div class="showcase-visual">
+          <div class="email-visual">
+            <div class="email-item">
+              <div class="priority high"></div>
+              <div class="email-from">CFO Office</div>
+              <div class="email-subject">Q3 budget approval needed by EOD</div>
+              <div class="email-action flagged"><i class="fa-solid fa-flag"></i> Flagged</div>
+            </div>
+            <div class="email-item">
+              <div class="priority med"></div>
+              <div class="email-from">Sarah Chen</div>
+              <div class="email-subject">Re: Partnership proposal draft v2</div>
+              <div class="email-action drafted"><i class="fa-solid fa-pen"></i> Draft ready</div>
+            </div>
+            <div class="email-item">
+              <div class="priority low"></div>
+              <div class="email-from">Newsletter</div>
+              <div class="email-subject">Your weekly SaaS metrics digest</div>
+              <div class="email-action archived"><i class="fa-solid fa-box-archive"></i> Archived</div>
+            </div>
+            <div class="email-item">
+              <div class="priority med"></div>
+              <div class="email-from">Dev Team</div>
+              <div class="email-subject">Deploy approval request for v2.4.1</div>
+              <div class="email-action drafted"><i class="fa-solid fa-pen"></i> Draft ready</div>
+            </div>
+            <div class="email-item">
+              <div class="priority low"></div>
+              <div class="email-from">HR System</div>
+              <div class="email-subject">PTO request approved - Jordan M.</div>
+              <div class="email-action archived"><i class="fa-solid fa-box-archive"></i> Archived</div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <h3>Your inbox, sorted and handled</h3>
+          <p>Auraflow reads every email as it arrives. Urgent items get flagged immediately. Routine responses get drafted in your writing style. Noise gets archived. You open your inbox to decisions, not a wall of unread.</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Priority scoring based on sender, content, and deadlines</li>
+            <li><i class="fa-solid fa-check"></i> Response drafts that match your tone and writing patterns</li>
+            <li><i class="fa-solid fa-check"></i> Auto-archive for newsletters, receipts, and notifications</li>
+            <li><i class="fa-solid fa-check"></i> Custom rules: "Always flag emails from the board"</li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-sm">Learn more about email <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Reports panel -->
+      <div class="showcase-panel" data-panel="reports">
+        <div class="showcase-visual">
+          <div class="report-visual">
+            <div class="report-preview">
+              <div style="text-align:left;margin-bottom:16px;">
+                <div style="font-family:var(--font-heading);font-weight:700;font-size:0.95rem;">Weekly Performance Report</div>
+                <div style="font-size:0.75rem;color:var(--light);">Auto-generated Oct 28, 2024 at 8:00 AM</div>
+              </div>
+              <div class="report-bars" id="reportBars">
+                <div style="text-align:center;"><div class="report-bar" style="height:100%;"><div class="bar-fill" data-height="72%"></div></div><div class="report-bar-label">Mon</div></div>
+                <div style="text-align:center;"><div class="report-bar" style="height:100%;"><div class="bar-fill" data-height="85%"></div></div><div class="report-bar-label">Tue</div></div>
+                <div style="text-align:center;"><div class="report-bar" style="height:100%;"><div class="bar-fill" data-height="64%"></div></div><div class="report-bar-label">Wed</div></div>
+                <div style="text-align:center;"><div class="report-bar" style="height:100%;"><div class="bar-fill" data-height="91%"></div></div><div class="report-bar-label">Thu</div></div>
+                <div style="text-align:center;"><div class="report-bar" style="height:100%;"><div class="bar-fill" data-height="78%"></div></div><div class="report-bar-label">Fri</div></div>
+              </div>
+              <div style="display:flex;gap:16px;margin-top:16px;">
+                <div style="flex:1;padding:12px;background:var(--surface);border-radius:8px;text-align:center;">
+                  <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;color:var(--purple);">$142K</div>
+                  <div style="font-size:0.7rem;color:var(--light);">Revenue</div>
+                </div>
+                <div style="flex:1;padding:12px;background:var(--surface);border-radius:8px;text-align:center;">
+                  <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;color:#22c55e;">+18%</div>
+                  <div style="font-size:0.7rem;color:var(--light);">vs Last Week</div>
+                </div>
+                <div style="flex:1;padding:12px;background:var(--surface);border-radius:8px;text-align:center;">
+                  <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;color:var(--pink);">94%</div>
+                  <div style="font-size:0.7rem;color:var(--light);">Goal Progress</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <h3>Reports built from your real data</h3>
+          <p>Auraflow connects to your tools, pulls the numbers, and assembles your reports on schedule. No copy-paste from five different dashboards. No formatting headaches. Just the report, in your inbox, when you need it.</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Pulls from Stripe, HubSpot, Google Analytics, and 40+ more</li>
+            <li><i class="fa-solid fa-check"></i> Scheduled daily, weekly, or monthly delivery</li>
+            <li><i class="fa-solid fa-check"></i> Automatic trend comparison against prior periods</li>
+            <li><i class="fa-solid fa-check"></i> Highlights anomalies so you only look at what changed</li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-sm">Learn more about reports <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Scheduling panel -->
+      <div class="showcase-panel" data-panel="scheduling">
+        <div class="showcase-visual">
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:16px;">
+            <div style="text-align:center;font-size:0.7rem;font-weight:600;color:var(--light);padding:8px;">MON</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:600;color:var(--light);padding:8px;">TUE</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:600;color:var(--light);padding:8px;">WED</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:600;color:var(--light);padding:8px;">THU</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:600;color:var(--light);padding:8px;">FRI</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;">
+            <div style="background:var(--purple-light);border-radius:8px;padding:8px;font-size:0.7rem;">
+              <div style="font-weight:600;color:var(--purple);">9:00 AM</div>
+              <div style="color:var(--muted);margin-top:2px;">Team standup</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:8px;font-size:0.7rem;">
+              <div style="font-weight:600;color:var(--text);">10:30 AM</div>
+              <div style="color:var(--muted);margin-top:2px;">Client call</div>
+            </div>
+            <div style="background:#dcfce7;border-radius:8px;padding:8px;font-size:0.7rem;">
+              <div style="font-weight:600;color:#166534;"><i class="fa-solid fa-shield" style="font-size:9px;"></i> Focus</div>
+              <div style="color:#166534;margin-top:2px;">Protected block</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:8px;font-size:0.7rem;">
+              <div style="font-weight:600;color:var(--text);">2:00 PM</div>
+              <div style="color:var(--muted);margin-top:2px;">Design review</div>
+            </div>
+            <div style="background:var(--purple-light);border-radius:8px;padding:8px;font-size:0.7rem;">
+              <div style="font-weight:600;color:var(--purple);">11:00 AM</div>
+              <div style="color:var(--muted);margin-top:2px;">1:1 w/ Jordan</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:var(--gradient-soft);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:0.8rem;">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--purple);"></i>
+            <span style="color:var(--text);"><strong>Auraflow rescheduled 3 conflicts</strong> and protected 4 hours of focus time this week.</span>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <h3>A calendar that manages itself</h3>
+          <p>Auraflow learns your meeting preferences, protects your focus time, and handles the back-and-forth of scheduling so you do not have to. When conflicts come up, it resolves them based on priority rules you set.</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Auto-schedules around your preferred working hours</li>
+            <li><i class="fa-solid fa-check"></i> Protects focus blocks and lunch breaks</li>
+            <li><i class="fa-solid fa-check"></i> Sends prep notes 15 minutes before each meeting</li>
+            <li><i class="fa-solid fa-check"></i> Reschedules conflicts by priority, not first-come</li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-sm">Learn more about scheduling <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Workflows panel -->
+      <div class="showcase-panel" data-panel="workflows">
+        <div class="showcase-visual">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;color:var(--purple);font-size:16px;flex-shrink:0;"><i class="fa-solid fa-envelope"></i></div>
+              <div style="flex:1;font-size:0.8rem;"><strong>Trigger:</strong> New email from client domain</div>
+            </div>
+            <div style="border-left:2px dashed var(--border);margin-left:19px;height:16px;"></div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:#fef3c7;display:flex;align-items:center;justify-content:center;color:#92400e;font-size:16px;flex-shrink:0;"><i class="fa-solid fa-code-branch"></i></div>
+              <div style="flex:1;font-size:0.8rem;"><strong>Condition:</strong> If contains "invoice" or "payment"</div>
+            </div>
+            <div style="border-left:2px dashed var(--border);margin-left:19px;height:16px;"></div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:#dcfce7;display:flex;align-items:center;justify-content:center;color:#166534;font-size:16px;flex-shrink:0;"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+              <div style="flex:1;font-size:0.8rem;"><strong>Action:</strong> Extract amount, log in QuickBooks</div>
+            </div>
+            <div style="border-left:2px dashed var(--border);margin-left:19px;height:16px;"></div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:var(--gradient-soft);display:flex;align-items:center;justify-content:center;color:var(--pink);font-size:16px;flex-shrink:0;"><i class="fa-solid fa-bell"></i></div>
+              <div style="flex:1;font-size:0.8rem;"><strong>Notify:</strong> Slack #finance channel with summary</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:var(--surface);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:0.75rem;color:var(--muted);">
+            <i class="fa-solid fa-circle-check" style="color:#22c55e;"></i> This workflow ran 847 times last month with zero errors.
+          </div>
+        </div>
+        <div class="showcase-info">
+          <h3>Build workflows in plain English</h3>
+          <p>Describe what should happen and Auraflow builds the automation. No flowchart editors, no code, no 30-step tutorials. If you can say it, Auraflow can do it.</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Describe triggers, conditions, and actions in natural language</li>
+            <li><i class="fa-solid fa-check"></i> Visual workflow preview before you activate</li>
+            <li><i class="fa-solid fa-check"></i> Error handling and retry logic built in</li>
+            <li><i class="fa-solid fa-check"></i> Version history so you can roll back changes</li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-sm">Learn more about workflows <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Before / After toggle -->
+<section class="section" id="before-after">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">The difference</div>
+      <h2 class="reveal">A typical Monday morning,<br><span class="script" style="font-size:1.15em;color:var(--purple);">with and without Auraflow</span></h2>
+    </div>
+    <div class="before-after reveal">
+      <div class="ba-toggle">
+        <span class="ba-label active" id="baLabelBefore"><i class="fa-solid fa-xmark" style="color:#ef4444;margin-right:4px;"></i> Without</span>
+        <div class="ba-switch" id="baSwitch"><div class="ba-knob"></div></div>
+        <span class="ba-label" id="baLabelAfter"><i class="fa-solid fa-bolt" style="color:var(--purple);margin-right:4px;"></i> With Auraflow</span>
+      </div>
+      <div class="ba-content">
+        <div class="ba-card" id="baCardBefore">
+          <h4><i class="fa-regular fa-clock" style="color:#ef4444;"></i> Your morning (manual)</h4>
+          <div class="ba-task"><i class="fa-regular fa-square"></i> Check and sort 47 emails <span class="time">45 min</span></div>
+          <div class="ba-task"><i class="fa-regular fa-square"></i> Reply to 12 urgent messages <span class="time">35 min</span></div>
+          <div class="ba-task"><i class="fa-regular fa-square"></i> Update CRM with yesterday's calls <span class="time">20 min</span></div>
+          <div class="ba-task"><i class="fa-regular fa-square"></i> Build weekly status report <span class="time">40 min</span></div>
+          <div class="ba-task"><i class="fa-regular fa-square"></i> Schedule 4 follow-up meetings <span class="time">25 min</span></div>
+          <div class="ba-task"><i class="fa-regular fa-square"></i> Process 8 expense receipts <span class="time">15 min</span></div>
+          <div style="margin-top:16px;padding:14px;background:#fef2f2;border-radius:10px;text-align:center;">
+            <div style="font-family:var(--font-heading);font-weight:800;font-size:1.5rem;color:#ef4444;">3 hours</div>
+            <div style="font-size:0.8rem;color:#991b1b;">spent on work that adds zero strategic value</div>
+          </div>
+        </div>
+        <div class="ba-card" id="baCardAfter">
+          <h4><i class="fa-solid fa-bolt" style="color:var(--purple);"></i> Your morning (with Auraflow)</h4>
+          <div class="ba-task done"><i class="fa-solid fa-check"></i> Inbox sorted, 9 drafts waiting for review <span class="time">auto</span></div>
+          <div class="ba-task done"><i class="fa-solid fa-check"></i> 12 replies sent in your voice <span class="time">auto</span></div>
+          <div class="ba-task done"><i class="fa-solid fa-check"></i> CRM updated from call transcripts <span class="time">auto</span></div>
+          <div class="ba-task done"><i class="fa-solid fa-check"></i> Weekly report delivered to team <span class="time">auto</span></div>
+          <div class="ba-task done"><i class="fa-solid fa-check"></i> Follow-ups booked and confirmed <span class="time">auto</span></div>
+          <div class="ba-task done"><i class="fa-solid fa-check"></i> Receipts processed and categorized <span class="time">auto</span></div>
+          <div class="ba-time-saved">
+            <div class="big">12 hours</div>
+            <p>saved per team, every single week</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section" id="how-it-works">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">How it works</div>
+      <h2 class="reveal">Three steps. Then it just <span class="script" style="font-size:1.15em;color:var(--purple);">runs</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-number">1</div>
+        <div class="step-icon"><i class="fa-solid fa-plug"></i></div>
+        <h3>Connect your tools</h3>
+        <p>Link your email, calendar, CRM, and file storage. Auraflow reads your existing setup and suggests automations based on what it sees. Takes about 3 minutes.</p>
+      </div>
+      <div class="step reveal reveal-d1">
+        <div class="step-number">2</div>
+        <div class="step-icon"><i class="fa-solid fa-comment-dots"></i></div>
+        <h3>Tell it what to do</h3>
+        <p>Describe automations in plain English. "Send a follow-up if no reply in 48 hours" or "Flag invoices over $5,000 for my review." No code, no flowcharts.</p>
+      </div>
+      <div class="step reveal reveal-d2">
+        <div class="step-number">3</div>
+        <div class="step-icon"><i class="fa-solid fa-rocket"></i></div>
+        <h3>Let it work</h3>
+        <p>Auraflow runs 24/7 in the background. You get a daily summary of everything it handled, and it asks before doing anything it has not seen before.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who it's for -->
+<section class="section" style="background:var(--surface);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">Who it's for</div>
+      <h2 class="reveal">Built for the people who keep<br><span class="script" style="font-size:1.15em;color:var(--purple);">everything running</span></h2>
+    </div>
+    <div class="persona-rows">
+
+      <!-- Row 1: Ops managers -->
+      <div class="persona-row reveal">
+        <div class="persona-visual">
+          <div class="persona-scene">
+            <div class="scene-item">
+              <i style="background:#dcfce7;color:#166534;"><i class="fa-solid fa-check"></i></i>
+              <span class="done-line">Process Q3 expense reports</span>
+              <span class="scene-badge" style="background:#dcfce7;color:#166534;">Done</span>
+            </div>
+            <div class="scene-item">
+              <i style="background:#dcfce7;color:#166534;"><i class="fa-solid fa-check"></i></i>
+              <span class="done-line">Update vendor payment status</span>
+              <span class="scene-badge" style="background:#dcfce7;color:#166534;">Done</span>
+            </div>
+            <div class="scene-item">
+              <i style="background:#dcfce7;color:#166534;"><i class="fa-solid fa-check"></i></i>
+              <span class="done-line">Send weekly ops summary</span>
+              <span class="scene-badge" style="background:#dcfce7;color:#166534;">Done</span>
+            </div>
+            <div class="scene-item">
+              <i style="background:var(--purple-light);color:var(--purple);"><i class="fa-solid fa-spinner fa-spin"></i></i>
+              <span>Reconcile inventory counts</span>
+              <span class="scene-badge" style="background:var(--purple-light);color:var(--purple);">Running</span>
+            </div>
+            <div style="margin-top:12px;padding:10px 16px;background:var(--gradient-soft);border-radius:8px;font-size:0.75rem;color:var(--purple);display:flex;align-items:center;gap:8px;">
+              <i class="fa-solid fa-clock"></i> 4 tasks completed automatically this morning
+            </div>
+          </div>
+        </div>
+        <div class="persona-info">
+          <div class="role-badge"><i class="fa-solid fa-gears"></i> Operations managers</div>
+          <h3>You are the glue. Auraflow is the machine.</h3>
+          <p>You keep the business running, which means half your day goes to tasks a spreadsheet should handle. Recurring reports, vendor follow-ups, data reconciliation. Auraflow takes the repetitive work off your plate so you can focus on the problems that actually need a human brain.</p>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="num">62%</div><div class="label">Less manual work</div></div>
+            <div class="persona-stat"><div class="num">3.5 hrs</div><div class="label">Saved daily</div></div>
+            <div class="persona-stat"><div class="num">Zero</div><div class="label">Missed deadlines</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Team leads (flipped) -->
+      <div class="persona-row reveal">
+        <div class="persona-visual">
+          <div class="persona-scene">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;">
+              <div style="background:var(--purple-light);border-radius:8px;padding:10px 8px;text-align:center;">
+                <i class="fa-brands fa-slack" style="font-size:18px;color:var(--purple);"></i>
+                <div style="font-size:0.6rem;color:var(--muted);margin-top:4px;">Slack</div>
+              </div>
+              <div style="background:#fef3c7;border-radius:8px;padding:10px 8px;text-align:center;">
+                <i class="fa-brands fa-hubspot" style="font-size:18px;color:#FF6C37;"></i>
+                <div style="font-size:0.6rem;color:var(--muted);margin-top:4px;">HubSpot</div>
+              </div>
+              <div style="background:#dbeafe;border-radius:8px;padding:10px 8px;text-align:center;">
+                <i class="fa-brands fa-google" style="font-size:18px;color:#4285F4;"></i>
+                <div style="font-size:0.6rem;color:var(--muted);margin-top:4px;">Google</div>
+              </div>
+              <div style="background:#dcfce7;border-radius:8px;padding:10px 8px;text-align:center;">
+                <i class="fa-solid fa-chart-line" style="font-size:18px;color:#166534;"></i>
+                <div style="font-size:0.6rem;color:var(--muted);margin-top:4px;">Analytics</div>
+              </div>
+            </div>
+            <div style="text-align:center;padding:16px;background:var(--bg);border-radius:10px;border:1px solid var(--border);">
+              <div style="font-size:2rem;margin-bottom:4px;"><i class="fa-solid fa-bolt" style="color:var(--purple);"></i></div>
+              <div style="font-size:0.75rem;font-weight:600;color:var(--text);">Auraflow connects them all</div>
+              <div style="font-size:0.7rem;color:var(--light);margin-top:2px;">Data flows automatically between your tools</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <div style="flex:1;background:var(--gradient-soft);border-radius:8px;padding:8px;text-align:center;font-size:0.7rem;">
+                <div style="font-weight:700;color:var(--purple);">847</div>
+                <div style="color:var(--light);">synced today</div>
+              </div>
+              <div style="flex:1;background:#dcfce7;border-radius:8px;padding:8px;text-align:center;font-size:0.7rem;">
+                <div style="font-weight:700;color:#166534;">100%</div>
+                <div style="color:var(--light);">accuracy</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="persona-info">
+          <div class="role-badge"><i class="fa-solid fa-users"></i> Team leads</div>
+          <h3>Too many tools, too little time</h3>
+          <p>You toggle between 8 apps before lunch. CRM, email, Slack, docs, spreadsheets, project boards. Auraflow sits on top of all of them, moving data between systems, generating reports, and making sure nothing slips through the cracks while you focus on your team.</p>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="num">8</div><div class="label">Tools connected</div></div>
+            <div class="persona-stat"><div class="num">40+</div><div class="label">Automations</div></div>
+            <div class="persona-stat"><div class="num">2 min</div><div class="label">Status updates</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Small biz owners -->
+      <div class="persona-row reveal">
+        <div class="persona-visual">
+          <div class="persona-scene">
+            <div style="text-align:center;margin-bottom:16px;">
+              <div style="font-size:0.7rem;color:var(--light);margin-bottom:8px;">Your week at a glance</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+                <i class="fa-solid fa-file-invoice-dollar" style="font-size:20px;color:var(--purple);margin-bottom:6px;display:block;"></i>
+                <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;">23</div>
+                <div style="font-size:0.65rem;color:var(--light);">Invoices processed</div>
+              </div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+                <i class="fa-solid fa-envelope" style="font-size:20px;color:var(--pink);margin-bottom:6px;display:block;"></i>
+                <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;">156</div>
+                <div style="font-size:0.65rem;color:var(--light);">Emails handled</div>
+              </div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+                <i class="fa-solid fa-calendar-check" style="font-size:20px;color:#22c55e;margin-bottom:6px;display:block;"></i>
+                <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;">12</div>
+                <div style="font-size:0.65rem;color:var(--light);">Meetings booked</div>
+              </div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+                <i class="fa-solid fa-clock" style="font-size:20px;color:#eab308;margin-bottom:6px;display:block;"></i>
+                <div style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;">14 hrs</div>
+                <div style="font-size:0.65rem;color:var(--light);">Time saved</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="persona-info">
+          <div class="role-badge"><i class="fa-solid fa-building"></i> Small business owners</div>
+          <h3>You wear every hat. Let Auraflow wear a few.</h3>
+          <p>When you are the CEO, CFO, and customer support, there is no time for data entry. Invoices pile up, follow-ups slip, and admin work eats into the hours you need for growth. Auraflow handles the back office so you can spend time on the work that actually moves the needle.</p>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="num">14 hrs</div><div class="label">Saved weekly</div></div>
+            <div class="persona-stat"><div class="num">$0</div><div class="label">Hiring cost</div></div>
+            <div class="persona-stat"><div class="num">24/7</div><div class="label">Always on</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat reveal">
+        <div class="stat-number" data-target="12" data-suffix=" hrs">0 hrs</div>
+        <div class="stat-label">Saved per team per week</div>
+      </div>
+      <div class="stat reveal reveal-d1">
+        <div class="stat-number" data-target="99.2" data-suffix="%" data-decimal="true">0%</div>
+        <div class="stat-label">Data entry accuracy</div>
+      </div>
+      <div class="stat reveal reveal-d2">
+        <div class="stat-number" data-target="2400" data-suffix="+" data-comma="true">0+</div>
+        <div class="stat-label">Teams using Auraflow</div>
+      </div>
+      <div class="stat reveal reveal-d3">
+        <div class="stat-number" data-target="3" data-suffix=" min">0 min</div>
+        <div class="stat-label">Average setup time</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Integrations -->
+<section class="section" id="integrations">
+  <div class="container text-center">
+    <div class="section-label reveal">Integrations</div>
+    <h2 class="reveal">Works with the tools you already use</h2>
+    <p class="subtitle reveal" style="margin:12px auto 0;">No migration. No rip-and-replace. Auraflow plugs into your current stack in minutes.</p>
+    <div class="integrations-visual reveal">
+      <div class="integration-pill"><i class="fa-brands fa-google" style="color:#4285F4;"></i> Google Workspace</div>
+      <div class="integration-pill"><i class="fa-brands fa-slack" style="color:#4A154B;"></i> Slack</div>
+      <div class="integration-pill"><i class="fa-brands fa-hubspot" style="color:#FF6C37;"></i> HubSpot</div>
+      <div class="integration-pill"><i class="fa-brands fa-stripe" style="color:#635BFF;"></i> Stripe</div>
+      <div class="integration-pill"><i class="fa-brands fa-jira" style="color:#0052CC;"></i> Jira</div>
+      <div class="integration-pill"><i class="fa-solid fa-n" style="color:#000;"></i> Notion</div>
+      <div class="integration-pill"><i class="fa-solid fa-q" style="color:#2EB67D;"></i> QuickBooks</div>
+      <div class="integration-pill"><i class="fa-brands fa-salesforce" style="color:#00A1E0;"></i> Salesforce</div>
+      <div class="integration-pill"><i class="fa-brands fa-microsoft" style="color:#5865F2;"></i> Microsoft 365</div>
+      <div class="integration-pill"><i class="fa-solid fa-plus" style="color:var(--purple);"></i> 40 more</div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section" style="background:var(--surface);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">What teams say</div>
+      <h2 class="reveal">People who got their <span class="script" style="font-size:1.15em;color:var(--purple);">time back</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <blockquote>"We were spending 6 hours a week just on expense reports and data entry. Auraflow cut that to zero. It processes receipts faster than our old intern and makes fewer mistakes."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div><div class="name">Maria Kowalski</div><div class="title">Head of Operations, Patchwork</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-d1">
+        <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <blockquote>"I told it to draft responses for common client questions. It studied my last 200 emails and now writes replies I barely need to edit. My clients cannot tell the difference."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JR</div>
+          <div><div class="name">James Reeves</div><div class="title">Account Manager, BrightLoop</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-d2">
+        <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <blockquote>"The weekly report used to take me all of Sunday evening. Now it lands in the team's inbox at 8 AM Monday, with better charts than I ever made. I actually have weekends again."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">LD</div>
+          <div><div class="name">Lisa Donovan</div><div class="title">CEO, Three River Labs</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">Pricing</div>
+      <h2 class="reveal">Pick a plan, cancel whenever</h2>
+      <p class="subtitle reveal" style="margin:12px auto 0;">Every plan includes a 14-day free trial. No credit card to start.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-desc">For small teams getting started</div>
+        <div class="pricing-amount">$29<span> /mo</span></div>
+        <div class="pricing-period">per user, billed monthly</div>
+        <ul class="pricing-features">
+          <li><i class="fa-solid fa-check"></i> Up to 5 workflows</li>
+          <li><i class="fa-solid fa-check"></i> 1,000 automated actions/month</li>
+          <li><i class="fa-solid fa-check"></i> Email and calendar automation</li>
+          <li><i class="fa-solid fa-check"></i> 5 integrations</li>
+          <li><i class="fa-solid fa-check"></i> Email support</li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Start free trial</a>
+      </div>
+      <div class="pricing-card featured reveal reveal-d1">
+        <div class="pricing-name">Pro</div>
+        <div class="pricing-desc">For growing teams with real volume</div>
+        <div class="pricing-amount">$79<span> /mo</span></div>
+        <div class="pricing-period">per user, billed monthly</div>
+        <ul class="pricing-features">
+          <li><i class="fa-solid fa-check"></i> Unlimited workflows</li>
+          <li><i class="fa-solid fa-check"></i> 25,000 automated actions/month</li>
+          <li><i class="fa-solid fa-check"></i> All automation types</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited integrations</li>
+          <li><i class="fa-solid fa-check"></i> Priority support and onboarding</li>
+          <li><i class="fa-solid fa-check"></i> Custom rules in plain English</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Start free trial</a>
+      </div>
+      <div class="pricing-card reveal reveal-d2">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-desc">For organizations that need control</div>
+        <div class="pricing-amount">Custom</div>
+        <div class="pricing-period">annual billing, volume discounts</div>
+        <ul class="pricing-features">
+          <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited actions</li>
+          <li><i class="fa-solid fa-check"></i> SSO and audit logs</li>
+          <li><i class="fa-solid fa-check"></i> Dedicated account manager</li>
+          <li><i class="fa-solid fa-check"></i> Custom integrations</li>
+          <li><i class="fa-solid fa-check"></i> SLA guarantee</li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust bar -->
+<section class="section" style="padding:48px 0;">
+  <div class="container">
+    <div class="trust-bar reveal">
+      <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> SOC 2 Type II</div>
+      <div class="trust-item"><i class="fa-solid fa-lock"></i> End-to-end encryption</div>
+      <div class="trust-item"><i class="fa-solid fa-user-shield"></i> GDPR compliant</div>
+      <div class="trust-item"><i class="fa-solid fa-server"></i> 99.99% uptime SLA</div>
+      <div class="trust-item"><i class="fa-solid fa-ban"></i> We never train on your data</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="background:var(--surface);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label reveal">Questions</div>
+      <h2 class="reveal">Things people ask us</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-question">How long does setup actually take? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Most teams are up and running in under 5 minutes. You connect your accounts, Auraflow scans your workflows, and suggests automations. You pick the ones you want, adjust any rules, and turn them on. No engineering work required.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Will it make mistakes with my data? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Auraflow hits 99.2% accuracy on data entry tasks. When it is not confident about a field, it flags it for your review instead of guessing. You can also set rules like "always ask me before sending emails to new contacts" for anything sensitive.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Can I control what it does and does not automate? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Completely. Every automation has an on/off switch and a set of rules you define in plain English. You can set approval gates for high-stakes actions, limit what data Auraflow can access, and pause any workflow instantly.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">What happens if I hit my action limit? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">You get a notification when you are at 80%. After that, running workflows continue but new ones queue until your limit resets or you upgrade. Nothing stops mid-run. You will never lose work because of a billing threshold.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Is my company data safe? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">All data is encrypted in transit and at rest. We are SOC 2 Type II certified with annual third-party audits. Enterprise plans include SSO, audit logs, and data residency options. We never use your data to train models, and you can delete everything at any time.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Do I need a developer to set this up? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">No. Auraflow is built for operations people, not engineers. Everything is configured through plain English instructions and a visual interface. If you can write an email explaining what you want, you can set up an automation.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">How is this different from Zapier or Make? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Zapier and Make are trigger-and-action builders. You still design every step yourself. Auraflow is an AI that understands your work context. You tell it what you want in plain English, and it figures out the steps, handles edge cases, and adapts when things change. It is the difference between programming a robot and giving instructions to a smart assistant.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>Stop managing busywork.<br>Start managing <span class="script" style="font-size:1.15em;color:var(--pink);">outcomes</span></h2>
+      <p class="subtitle" style="margin-left:auto;margin-right:auto;">14-day free trial. Set up in under 5 minutes. No credit card required.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-primary"><i class="fa-solid fa-play"></i> Start your free trial</a>
+        <a href="#" class="btn btn-dark"><i class="fa-regular fa-calendar"></i> Book a demo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo"><div class="dot"><i class="fa-solid fa-bolt"></i></div> Auraflow</div>
+        <p>Business automation that handles itself. Built for operations teams who have better things to do than copy-paste between spreadsheets.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">Features</a>
+        <a href="#">Integrations</a>
+        <a href="#">Pricing</a>
+        <a href="#">Changelog</a>
+        <a href="#">API docs</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+        <a href="#">SOC 2</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2024 Auraflow, Inc. All rights reserved.</span>
+      <span>Made for teams who want their weekends back.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => {
+      o.classList.remove('open');
+      o.querySelector('.faq-answer').style.maxHeight = null;
+    });
+    if (!isOpen) { item.classList.add('open'); answer.style.maxHeight = answer.scrollHeight + 'px'; }
+  });
+});
+
+// Showcase tabs
+document.querySelectorAll('.showcase-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.showcase-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.showcase-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector(`[data-panel="${tab.dataset.tab}"]`).classList.add('active');
+  });
+});
+</script>
+
+<script>
+// Chat demo - animate messages in sequence when visible
+const demoChat = document.getElementById('demoChat');
+let chatAnimated = false;
+const chatObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !chatAnimated) {
+      chatAnimated = true;
+      const msgs = demoChat.querySelectorAll('.chat-msg');
+      msgs.forEach(msg => {
+        const delay = parseInt(msg.dataset.delay) || 0;
+        setTimeout(() => msg.classList.add('visible'), delay);
+      });
+      chatObserver.unobserve(demoChat);
+    }
+  });
+}, { threshold: 0.3 });
+chatObserver.observe(demoChat);
+
+// Before/After toggle
+const baSwitch = document.getElementById('baSwitch');
+const baCardBefore = document.getElementById('baCardBefore');
+const baCardAfter = document.getElementById('baCardAfter');
+const baLabelBefore = document.getElementById('baLabelBefore');
+const baLabelAfter = document.getElementById('baLabelAfter');
+let baState = false;
+baSwitch.addEventListener('click', () => {
+  baState = !baState;
+  baSwitch.classList.toggle('on', baState);
+  baLabelBefore.classList.toggle('active', !baState);
+  baLabelAfter.classList.toggle('active', baState);
+  baCardBefore.classList.toggle('dimmed', baState);
+  baCardAfter.classList.toggle('dimmed', !baState);
+});
+// Start with "after" dimmed
+baCardAfter.classList.add('dimmed');
+</script>
+
+<script>
+// Animated stat counters
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const isDecimal = el.dataset.decimal === 'true';
+      const useComma = el.dataset.comma === 'true';
+      const duration = 2000;
+      const start = performance.now();
+      function animate(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        let current = eased * target;
+        if (isDecimal) {
+          el.textContent = current.toFixed(1) + suffix;
+        } else if (useComma) {
+          el.textContent = Math.round(current).toLocaleString() + suffix;
+        } else {
+          el.textContent = Math.round(current) + suffix;
+        }
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+      statObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-number[data-target]').forEach(el => statObserver.observe(el));
+
+// Animate report bars when visible
+const reportObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.height = bar.dataset.height;
+      });
+      reportObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const reportBars = document.getElementById('reportBars');
+if (reportBars) {
+  reportBars.querySelectorAll('.bar-fill').forEach(b => b.style.height = '0%');
+  reportObserver.observe(reportBars);
+}
+</script>
+
+</body>
+</html>

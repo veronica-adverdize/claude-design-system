@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Labs — The Sentence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=zodiak@100,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d060b;
+  --surface: #1b0e17;
+  --ink: #ffffff;
+  --muted: #9a8f97;
+  --accent: #ff488b;
+  --accent-ink: #0d060b;
+  --field-1: #470c35; --field-1-ink: #ffffff;
+  --field-2: #ffffff; --field-2-ink: #101421;
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --display: 'Zodiak', Georgia, serif;
+  --text: 'Hanken Grotesk', system-ui, sans-serif;
+  --margin: clamp(20px, 4vw, 48px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--text);color:var(--ink);background:var(--bg);line-height:1.5;overflow-x:hidden}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;height:52px;padding:0 var(--margin)}
+.nav-logo{font-family:var(--display);font-weight:100;font-size:var(--step-lead);letter-spacing:-0.01em;color:var(--ink);text-decoration:none;text-transform:uppercase}
+.nav-links{margin-left:auto;display:flex;align-items:center;gap:1.5rem}
+.nav-links a{font-size:var(--step-small);color:var(--muted);text-decoration:none;font-weight:400}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--accent);color:var(--accent-ink);padding:0.55rem 1.2rem;font-size:var(--step-small);font-weight:500;text-decoration:none}
+
+/* HERO — Sentence split by a frame */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 var(--margin);position:relative}
+.hero-sentence{display:flex;align-items:center;justify-content:space-between;gap:2vw}
+.hero-half{font-family:var(--display);font-size:clamp(40px,9vw,120px);font-weight:100;letter-spacing:-0.01em;line-height:1;text-transform:uppercase}
+.hero-frame{flex:0 0 35%;aspect-ratio:16/9;border-radius:4px;overflow:hidden;position:relative}
+.hero-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-support{position:absolute;bottom:32px;left:var(--margin);font-size:var(--step-body);color:var(--muted);max-width:40ch;line-height:1.5}
+.hero-action{position:absolute;bottom:32px;right:var(--margin)}
+.hero-action a{background:var(--accent);color:var(--accent-ink);padding:0.7rem 1.8rem;font-size:var(--step-body);font-weight:500;text-decoration:none;display:inline-block}
+
+.conceptual{font-size:var(--step-small);color:var(--muted);padding:0.5rem 0;display:flex;align-items:center;gap:0.4rem}
+.conceptual::before{content:'';width:6px;height:6px;background:var(--muted);border-radius:50%}
+
+/* SECTIONS */
+section{padding:10rem var(--margin)}
+.section-statement{font-family:var(--display);font-size:var(--step-head);font-weight:300;letter-spacing:-0.01em;line-height:1;max-width:20ch;margin-bottom:2rem}
+section p.body{font-size:var(--step-body);line-height:1.7;max-width:34ch;color:var(--muted)}
+section p.body strong{color:var(--ink);font-weight:500}
+
+/* HOW — Statement + evidence layout */
+.how{display:grid;grid-template-columns:6fr 6fr;gap:6rem;align-items:start;max-width:72rem}
+.how-evidence{display:flex;flex-direction:column;gap:1.5rem}
+.how-evidence p{font-size:var(--step-body);line-height:1.7;color:var(--muted);max-width:34ch}
+.how-evidence p strong{color:var(--ink);font-weight:500}
+
+/* FEATURES — Rows with margin photographs */
+.features{background:var(--field-1);color:var(--field-1-ink);padding:10rem var(--margin)}
+.features-heading{font-family:var(--display);font-size:clamp(40px,5vw,80px);font-weight:100;letter-spacing:-0.01em;line-height:1;text-transform:uppercase;min-height:70vh;display:flex;align-items:center;max-width:24ch}
+.feature-row{display:grid;grid-template-columns:35% 1fr auto;gap:2rem;align-items:start;margin-bottom:7rem;padding-left:35%}
+.feature-row:last-child{margin-bottom:0}
+.feature-content{grid-column:1}
+.feature-content h3{font-family:var(--display);font-size:clamp(28px,3vw,48px);font-weight:300;letter-spacing:-0.01em;line-height:1;margin-bottom:0.5rem}
+.feature-content p{font-size:var(--step-body);line-height:1.6;max-width:34ch;opacity:0.7}
+.feature-img{width:clamp(180px,20vw,320px);overflow:hidden}
+.feature-img img{width:100%;height:auto;display:block;filter:grayscale(0.3) contrast(1.05)}
+
+/* COMPARISON — on white field */
+.comparison{background:var(--field-2);color:var(--field-2-ink);padding:10rem var(--margin)}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;max-width:72rem;margin-top:3rem}
+.comp-col{padding:2.5rem 2rem}
+.comp-col:last-child{background:var(--accent);color:var(--accent-ink)}
+.comp-col h3{font-family:var(--display);font-size:var(--step-head);font-weight:300;letter-spacing:-0.01em;margin-bottom:0.5rem}
+.comp-col p{font-size:var(--step-body);line-height:1.6;margin-bottom:1.25rem}
+.comp-col ul{list-style:none}
+.comp-col ul li{font-size:var(--step-body);padding:0.3rem 0;line-height:1.5}
+
+/* AGENTS */
+.agents{padding:10rem var(--margin)}
+.agents-grid{display:grid;grid-template-columns:35% 1fr;gap:3rem;max-width:72rem;margin-top:3rem}
+.agents-left .section-statement{margin-bottom:0}
+.agent-list{display:flex;flex-direction:column;gap:0}
+.agent-row{display:grid;grid-template-columns:8rem 8rem 1fr;gap:1rem;align-items:baseline;padding:1rem 0;border-bottom:1px solid var(--surface)}
+.agent-name{font-family:var(--display);font-size:var(--step-lead);font-weight:300;letter-spacing:-0.01em}
+.agent-role{font-size:var(--step-body);font-weight:500}
+.agent-desc{font-size:var(--step-body);color:var(--muted)}
+
+/* WORKFLOW — on plum field */
+.workflow{background:var(--field-1);color:var(--field-1-ink);padding:10rem var(--margin)}
+.wf-row{display:grid;grid-template-columns:35% 1fr;gap:3rem;max-width:72rem}
+.wf-steps{display:flex;flex-direction:column;gap:2.5rem}
+.wf-step h3{font-family:var(--display);font-size:var(--step-head);font-weight:300;letter-spacing:-0.01em;margin-bottom:0.25rem}
+.wf-step p{font-size:var(--step-body);line-height:1.6;opacity:0.7;max-width:34ch}
+
+/* DEPARTMENTS */
+.departments{padding:10rem var(--margin)}
+.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:72rem;margin-top:3rem}
+.dept-card{padding:2rem;border-bottom:1px solid var(--surface);border-right:1px solid var(--surface)}
+.dept-card:nth-child(3n){border-right:none}
+.dept-card h3{font-family:var(--display);font-size:var(--step-lead);font-weight:300;letter-spacing:-0.01em;margin-bottom:0.5rem}
+.dept-card li{font-size:var(--step-body);line-height:1.6;list-style:none;padding:0.15rem 0;color:var(--muted)}
+
+/* DAILY REVIEW */
+.daily{background:var(--field-1);color:var(--field-1-ink);padding:10rem var(--margin)}
+.daily-layout{display:grid;grid-template-columns:35% 1fr;gap:4rem;max-width:72rem;align-items:center}
+.daily-ui{background:var(--surface);padding:2rem;position:relative}
+.daily-ui[data-ui]{border:none}
+.daily-topbar{display:flex;justify-content:space-between;font-size:var(--step-small);font-weight:500;margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.review-item{padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;gap:1rem;align-items:flex-start}
+.review-item:last-child{border:none}
+.review-dot{width:8px;height:8px;border-radius:50%;margin-top:0.5rem;flex-shrink:0}
+.review-dot.pending{background:#e0a030}
+.review-dot.done{background:#4ade80}
+.review-text h4{font-size:var(--step-body);font-weight:500;margin-bottom:0.2rem}
+.review-text p{font-size:var(--step-small);color:var(--muted);line-height:1.5}
+.review-actions{display:flex;gap:0.4rem;margin-top:0.4rem}
+.review-actions button{font-size:var(--step-small);padding:0.35rem 0.75rem;background:var(--accent);color:var(--accent-ink);border:none;font-family:var(--text);font-weight:500;cursor:pointer}
+.review-actions button.secondary{background:rgba(255,255,255,0.08);color:var(--ink)}
+
+/* OUTCOMES — white field */
+.outcomes{background:var(--field-2);color:var(--field-2-ink);padding:10rem var(--margin)}
+.outcomes-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:60rem;margin-top:3rem}
+.outcomes-col{padding:2.5rem}
+.outcomes-col.before{background:rgba(0,0,0,0.03)}
+.outcomes-col.after{background:var(--accent);color:var(--accent-ink)}
+.outcomes-col h3{font-family:var(--display);font-size:var(--step-head);font-weight:300;letter-spacing:-0.01em;margin-bottom:1.25rem}
+.outcome-item{font-size:var(--step-body);line-height:1.6;padding:0.35rem 0}
+
+/* PRICING — One plan as a sentence */
+.pricing{background:var(--bg);color:var(--ink);padding:0 var(--margin);min-height:80vh;display:flex;flex-direction:column;justify-content:center}
+.pricing-sentence{font-family:var(--display);font-size:clamp(2rem,8vw,6rem);font-weight:100;letter-spacing:-0.01em;line-height:0.95;text-transform:uppercase;max-width:72rem}
+.pricing-sentence .price-highlight{background:var(--accent);color:var(--accent-ink);padding:0 0.15em;display:inline;font-weight:300}
+.pricing-details{display:flex;justify-content:space-between;align-items:flex-end;max-width:72rem;margin-top:4rem;gap:2rem}
+.pricing-details p{font-size:var(--step-body);line-height:1.6;max-width:36ch;color:var(--muted)}
+.pricing-details a{background:var(--accent);color:var(--accent-ink);padding:0.8rem 2rem;font-size:var(--step-body);font-weight:500;text-decoration:none;flex-shrink:0}
+.pricing-note{font-size:var(--step-small);color:var(--muted);margin-top:2rem;max-width:72rem}
+
+/* INDUSTRIES */
+.industries{padding:10rem var(--margin)}
+.industry-list{display:flex;flex-wrap:wrap;gap:0;margin-top:2rem;max-width:72rem}
+.industry-item{font-family:var(--display);font-size:var(--step-lead);font-weight:300;letter-spacing:-0.01em;padding:0.5rem 1.2rem;border:1px solid var(--surface);margin:-0.5px;color:var(--muted)}
+.industry-item:hover{color:var(--ink);border-color:var(--ink)}
+
+/* CTA */
+.cta{background:var(--field-1);color:var(--field-1-ink);padding:10rem var(--margin);text-align:center}
+.cta .section-statement{margin:0 auto 1rem;text-align:center;max-width:30ch}
+.cta p{font-size:var(--step-lead);color:rgba(255,255,255,0.7);margin-bottom:2rem;max-width:30rem;margin-left:auto;margin-right:auto;line-height:1.5}
+.cta a.btn{background:var(--accent);color:var(--accent-ink);padding:0.8rem 2.5rem;font-size:var(--step-body);font-weight:500;text-decoration:none;display:inline-block}
+
+/* FOOTER */
+footer{padding:3rem var(--margin) 1.5rem;border-top:1px solid var(--surface)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;max-width:72rem}
+.footer-brand{font-family:var(--display);font-weight:100;font-size:var(--step-lead);letter-spacing:-0.01em;text-transform:uppercase;margin-bottom:0.5rem}
+.footer-tagline{font-size:var(--step-small);color:var(--muted);line-height:1.6;max-width:18rem}
+.footer-col h4{font-size:var(--step-small);font-weight:500;margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:var(--step-small);color:var(--muted);text-decoration:none;margin-bottom:0.35rem}
+.footer-col a:hover{color:var(--ink)}
+.footer-bottom{max-width:72rem;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--surface);font-size:var(--step-small);color:var(--muted)}
+
+@media(max-width:768px){
+  .nav-links a:not(.nav-cta){display:none}
+  .hero-sentence{flex-direction:column;gap:1rem;align-items:flex-start}
+  .hero-half{font-size:14vw}
+  .hero-frame{flex:none;width:100%;aspect-ratio:4/3}
+  .hero-support,.hero-action{position:relative;bottom:auto;left:auto;right:auto;margin-top:2rem}
+  .how,.agents-grid,.wf-row,.daily-layout{grid-template-columns:1fr}
+  .feature-row{grid-template-columns:1fr;padding-left:0}
+  .feature-img{width:100%}
+  .comp-grid,.dept-grid,.outcomes-grid{grid-template-columns:1fr}
+  .agent-row{grid-template-columns:1fr;gap:0.25rem}
+  .pricing-details{flex-direction:column;align-items:flex-start}
+  .footer-grid{grid-template-columns:1fr}
+  section{padding:6rem var(--margin)}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">Agentic Labs</a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#agents">Agents</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#book" class="nav-cta">Book a free call</a>
+  </div>
+</nav>
+
+<!-- HERO — Sentence split by a frame -->
+<section class="hero">
+  <div class="hero-sentence">
+    <span class="hero-half">Your AI</span>
+    <div class="hero-frame">
+      <img src="https://picsum.photos/id/618/960/540" width="960" height="540" alt="Glass and steel lattice roof — atmosphere">
+    </div>
+    <span class="hero-half">back office</span>
+  </div>
+  <p class="hero-support">Seven AI staff handle your quoting, scheduling, and follow-ups. They check with you before anything goes out.</p>
+  <div class="hero-action"><a href="#book">Book a free 30-minute call</a></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="how">
+    <div>
+      <div class="section-statement">They handle the admin</div>
+    </div>
+    <div class="how-evidence">
+      <p>Your agents take care of the work that piles up after hours — enquiries, quoting, scheduling, chasing suppliers, following up on invoices. <strong>They never send anything without your say-so.</strong></p>
+      <p>You don't learn new software. We build the agents around your existing tools — accounting, email, WhatsApp — and we keep everything running.</p>
+      <p>Think of it like hiring someone for one specific job. You give them access to what they need, tell them when to check in, and they get on with it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES — Rows with margin photographs -->
+<section class="features">
+  <div class="features-heading">What they do for you</div>
+  <div class="feature-row">
+    <div class="feature-content"><h3>Quoting</h3><p>Chloe prices work from your rate card and site hours. Above your threshold, she waits. Below, she sends.</p></div>
+    <div class="feature-img"><img src="https://picsum.photos/id/954/400/500" width="400" height="500" alt="White staircase through narrow opening — atmosphere" loading="lazy"></div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-content"><h3>Scheduling</h3><p>Tiffany books people and resources without clashes, across your calendar.</p></div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-content"><h3>Follow-ups</h3><p>Sarah sends polite reminders at 7, 14, and 30 days. No quote sits unanswered.</p></div>
+    <div class="feature-img"><img src="https://picsum.photos/id/942/320/240" width="320" height="240" alt="Angular concrete building against sky — atmosphere" loading="lazy"></div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-content"><h3>Intake</h3><p>Ben logs every request — WhatsApp, email, web — so nothing falls through.</p></div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-content"><h3>Risk</h3><p>Priya spots problems early and gives you clear options before they become expensive.</p></div>
+    <div class="feature-img"><img src="https://picsum.photos/id/887/280/280" width="280" height="280" alt="Apartment block facade with repeating balconies — atmosphere" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- COMPARISON — white field -->
+<section class="comparison">
+  <div class="section-statement" style="color:var(--field-2-ink)">Not a chatbot</div>
+  <div class="comp-grid">
+    <div class="comp-col"><h3>Chatbot</h3><p>You type, copy, paste. Does nothing on its own.</p><ul><li>Needs a prompt every time</li><li>Manual copy-paste</li><li>Doesn't know your business</li></ul></div>
+    <div class="comp-col"><h3>DIY automation</h3><p>Works for simple cases. Breaks on exceptions.</p><ul><li>Predictable flows only</li><li>Breaks on the unusual</li><li>Needs technical knowledge</li></ul></div>
+    <div class="comp-col"><h3>Agentic Labs</h3><p>Starts automatically. Handles exceptions. Asks when not sure.</p><ul><li>Runs 24/7</li><li>Knows your context</li><li>Asks before sending</li><li>We maintain everything</li></ul></div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section class="agents" id="agents">
+  <div class="agents-grid">
+    <div class="agents-left"><div class="section-statement">Seven roles</div></div>
+    <div class="agent-list">
+      <div class="agent-row"><span class="agent-name">Nigel</span><span class="agent-role">Orchestrator</span><span class="agent-desc">Routes work and keeps everything in sync</span></div>
+      <div class="agent-row"><span class="agent-name">Ben</span><span class="agent-role">Intake</span><span class="agent-desc">Logs every request so nothing falls through</span></div>
+      <div class="agent-row"><span class="agent-name">Chloe</span><span class="agent-role">Planning</span><span class="agent-desc">Scopes and prices from your rate card</span></div>
+      <div class="agent-row"><span class="agent-name">Tiffany</span><span class="agent-role">Scheduling</span><span class="agent-desc">Books without clashes</span></div>
+      <div class="agent-row"><span class="agent-name">Sarah</span><span class="agent-role">Coordination</span><span class="agent-desc">Keeps everyone in the loop</span></div>
+      <div class="agent-row"><span class="agent-name">Priya</span><span class="agent-role">Risk</span><span class="agent-desc">Flags problems with clear options</span></div>
+      <div class="agent-row"><span class="agent-name">Haziq</span><span class="agent-role">Reporting</span><span class="agent-desc">Checks and files at end of day</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW — plum field -->
+<section class="workflow">
+  <div class="wf-row">
+    <div><div class="section-statement">From site to invoice</div></div>
+    <div class="wf-steps">
+      <div class="wf-step"><h3>Job done</h3><p>Supervisor marks work complete in your existing app</p></div>
+      <div class="wf-step"><h3>Write-up</h3><p>Agent drafts the invoice from hours, materials, and your rate card</p></div>
+      <div class="wf-step"><h3>Threshold</h3><p>Above your limit? It waits for you. Below? It sends.</p></div>
+      <div class="wf-step"><h3>Sent</h3><p>Quote goes out. Agent logs it and starts the clock.</p></div>
+      <div class="wf-step"><h3>Chased</h3><p>No reply? Polite reminders at 7, 14, and 30 days.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPARTMENTS -->
+<section class="departments">
+  <div class="section-statement">Hire one or the whole office</div>
+  <div class="dept-grid">
+    <div class="dept-card"><h3>Finance</h3><ul><li>Invoicing from completed jobs</li><li>Collections and payment matching</li><li>Month-end summary</li></ul></div>
+    <div class="dept-card"><h3>Sales</h3><ul><li>Enquiry capture and logging</li><li>Quote generation</li><li>Follow-ups at 7, 14, 30 days</li></ul></div>
+    <div class="dept-card"><h3>Operations</h3><ul><li>Scheduling without clashes</li><li>Client status updates</li><li>Supplier coordination</li></ul></div>
+    <div class="dept-card"><h3>Customer Service</h3><ul><li>Routine question handling</li><li>Escalation when needed</li><li>Every enquiry gets a reply</li></ul></div>
+    <div class="dept-card"><h3>Marketing</h3><ul><li>Posts and emails in your voice</li><li>Content scheduled and sent</li><li>Consistent without your time</li></ul></div>
+    <div class="dept-card"><h3>Staff Admin</h3><ul><li>Leave and claims processing</li><li>Onboarding paperwork</li><li>First-pass CV screening</li></ul></div>
+  </div>
+</section>
+
+<!-- DAILY REVIEW -->
+<section class="daily">
+  <div class="daily-layout">
+    <div>
+      <div class="section-statement">Ten minutes each morning</div>
+      <p class="body" style="margin-top:1rem">One list of things that need your sign-off. Everything else already happened.</p>
+    </div>
+    <div>
+      <div class="daily-ui" data-ui>
+        <div class="daily-topbar"><span>Morning review</span><span>3 items</span></div>
+        <div class="review-item"><span class="review-dot pending"></span><div class="review-text"><h4>Quote: Meridian Tower — $12,400</h4><p>Above threshold. Priced from rate card.</p><div class="review-actions"><button>Approve</button><button class="secondary">Edit</button></div></div></div>
+        <div class="review-item"><span class="review-dot pending"></span><div class="review-text"><h4>Follow-up: Koh & Sons — 14 days</h4><p>Second reminder. Previous: $6,200.</p><div class="review-actions"><button>Send</button><button class="secondary">Edit</button></div></div></div>
+        <div class="review-item"><span class="review-dot done"></span><div class="review-text"><h4>4 actions completed overnight</h4><p>2 enquiries logged · Crew booked · Reports filed</p></div></div>
+      </div>
+      <div class="conceptual">Worked example — illustrative figures, not a client</div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES — white field -->
+<section class="outcomes">
+  <div class="section-statement" style="color:var(--field-2-ink)">Before and after</div>
+  <div class="outcomes-grid">
+    <div class="outcomes-col before"><h3>Before</h3><div class="outcome-item">Two hours of evening paperwork</div><div class="outcome-item">Quotes go out late</div><div class="outcome-item">Customers left waiting</div><div class="outcome-item">Follow-ups forgotten</div><div class="outcome-item">Hiring admin you can't justify</div></div>
+    <div class="outcomes-col after"><h3>After</h3><div class="outcome-item">Ten minutes each morning</div><div class="outcome-item">Same-day quotes, every time</div><div class="outcome-item">Every enquiry answered</div><div class="outcome-item">Automatic follow-ups</div><div class="outcome-item">Staff doing real work</div></div>
+  </div>
+</section>
+
+<!-- PRICING — One plan as a sentence -->
+<section class="pricing" id="pricing">
+  <div class="pricing-sentence">Your back office from <span class="price-highlight">$1,500</span> a month</div>
+  <div class="pricing-details">
+    <p>One agent at $1,500. Three at $3,000. The full team at $5,000. Six-month minimum, then monthly. We build, run, and maintain it.</p>
+    <a href="#book">Book a call</a>
+  </div>
+  <p class="pricing-note">Annual prepayment saves 20%. Custom builds available as a one-off — you own the system.</p>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="industries">
+  <div class="section-statement">Built for Singapore</div>
+  <div class="industry-list">
+    <span class="industry-item">Construction</span><span class="industry-item">Renovation</span><span class="industry-item">Accountancy</span><span class="industry-item">Legal</span><span class="industry-item">Property</span><span class="industry-item">F&B</span><span class="industry-item">Logistics</span><span class="industry-item">Clinics</span><span class="industry-item">Tuition</span><span class="industry-item">Aircon</span><span class="industry-item">Professional services</span>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="book">
+  <div class="section-statement">Get your evenings back</div>
+  <p>Book a free 30-minute call and we'll show you how agents would handle your specific admin.</p>
+  <a href="#" class="btn">Book a free call</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand">Agentic Labs</div><p class="footer-tagline">AI staff for Singapore businesses. We build them, run them, and keep them running.</p></div>
+    <div class="footer-col"><h4>Understand it</h4><a href="#">What an agent is</a><a href="#">How it works</a><a href="#">Your controls</a><a href="#">Security</a></div>
+    <div class="footer-col"><h4>See it</h4><a href="#">All agents</a><a href="#">Industries</a><a href="#">Live demo</a><a href="#">Pricing</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Questions</a><a href="#">Contact</a><a href="#">Legal</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 Agentic Labs Pte. Ltd. Singapore</div>
+</footer>
+
+</body>
+</html>

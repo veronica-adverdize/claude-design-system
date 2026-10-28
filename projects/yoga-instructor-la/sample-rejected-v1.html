@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yoga Instructor — L.A.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #ffffff;
+  --surface: #f4f4f2;
+  --ink: #1f2b4d;
+  --muted: #586274;
+  --accent: #f7941d;
+  --accent-ink: #1f2b4d;
+  --field-1: #05070a;
+  --field-1-ink: #ffffff;
+  --field-2: #e3e1dc;
+  --field-2-ink: #1f2b4d;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+
+  --margin: max(24px, 4vw);
+  --col-start: 22%;
+  --col-width: min(540px, 56vw);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'STIX Two Text', Georgia, serif;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+a:hover { opacity: 0.65; }
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+button:hover { opacity: 0.8; }
+button:active { transform: scale(0.97); }
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+img { display: block; }
+
+/* ═══════════════════════════════════════
+   HERO — Navigation on the midline
+   ═══════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+
+.hero__img.is-active { opacity: 1; }
+
+.hero__rail {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 var(--margin);
+  margin-top: calc(50svh - 32px);
+  background: var(--bg);
+  transition: background 0.4s ease;
+}
+
+.hero.is-scrolled .hero__rail {
+  background: var(--bg);
+  box-shadow: 0 1px 0 var(--surface);
+}
+
+.hero__name {
+  font-size: clamp(28px, 2.6vw, 40px);
+  font-weight: 400;
+  letter-spacing: -0.026em;
+  line-height: 1.1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.hero__sentence {
+  font-size: var(--step-body);
+  color: var(--muted);
+  margin-left: clamp(32px, 6vw, 80px);
+  max-width: 44ch;
+  line-height: 1.35;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.hero__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.hero__link {
+  font-size: var(--step-small);
+  color: var(--muted);
+  text-decoration: none;
+}
+.hero__link:hover { color: var(--ink); opacity: 1; }
+
+.hero__cta {
+  font-size: var(--step-small);
+  font-weight: 600;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 22px;
+  letter-spacing: 0.01em;
+}
+
+.hero__second {
+  position: relative;
+  width: 100%;
+  height: 70svh;
+  overflow: hidden;
+}
+
+.hero__second img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+}
+
+/* ═══════════════════════════════════════
+   ABOUT — Side facts, wide paragraph
+   ═══════════════════════════════════════ */
+
+.about {
+  padding: 140px var(--margin) 0;
+}
+
+.about__row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+.about__row + .about__row { margin-top: 120px; }
+
+.about__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 40px;
+}
+
+.about__fact-label {
+  font-size: var(--step-small);
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.about__fact-value {
+  font-size: var(--step-small);
+  color: var(--ink);
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.about__paragraph {
+  font-size: var(--step-lead);
+  line-height: 1.35;
+  max-width: 68ch;
+  padding-left: calc(34% - 160px - var(--margin));
+}
+
+.about__lists {
+  padding-left: calc(34% - 160px - var(--margin));
+  display: grid;
+  grid-template-columns: 260px 260px;
+  gap: 0 64px;
+}
+
+.about__list-heading {
+  font-size: var(--step-small);
+  color: var(--ink);
+  font-weight: 400;
+  margin-bottom: 12px;
+  grid-column: 1 / -1;
+}
+
+.about__list {
+  list-style: none;
+  font-size: var(--step-small);
+  line-height: 1.4;
+}
+
+.about__list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.about__list li span { color: var(--muted); }
+
+/* ═══════════════════════════════════════
+   CLASSES — Custom composition
+   ═══════════════════════════════════════ */
+
+.classes {
+  padding: 140px var(--margin) 0;
+}
+
+.classes__intro {
+  max-width: var(--col-width);
+  margin-left: var(--col-start);
+}
+
+.classes__heading {
+  font-size: var(--step-lead);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.classes__desc {
+  font-size: var(--step-body);
+  color: var(--muted);
+  max-width: 48ch;
+  margin-bottom: 64px;
+}
+
+.classes__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  max-width: 900px;
+  margin-left: var(--col-start);
+}
+
+.classes__card {
+  background: var(--surface);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+}
+
+.classes__card-name {
+  font-size: var(--step-body);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.classes__card-detail {
+  font-size: var(--step-small);
+  color: var(--muted);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.classes__card-time {
+  font-size: var(--step-small);
+  color: var(--muted);
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--field-2);
+}
+
+.classes__card-accent {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ═══════════════════════════════════════
+   TESTIMONIALS — Shallow portraits, small quotes
+   ═══════════════════════════════════════ */
+
+.testimonials {
+  padding: 140px var(--margin) 0;
+}
+
+.testimonials__inner {
+  display: grid;
+  grid-template-columns: 2fr 3fr 3fr 3fr;
+  gap: 8px;
+  align-items: start;
+}
+
+.testimonials__label {
+  font-size: var(--step-small);
+  color: var(--ink);
+  padding-top: 4px;
+}
+
+.testimonial {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial__portrait {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: grayscale(0.3);
+}
+
+.testimonial__meta {
+  font-size: var(--step-small);
+  margin-top: 12px;
+  line-height: 1.3;
+}
+
+.testimonial__name {
+  color: var(--ink);
+}
+
+.testimonial__role {
+  color: var(--muted);
+}
+
+.testimonial__quote {
+  font-size: var(--step-small);
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 8px;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════
+   CONTACT — Sentence, portrait, two links
+   ═══════════════════════════════════════ */
+
+.contact {
+  padding: 160px var(--margin) 120px;
+}
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr 3fr;
+  gap: 0;
+  align-items: start;
+}
+
+.contact__sentence {
+  font-size: clamp(26px, 2.4vw, 36px);
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  grid-column: 1 / 2;
+  max-width: 18ch;
+}
+
+.contact__portrait {
+  grid-column: 3 / 4;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(0.2);
+}
+
+.contact__info {
+  grid-column: 4 / 5;
+  padding-left: 32px;
+}
+
+.contact__question {
+  font-size: var(--step-body);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.contact__links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact__links a {
+  font-size: var(--step-body);
+}
+
+.contact__meta {
+  font-size: var(--step-small);
+  color: var(--muted);
+  margin-top: 20px;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER — A single quiet line
+   ═══════════════════════════════════════ */
+
+.footer-space {
+  height: 30svh;
+}
+
+.footer {
+  padding: 0 var(--margin) 30px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  font-size: var(--step-small);
+}
+
+.footer__desc {
+  color: var(--muted);
+}
+
+.footer__links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer__links a {
+  color: var(--ink);
+  font-size: var(--step-small);
+}
+
+.footer__right {
+  text-align: right;
+  color: var(--muted);
+}
+
+.footer__right a {
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+/* ═══════════════════════════════════════
+   ENTRANCE ANIMATIONS
+   ═══════════════════════════════════════ */
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* stagger children */
+.fade-up-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-up-stagger.is-visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+.fade-up-stagger.is-visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+.fade-up-stagger.is-visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+.fade-up-stagger.is-visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+
+/* ═══════════════════════════════════════
+   MOBILE
+   ═══════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  :root {
+    --margin: 20px;
+    --col-start: 0;
+    --col-width: 100%;
+  }
+
+  .hero__rail {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 12px var(--margin);
+    gap: 0;
+    margin-top: calc(50svh - 32px);
+  }
+
+  .hero__name {
+    font-size: 28px;
+    flex-basis: auto;
+  }
+
+  .hero__sentence { display: none; }
+
+  .hero__actions { margin-left: auto; }
+  .hero__actions .hero__link { display: none; }
+
+  .hero__mobile-sentence {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 80px var(--margin) 24px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: var(--bg);
+    font-size: 17px;
+    line-height: 1.35;
+    z-index: 5;
+  }
+
+  .hero__mobile-cta {
+    display: block;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .about__row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about__paragraph {
+    padding-left: 0;
+    font-size: 19px;
+  }
+
+  .about__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-right: 0;
+  }
+
+  .about__lists {
+    padding-left: 0;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .classes__intro { margin-left: 0; }
+  .classes__grid { grid-template-columns: 1fr; margin-left: 0; }
+  .classes__card { min-height: auto; padding: 32px 24px; }
+
+  .testimonials__inner {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .testimonials__label {
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .testimonial {
+    margin-bottom: 40px;
+  }
+
+  .testimonial__portrait {
+    height: 84px;
+  }
+
+  .contact__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .contact__sentence {
+    font-size: 7.4vw;
+    max-width: none;
+  }
+
+  .contact__portrait-row {
+    display: flex;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .contact__portrait {
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+  }
+
+  .contact__info {
+    padding-left: 0;
+  }
+
+  .contact__meta {
+    margin-top: 16px;
+  }
+
+  .footer-space { height: 20svh; }
+
+  .footer {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-bottom: 24px;
+  }
+
+  .footer__links { flex-wrap: wrap; }
+  .footer__right { text-align: left; }
+}
+
+@media (min-width: 769px) {
+  .hero__mobile-sentence { display: none; }
+  .hero__mobile-cta { display: none; }
+  .contact__portrait-row {
+    display: contents;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__img { transition: none; }
+  .fade-up { transition: none; opacity: 1; transform: none; }
+  .fade-up-stagger > * { transition: none; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero__media">
+    <img class="hero__img is-active"
+         src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=2400&h=1350&fit=crop&crop=center"
+         alt="Morning meditation by the ocean — warm golden light on calm water"
+         width="2400" height="1350">
+    <img class="hero__img"
+         src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=2400&h=1350&fit=crop&crop=center"
+         alt="Hands in prayer position — soft natural light, stillness"
+         width="2400" height="1350">
+    <img class="hero__img"
+         src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=2400&h=1350&fit=crop&crop=center"
+         alt="Soft morning light on a sandy beach — Los Angeles coastline"
+         width="2400" height="1350">
+  </div>
+
+  <div class="hero__mobile-sentence">
+    Grounded practice for every body, in the light of Los Angeles.
+    <button class="hero__mobile-cta">Book a class</button>
+  </div>
+
+  <nav class="hero__rail" role="navigation" aria-label="Primary">
+    <h1 class="hero__name">Yoga Instructor</h1>
+    <p class="hero__sentence">Grounded practice for every body, in the light of Los Angeles.</p>
+    <div class="hero__actions">
+      <a href="#classes" class="hero__link">Classes</a>
+      <a href="#about" class="hero__link">About</a>
+      <button class="hero__cta">Book a class</button>
+    </div>
+  </nav>
+</section>
+
+<section class="hero__second">
+  <img src="https://images.unsplash.com/photo-1600618528240-fb9fc964b853?w=2400&h=1350&fit=crop&crop=center"
+       alt="Rolled yoga mats stacked — warm earthy tones, studio texture"
+       width="2400" height="1350"
+       loading="lazy">
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about" id="about">
+  <div class="about__row fade-up">
+    <div class="about__facts">
+      <div>
+        <div class="about__fact-label">Based in</div>
+        <div class="about__fact-value">Los Angeles, CA</div>
+      </div>
+      <div>
+        <div class="about__fact-label">Teaching since</div>
+        <div class="about__fact-value">2016</div>
+      </div>
+      <div>
+        <div class="about__fact-label">Style</div>
+        <div class="about__fact-value">Vinyasa, Hatha, Restorative</div>
+      </div>
+    </div>
+    <div class="about__paragraph">
+      The practice is simple. Show up, breathe, move at your own pace. Classes are small — eight people at most — because adjustments matter and attention is the whole point. Whether you have been practicing for years or are unrolling a mat for the first time, the work is the same: find what is steady, let the rest go.
+    </div>
+  </div>
+
+  <div class="about__row fade-up">
+    <div class="about__facts">
+      <div>
+        <div class="about__fact-label">Training</div>
+        <div class="about__fact-value">500hr RYT</div>
+      </div>
+    </div>
+    <div class="about__lists">
+      <div>
+        <div class="about__list-heading">Trained with</div>
+        <ul class="about__list">
+          <li>Teacher name here <span>2018</span></li>
+          <li>Teacher name here <span>2020</span></li>
+          <li>Teacher name here <span>2022</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="about__list-heading">Taught at</div>
+        <ul class="about__list">
+          <li>Studio name here <span>2019</span></li>
+          <li>Studio name here <span>2021</span></li>
+          <li>Studio name here <span>2023</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLASSES ═══ -->
+<section class="classes" id="classes">
+  <div class="classes__intro fade-up">
+    <h2 class="classes__heading">Classes</h2>
+    <p class="classes__desc">
+      Small group sessions and private instruction. Every class is capped at eight so the teaching stays personal.
+    </p>
+  </div>
+
+  <div class="classes__grid fade-up">
+    <div class="classes__card">
+      <div class="classes__card-name">Vinyasa Flow</div>
+      <div class="classes__card-detail">
+        Breath-linked movement at a steady pace. Builds strength, opens the body, leaves you quiet.
+      </div>
+      <div class="classes__card-time">
+        <span class="classes__card-accent"></span>60 min · Tue &amp; Thu mornings
+      </div>
+    </div>
+
+    <div class="classes__card">
+      <div class="classes__card-name">Gentle Hatha</div>
+      <div class="classes__card-detail">
+        Slower holds, longer breaths. Good for beginners and for days when you need to arrive before you move.
+      </div>
+      <div class="classes__card-time">
+        <span class="classes__card-accent"></span>75 min · Wed &amp; Sat mornings
+      </div>
+    </div>
+
+    <div class="classes__card">
+      <div class="classes__card-name">Restorative</div>
+      <div class="classes__card-detail">
+        Supported poses held for several minutes. The room is warm, the lights are low, and the work is stillness.
+      </div>
+      <div class="classes__card-time">
+        <span class="classes__card-accent"></span>90 min · Sunday evenings
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="testimonials" id="testimonials">
+  <div class="testimonials__inner fade-up-stagger">
+    <div class="testimonials__label">What students say</div>
+
+    <div class="testimonial">
+      <img class="testimonial__portrait"
+           src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=220&fit=crop&crop=faces"
+           alt="Portrait — student"
+           width="600" height="220" loading="lazy">
+      <div class="testimonial__meta">
+        <span class="testimonial__name">Student name</span> · <span class="testimonial__role">placeholder</span>
+      </div>
+      <div class="testimonial__quote">
+        I came in stiff and skeptical. Six months later the practice is the steadiest part of my week. The small class size means you actually get seen.
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <img class="testimonial__portrait"
+           src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=220&fit=crop&crop=faces"
+           alt="Portrait — student"
+           width="600" height="220" loading="lazy">
+      <div class="testimonial__meta">
+        <span class="testimonial__name">Student name</span> · <span class="testimonial__role">placeholder</span>
+      </div>
+      <div class="testimonial__quote">
+        No performance, no pressure. You just show up and breathe. It is the only hour in my day that feels unhurried.
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <img class="testimonial__portrait"
+           src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=220&fit=crop&crop=faces"
+           alt="Portrait — student"
+           width="600" height="220" loading="lazy">
+      <div class="testimonial__meta">
+        <span class="testimonial__name">Student name</span> · <span class="testimonial__role">placeholder</span>
+      </div>
+      <div class="testimonial__quote">
+        The restorative class changed how I sleep. I did not expect a yoga class to fix something I had been fighting for years.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact" id="contact">
+  <div class="contact__inner fade-up">
+    <p class="contact__sentence">
+      New students and questions are always welcome.
+    </p>
+
+    <div class="contact__portrait-row">
+      <img class="contact__portrait"
+           src="https://images.unsplash.com/photo-1600618528240-fb9fc964b853?w=320&h=320&fit=crop&crop=center"
+           alt="Rolled yoga mats — warm earthy tones, studio texture"
+           width="320" height="320" loading="lazy">
+
+      <div class="contact__info">
+        <div class="contact__question">Get in touch</div>
+        <div class="contact__links">
+          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href="#">Book a class</a>
+        </div>
+        <div class="contact__meta">
+          Los Angeles, CA<br>
+          Usually replies within a day
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer-space"></div>
+<footer class="footer">
+  <div class="footer__desc">Yoga instruction, Los Angeles</div>
+  <nav class="footer__links">
+    <a href="#classes">Classes</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="footer__right">
+    2026 · <a href="#">Privacy</a>
+  </div>
+</footer>
+
+<script>
+// Hero crossfade
+(function() {
+  var imgs = document.querySelectorAll('.hero__img');
+  if (imgs.length < 2) return;
+  var current = 0;
+  var hold = 5500;
+  var timer;
+
+  function next() {
+    imgs[current].classList.remove('is-active');
+    current = (current + 1) % imgs.length;
+    imgs[current].classList.add('is-active');
+  }
+
+  function start() { timer = setInterval(next, hold); }
+  function stop() { clearInterval(timer); }
+
+  start();
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) stop(); else start();
+  });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
+})();
+
+// Intersection observer for fade-up and fade-up-stagger
+(function() {
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.fade-up, .fade-up-stagger');
+
+  if (reducedMotion) {
+    targets.forEach(function(el) { el.classList.add('is-visible'); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  targets.forEach(function(el) { observer.observe(el); });
+})();
+
+// Rail sticky behavior tracking
+(function() {
+  var hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    hero.classList.toggle('is-scrolled', !entries[0].isIntersecting);
+  }, { threshold: 0 });
+
+  observer.observe(hero);
+})();
+</script>
+
+</body>
+</html>

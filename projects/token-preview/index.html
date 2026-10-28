@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System Lab</title>
+  <link rel="stylesheet" href="../../design-system/tokens.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lab-sidebar: 220px;
+      --lab-header: 56px;
+      --lab-code-bg: color-mix(in srgb, var(--color-text) 6%, transparent);
+      --lab-code-fg: var(--color-text);
+      --lab-card-bg: var(--color-surface-2);
+      --lab-focus: var(--color-accent);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text);
+      background: var(--color-surface);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Header --- */
+    .lab-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--lab-header);
+      padding: 0 var(--space-5);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      gap: var(--space-3);
+    }
+
+    .lab-header__title {
+      font-size: var(--text-lg);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-tight);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lab-header__controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    .lab-header__vp {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      min-width: 5ch;
+      text-align: right;
+    }
+
+    /* --- Sidebar --- */
+    .lab-sidebar {
+      position: fixed;
+      top: var(--lab-header);
+      left: 0;
+      bottom: 0;
+      width: var(--lab-sidebar);
+      overflow-y: auto;
+      border-right: 1px solid var(--color-border);
+      padding: var(--space-4) 0;
+      background: var(--color-surface);
+      z-index: 90;
+      scrollbar-width: thin;
+    }
+
+    .lab-sidebar__link {
+      display: block;
+      padding: var(--space-2) var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out),
+                  background var(--duration-fast) var(--ease-out);
+    }
+
+    .lab-sidebar__link:hover { color: var(--color-text); background: var(--lab-code-bg); }
+    .lab-sidebar__link[aria-current="true"] {
+      color: var(--color-accent);
+      font-weight: var(--weight-medium);
+      background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+      border-right: 2px solid var(--color-accent);
+    }
+    .lab-sidebar__link:focus-visible {
+      outline: 2px solid var(--lab-focus);
+      outline-offset: -2px;
+    }
+
+    .lab-sidebar__heading {
+      padding: var(--space-4) var(--space-5) var(--space-1);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+
+    /* --- Main --- */
+    .lab-main {
+      margin-left: var(--lab-sidebar);
+      padding: var(--space-8) var(--space-6);
+      max-width: calc(var(--container-xl) + var(--space-12));
+    }
+
+    /* --- Sections --- */
+    .lab-section {
+      scroll-margin-top: calc(var(--lab-header) + var(--space-4));
+      margin-bottom: var(--space-16);
+    }
+
+    .lab-section__title {
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tight);
+      margin-bottom: var(--space-1);
+    }
+
+    .lab-section__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-6);
+      max-width: var(--measure);
+    }
+
+    .lab-subsection {
+      margin-top: var(--space-8);
+    }
+
+    .lab-subsection__title {
+      font-size: var(--text-lg);
+      font-weight: var(--weight-semibold);
+      margin-bottom: var(--space-4);
+    }
+
+    /* --- Buttons --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-3);
+      height: 36px;
+      min-width: 44px;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      font-family: inherit;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: transparent;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: background var(--duration-press) var(--ease-out),
+                  border-color var(--duration-press) var(--ease-out),
+                  transform var(--duration-press) var(--ease-out);
+      user-select: none;
+    }
+
+    .btn:hover { background: var(--lab-code-bg); }
+    .btn:active { transform: scale(0.97); }
+    .btn:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; }
+
+    .btn[aria-pressed="true"] {
+      background: var(--color-accent);
+      color: var(--color-accent-fg);
+      border-color: var(--color-accent);
+    }
+
+    /* --- Toast --- */
+    .lab-toast {
+      position: fixed;
+      bottom: var(--space-6);
+      left: 50%;
+      transform: translate(-50%, 20px);
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-text);
+      color: var(--color-surface);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-fast) var(--ease-out),
+                  transform var(--duration-fast) var(--ease-out);
+      z-index: 200;
+    }
+
+    .lab-toast.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* --- Code --- */
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+      padding: 0.15em 0.4em;
+      background: var(--lab-code-bg);
+      color: var(--lab-code-fg);
+      border-radius: var(--radius-sm);
+    }
+
+    /* --- Color swatches --- */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      cursor: pointer;
+      transition: box-shadow var(--duration-fast) var(--ease-out),
+                  transform var(--duration-fast) var(--ease-out);
+    }
+    .swatch:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .swatch:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; }
+    .swatch:active { transform: scale(0.98); }
+
+    .swatch__color {
+      height: 72px;
+      position: relative;
+    }
+
+    .swatch__contrast {
+      position: absolute;
+      top: var(--space-2);
+      right: var(--space-2);
+      font-size: 10px;
+      font-weight: var(--weight-semibold);
+      font-family: var(--font-mono);
+      padding: 2px 5px;
+      border-radius: var(--radius-sm);
+      line-height: 1;
+    }
+
+    .swatch__info {
+      padding: var(--space-2) var(--space-3);
+      background: var(--lab-card-bg);
+    }
+
+    .swatch__name {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-tight);
+    }
+
+    .swatch__value {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    /* --- Gray strip --- */
+    .gray-strip {
+      display: flex;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+
+    .gray-strip__cell {
+      flex: 1;
+      height: 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: var(--space-1);
+      cursor: pointer;
+      position: relative;
+      transition: flex var(--duration-fast) var(--ease-out);
+    }
+
+    .gray-strip__cell:hover { flex: 2; }
+    .gray-strip__cell:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: -2px; }
+
+    .gray-strip__label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: var(--weight-semibold);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .gray-strip__tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: var(--space-1) var(--space-2);
+      background: var(--color-text);
+      color: var(--color-surface);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-tooltip) var(--ease-out);
+      z-index: 10;
+    }
+    .gray-strip__cell:hover .gray-strip__tooltip,
+    .gray-strip__cell:focus .gray-strip__tooltip { opacity: 1; }
+
+    /* --- Type scale --- */
+    .type-row {
+      display: grid;
+      grid-template-columns: 100px 80px 1fr;
+      align-items: baseline;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--color-border);
+      cursor: pointer;
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-row:hover { background: var(--lab-code-bg); margin: 0 calc(-1 * var(--space-3)); padding-left: var(--space-3); padding-right: var(--space-3); border-radius: var(--radius-md); }
+    .type-row:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; border-radius: var(--radius-md); }
+
+    .type-row__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .type-row__computed { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); }
+
+    /* --- Spacing --- */
+    .spacing-row {
+      display: grid;
+      grid-template-columns: 110px 60px 1fr;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+    }
+
+    .spacing-row__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .spacing-row__px { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); text-align: right; }
+
+    .spacing-bar {
+      height: 28px;
+      background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+    .spacing-row:hover .spacing-bar { background: color-mix(in srgb, var(--color-accent) 25%, transparent); }
+
+    /* --- Radius --- */
+    .radius-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      align-items: end;
+    }
+
+    .radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+    }
+    .radius-item:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: var(--space-2); border-radius: var(--radius-md); }
+
+    .radius-box {
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--color-accent);
+      background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+    .radius-item:hover .radius-box { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+
+    .radius-item__label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .radius-item__px { font-family: var(--font-mono); font-size: 10px; color: var(--color-accent); }
+
+    /* --- Shadows --- */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-5);
+    }
+
+    .shadow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-5) var(--space-3);
+      cursor: pointer;
+    }
+    .shadow-item:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; border-radius: var(--radius-md); }
+
+    .shadow-box {
+      width: 72px;
+      height: 72px;
+      background: var(--lab-card-bg);
+      border-radius: var(--radius-lg);
+      transition: transform var(--duration-fast) var(--ease-out);
+    }
+    .shadow-item:hover .shadow-box { transform: translateY(-2px); }
+
+    .shadow-item__label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+
+    /* --- Easing --- */
+    .easing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .easing-card {
+      padding: var(--space-5);
+      background: var(--lab-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: box-shadow var(--duration-fast) var(--ease-out),
+                  border-color var(--duration-fast) var(--ease-out);
+    }
+    .easing-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-accent); }
+    .easing-card:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; }
+
+    .easing-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: var(--space-1);
+    }
+
+    .easing-card__name { font-weight: var(--weight-semibold); font-size: var(--text-base); }
+    .easing-card__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .easing-card__desc { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4); }
+
+    .easing-card__viz {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .easing-card__curve-wrap {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+    }
+
+    .easing-card__curve-wrap svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .easing-card__track-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .easing-card__track {
+      height: 4px;
+      background: var(--color-border);
+      border-radius: var(--radius-full);
+      position: relative;
+    }
+
+    .easing-card__dot {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      background: var(--color-accent);
+      border-radius: var(--radius-full);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+    }
+
+    .easing-card__value {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      word-break: break-all;
+    }
+
+    .easing-card__hint {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      text-align: center;
+      margin-top: var(--space-2);
+      opacity: 0.6;
+    }
+
+    /* --- Duration --- */
+    .duration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .dur-card {
+      padding: var(--space-4);
+      background: var(--lab-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color var(--duration-fast) var(--ease-out);
+    }
+    .dur-card:hover, .dur-card:focus-within { border-color: var(--color-accent); }
+    .dur-card:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; }
+
+    .dur-card__label { font-weight: var(--weight-semibold); font-size: var(--text-sm); }
+    .dur-card__token { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted); }
+    .dur-card__time { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); font-weight: var(--weight-semibold); }
+
+    .dur-card__bar-track {
+      height: 4px;
+      background: var(--color-border);
+      border-radius: var(--radius-full);
+      margin: var(--space-3) 0 var(--space-2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dur-card__bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0;
+      background: var(--color-accent);
+      border-radius: var(--radius-full);
+    }
+
+    .dur-card__desc { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+    /* --- Layout tokens --- */
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .layout-item {
+      padding: var(--space-4);
+      background: var(--lab-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      cursor: pointer;
+    }
+    .layout-item:hover { border-color: var(--color-accent); }
+    .layout-item:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; }
+
+    .layout-item__name { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+    .layout-item__value { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); margin-top: var(--space-1); }
+
+    /* --- Contrast matrix --- */
+    .contrast-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      overflow-x: auto;
+      display: block;
+    }
+
+    .contrast-table th,
+    .contrast-table td {
+      padding: var(--space-2) var(--space-3);
+      text-align: center;
+      border: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+
+    .contrast-table th {
+      background: var(--lab-card-bg);
+      font-weight: var(--weight-medium);
+      font-size: var(--text-xs);
+    }
+
+    .contrast-table td {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: var(--weight-semibold);
+    }
+
+    .contrast-pass { background: color-mix(in srgb, var(--color-success) 10%, transparent); }
+    .contrast-large { background: color-mix(in srgb, var(--color-warning) 10%, transparent); }
+    .contrast-fail { background: color-mix(in srgb, var(--color-error) 10%, transparent); }
+
+    /* --- Motion status bar --- */
+    .motion-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--lab-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-6);
+    }
+
+    .motion-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+    }
+
+    .motion-dot--on { background: var(--color-success); }
+    .motion-dot--reduced { background: var(--color-warning); }
+    .motion-dot--off { background: var(--color-error); }
+
+    .motion-bar__text { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+    /* --- Mobile menu toggle --- */
+    .lab-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: transparent;
+      color: var(--color-text);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .lab-menu-btn:focus-visible { outline: 2px solid var(--lab-focus); outline-offset: 2px; }
+
+    .lab-sidebar__backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgb(0 0 0 / 0.4);
+      z-index: 85;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 767px) {
+      .lab-menu-btn { display: flex; }
+
+      .lab-sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--duration-normal) var(--ease-out);
+        z-index: 110;
+        width: 260px;
+        top: 0;
+      }
+
+      .lab-sidebar.open { transform: translateX(0); }
+
+      .lab-sidebar__backdrop.open {
+        display: block;
+        z-index: 105;
+      }
+
+      .lab-main { margin-left: 0; padding: var(--space-6) var(--gutter); }
+      .type-row { grid-template-columns: 80px 60px 1fr; }
+      .spacing-row { grid-template-columns: 90px 50px 1fr; }
+      .easing-grid { grid-template-columns: 1fr; }
+      .easing-card__viz { flex-direction: column; align-items: stretch; }
+      .easing-card__curve-wrap { width: 100%; height: 100px; }
+      .contrast-table th, .contrast-table td { padding: var(--space-1) var(--space-2); font-size: 10px; }
+    }
+
+    @media (max-width: 479px) {
+      .color-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+      .duration-grid { grid-template-columns: repeat(2, 1fr); }
+      .layout-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      :root { --lab-sidebar: 190px; }
+    }
+
+    /* --- Print --- */
+    @media print {
+      .lab-header, .lab-sidebar, .lab-toast, .lab-menu-btn, .lab-sidebar__backdrop { display: none; }
+      .lab-main { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="lab-header" role="banner">
+    <div style="display: flex; align-items: center; gap: var(--space-3);">
+      <button class="lab-menu-btn" id="menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5h12M3 9h12M3 13h12"/></svg>
+      </button>
+      <span class="lab-header__title">Design System Lab</span>
+    </div>
+    <div class="lab-header__controls">
+      <span class="lab-header__vp" id="vp-display" aria-live="polite" aria-label="Viewport width"></span>
+      <div role="group" aria-label="Theme">
+        <button class="btn" id="theme-light" aria-pressed="false" title="Light theme">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.4 3.4l.7.7M11.9 11.9l.7.7M3.4 12.6l.7-.7M11.9 4.1l.7-.7"/></svg>
+        </button>
+        <button class="btn" id="theme-system" aria-pressed="true" title="System theme">Auto</button>
+        <button class="btn" id="theme-dark" aria-pressed="false" title="Dark theme">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13.5 8.5a5.5 5.5 0 01-7-7 5.5 5.5 0 107 7z"/></svg>
+        </button>
+      </div>
+      <button class="btn" id="motion-toggle" aria-pressed="false" title="Toggle reduced motion simulation">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path id="motion-icon-play" d="M5 3l8 5-8 5z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="lab-sidebar__backdrop" id="sidebar-backdrop"></div>
+  <nav class="lab-sidebar" id="sidebar" role="navigation" aria-label="Sections">
+    <div class="lab-sidebar__heading">Foundations</div>
+    <a class="lab-sidebar__link" href="#color">Color</a>
+    <a class="lab-sidebar__link" href="#contrast">Contrast</a>
+    <a class="lab-sidebar__link" href="#typography">Typography</a>
+    <a class="lab-sidebar__link" href="#spacing">Spacing</a>
+    <a class="lab-sidebar__link" href="#radius">Radius</a>
+    <a class="lab-sidebar__link" href="#shadows">Shadows</a>
+    <div class="lab-sidebar__heading">Motion</div>
+    <a class="lab-sidebar__link" href="#easing">Easing Curves</a>
+    <a class="lab-sidebar__link" href="#duration">Duration</a>
+    <div class="lab-sidebar__heading">Layout</div>
+    <a class="lab-sidebar__link" href="#layout">Containers</a>
+  </nav>
+
+  <!-- Main -->
+  <main class="lab-main" id="main">
+
+    <!-- Color -->
+    <section class="lab-section" id="color">
+      <h2 class="lab-section__title">Color</h2>
+      <p class="lab-section__desc">Neutral scale and semantic tokens. All hex values below are resolved from computed CSS. Click any swatch to copy its token name.</p>
+
+      <div class="lab-subsection">
+        <h3 class="lab-subsection__title">Neutral Scale</h3>
+        <div class="gray-strip" id="gray-strip" role="list" aria-label="Gray scale"></div>
+      </div>
+
+      <div class="lab-subsection">
+        <h3 class="lab-subsection__title">Semantic Tokens</h3>
+        <div class="color-grid" id="semantic-grid"></div>
+      </div>
+    </section>
+
+    <!-- Contrast -->
+    <section class="lab-section" id="contrast">
+      <h2 class="lab-section__title">Contrast Matrix</h2>
+      <p class="lab-section__desc">WCAG 2.2 AA requires 4.5:1 for normal text and 3:1 for large text (18px+ bold or 24px+). Ratios computed live from the active theme.</p>
+      <div style="overflow-x: auto;" id="contrast-wrap"></div>
+    </section>
+
+    <!-- Typography -->
+    <section class="lab-section" id="typography">
+      <h2 class="lab-section__title">Typography</h2>
+      <p class="lab-section__desc">Fluid type scale using <code>clamp()</code>. Computed sizes shown at the current viewport width. Click a row to copy its token.</p>
+
+      <div class="lab-subsection">
+        <h3 class="lab-subsection__title">Scale</h3>
+        <div id="type-scale-rows"></div>
+      </div>
+
+      <div class="lab-subsection">
+        <h3 class="lab-subsection__title">Font Stacks</h3>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: var(--space-1);">--font-sans</div>
+            <div style="font-family: var(--font-sans); font-size: var(--text-lg);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          </div>
+          <div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: var(--space-1);">--font-mono</div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-lg);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lab-subsection">
+        <h3 class="lab-subsection__title">Weights</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-6); font-size: var(--text-xl);" id="weight-samples"></div>
+      </div>
+    </section>
+
+    <!-- Spacing -->
+    <section class="lab-section" id="spacing">
+      <h2 class="lab-section__title">Spacing</h2>
+      <p class="lab-section__desc">4px base scale. Pixel values resolved from computed styles at the current font size.</p>
+      <div id="spacing-rows"></div>
+    </section>
+
+    <!-- Radius -->
+    <section class="lab-section" id="radius">
+      <h2 class="lab-section__title">Radius</h2>
+      <p class="lab-section__desc">Border-radius tokens. Click to copy.</p>
+      <div class="radius-grid" id="radius-grid"></div>
+    </section>
+
+    <!-- Shadows -->
+    <section class="lab-section" id="shadows">
+      <h2 class="lab-section__title">Shadows</h2>
+      <p class="lab-section__desc">Elevation tokens. Hover to preview lift.</p>
+      <div class="shadow-grid" id="shadow-grid"></div>
+    </section>
+
+    <!-- Easing -->
+    <section class="lab-section" id="easing">
+      <h2 class="lab-section__title">Easing Curves</h2>
+      <p class="lab-section__desc">Canonical values from Emil Kowalski's animate skill. Click a card to play the animation. The SVG shows the curve shape; the dot demonstrates the timing.</p>
+      <div class="motion-bar" id="motion-bar" role="status" aria-live="polite">
+        <span class="motion-dot motion-dot--on" id="motion-dot"></span>
+        <span class="motion-bar__text" id="motion-text">Motion enabled</span>
+      </div>
+      <div class="easing-grid" id="easing-grid"></div>
+    </section>
+
+    <!-- Duration -->
+    <section class="lab-section" id="duration">
+      <h2 class="lab-section__title">Duration</h2>
+      <p class="lab-section__desc">Element-specific budgets from animate &sect;5. Click a card to fire the bar animation at that token's speed. Under reduced motion, all durations resolve to 0ms.</p>
+      <div class="duration-grid" id="duration-grid"></div>
+    </section>
+
+    <!-- Layout -->
+    <section class="lab-section" id="layout">
+      <h2 class="lab-section__title">Layout</h2>
+      <p class="lab-section__desc">Container breakpoints, gutter, and reading measure. Click to copy.</p>
+      <div class="layout-grid" id="layout-grid"></div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div class="lab-toast" id="toast" aria-live="assertive" role="status"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var html = document.documentElement;
+      var cs = function () { return getComputedStyle(html); };
+
+      // --- Utilities ---
+      function resolveColor(prop) {
+        var el = document.createElement("div");
+        el.style.color = "var(" + prop + ")";
+        document.body.appendChild(el);
+        var val = getComputedStyle(el).color;
+        document.body.removeChild(el);
+        return val;
+      }
+
+      function rgbToHex(rgb) {
+        if (!rgb) return "#000000";
+        var m = rgb.match(/\d+/g);
+        if (!m || m.length < 3) return rgb;
+        return "#" + m.slice(0, 3).map(function (v) { return (+v).toString(16).padStart(2, "0"); }).join("");
+      }
+
+      function parseSRGB(rgb) {
+        var m = rgb.match(/\d+/g);
+        if (!m) return [0, 0, 0];
+        return m.slice(0, 3).map(function (v) { return +v / 255; });
+      }
+
+      function luminance(srgb) {
+        var lin = srgb.map(function (c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); });
+        return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+      }
+
+      function contrastRatio(c1, c2) {
+        var l1 = luminance(parseSRGB(c1));
+        var l2 = luminance(parseSRGB(c2));
+        var lighter = Math.max(l1, l2);
+        var darker = Math.min(l1, l2);
+        return (lighter + 0.05) / (darker + 0.05);
+      }
+
+      function resolvePx(prop) {
+        var el = document.createElement("div");
+        el.style.width = "var(" + prop + ")";
+        el.style.position = "absolute";
+        el.style.visibility = "hidden";
+        document.body.appendChild(el);
+        var val = getComputedStyle(el).width;
+        document.body.removeChild(el);
+        return val;
+      }
+
+      function resolveRaw(prop) {
+        return cs().getPropertyValue(prop).trim();
+      }
+
+      var toastEl = document.getElementById("toast");
+      var toastTimer;
+      function toast(msg) {
+        clearTimeout(toastTimer);
+        toastEl.textContent = msg;
+        toastEl.classList.add("visible");
+        toastTimer = setTimeout(function () { toastEl.classList.remove("visible"); }, 1800);
+      }
+
+      function copyToken(name) {
+        var text = "var(" + name + ")";
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(function () { toast("Copied " + text); });
+        } else {
+          toast(text);
+        }
+      }
+
+      function makeClickable(el, tokenName) {
+        el.setAttribute("tabindex", "0");
+        el.setAttribute("role", "button");
+        el.setAttribute("aria-label", "Copy " + tokenName);
+        el.addEventListener("click", function () { copyToken(tokenName); });
+        el.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copyToken(tokenName); }
+        });
+      }
+
+      // --- Theme ---
+      var themeButtons = {
+        light: document.getElementById("theme-light"),
+        dark: document.getElementById("theme-dark"),
+        system: document.getElementById("theme-system")
+      };
+
+      function setTheme(t) {
+        Object.keys(themeButtons).forEach(function (k) { themeButtons[k].setAttribute("aria-pressed", "false"); });
+        themeButtons[t].setAttribute("aria-pressed", "true");
+        if (t === "light") html.setAttribute("data-theme", "light");
+        else if (t === "dark") html.setAttribute("data-theme", "dark");
+        else html.removeAttribute("data-theme");
+        requestAnimationFrame(function () { renderSemanticGrid(); renderContrastMatrix(); });
+      }
+
+      themeButtons.light.addEventListener("click", function () { setTheme("light"); });
+      themeButtons.dark.addEventListener("click", function () { setTheme("dark"); });
+      themeButtons.system.addEventListener("click", function () { setTheme("system"); });
+
+      // --- Reduced motion ---
+      var simReducedMotion = false;
+      var browserRM = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var motionToggle = document.getElementById("motion-toggle");
+      var motionDot = document.getElementById("motion-dot");
+      var motionText = document.getElementById("motion-text");
+
+      var durationTokens = [
+        "--duration-press", "--duration-tooltip", "--duration-dropdown", "--duration-modal",
+        "--duration-instant", "--duration-fast", "--duration-normal", "--duration-slow"
+      ];
+
+      function isReduced() { return simReducedMotion || browserRM.matches; }
+
+      function updateMotionUI() {
+        motionDot.className = "motion-dot " +
+          (simReducedMotion ? "motion-dot--off" : browserRM.matches ? "motion-dot--reduced" : "motion-dot--on");
+        motionText.textContent = simReducedMotion ? "Reduced motion (simulated)" :
+          browserRM.matches ? "Reduced motion (browser)" : "Motion enabled";
+        renderDurationGrid();
+      }
+
+      motionToggle.addEventListener("click", function () {
+        simReducedMotion = !simReducedMotion;
+        motionToggle.setAttribute("aria-pressed", String(simReducedMotion));
+        durationTokens.forEach(function (t) {
+          if (simReducedMotion) html.style.setProperty(t, "0ms");
+          else html.style.removeProperty(t);
+        });
+        updateMotionUI();
+      });
+
+      browserRM.addEventListener("change", updateMotionUI);
+
+      // --- Sidebar / mobile ---
+      var sidebar = document.getElementById("sidebar");
+      var backdrop = document.getElementById("sidebar-backdrop");
+      var menuBtn = document.getElementById("menu-btn");
+
+      function closeSidebar() {
+        sidebar.classList.remove("open");
+        backdrop.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }
+
+      menuBtn.addEventListener("click", function () {
+        var open = sidebar.classList.toggle("open");
+        backdrop.classList.toggle("open", open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+      });
+
+      backdrop.addEventListener("click", closeSidebar);
+
+      sidebar.addEventListener("click", function (e) {
+        if (e.target.matches("a")) closeSidebar();
+      });
+
+      // --- Scroll spy ---
+      var sections = document.querySelectorAll(".lab-section");
+      var navLinks = document.querySelectorAll(".lab-sidebar__link");
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function (l) { l.removeAttribute("aria-current"); });
+            var link = sidebar.querySelector('[href="#' + entry.target.id + '"]');
+            if (link) link.setAttribute("aria-current", "true");
+          }
+        });
+      }, { rootMargin: "-20% 0px -70% 0px" });
+
+      sections.forEach(function (s) { observer.observe(s); });
+
+      // --- Viewport ---
+      var vpEl = document.getElementById("vp-display");
+      function updateVP() { vpEl.textContent = window.innerWidth + "px"; }
+      updateVP();
+      window.addEventListener("resize", function () { updateVP(); renderTypeScale(); });
+
+      // --- Gray strip ---
+      var grayTokens = [
+        "--gray-50", "--gray-100", "--gray-200", "--gray-300", "--gray-400",
+        "--gray-500", "--gray-600", "--gray-700", "--gray-800", "--gray-900", "--gray-950"
+      ];
+
+      (function renderGrayStrip() {
+        var strip = document.getElementById("gray-strip");
+        grayTokens.forEach(function (t) {
+          var resolved = resolveColor(t);
+          var hex = rgbToHex(resolved);
+          var lum = luminance(parseSRGB(resolved));
+          var textColor = lum > 0.4 ? "#171717" : "#fafafa";
+          var cell = document.createElement("div");
+          cell.className = "gray-strip__cell";
+          cell.setAttribute("role", "listitem");
+          cell.style.backgroundColor = "var(" + t + ")";
+          makeClickable(cell, t);
+          cell.innerHTML =
+            '<span class="gray-strip__label" style="color:' + textColor + '">' + t.replace("--gray-", "") + '</span>' +
+            '<span class="gray-strip__tooltip">' + t + " " + hex + '</span>';
+          strip.appendChild(cell);
+        });
+      })();
+
+      // --- Semantic grid ---
+      var semanticTokens = [
+        { t: "--color-surface", label: "Surface" },
+        { t: "--color-surface-2", label: "Surface 2" },
+        { t: "--color-text", label: "Text" },
+        { t: "--color-text-muted", label: "Muted" },
+        { t: "--color-border", label: "Border" },
+        { t: "--color-accent", label: "Accent" },
+        { t: "--color-accent-fg", label: "Accent FG" },
+        { t: "--color-error", label: "Error" },
+        { t: "--color-success", label: "Success" },
+        { t: "--color-warning", label: "Warning" }
+      ];
+
+      function renderSemanticGrid() {
+        var grid = document.getElementById("semantic-grid");
+        grid.innerHTML = "";
+        var surfaceRgb = resolveColor("--color-surface");
+        semanticTokens.forEach(function (s) {
+          var rgb = resolveColor(s.t);
+          var hex = rgbToHex(rgb);
+          var ratio = contrastRatio(rgb, surfaceRgb);
+          var lum = luminance(parseSRGB(rgb));
+          var swatch = document.createElement("div");
+          swatch.className = "swatch";
+          makeClickable(swatch, s.t);
+          var contrastTag = "";
+          if (s.t !== "--color-surface" && s.t !== "--color-surface-2") {
+            var passLevel = ratio >= 4.5 ? "AA" : ratio >= 3 ? "AA18" : "Fail";
+            var tagBg = ratio >= 4.5 ? "rgba(0,0,0,.55)" : ratio >= 3 ? "rgba(120,80,0,.7)" : "rgba(180,0,0,.7)";
+            var tagColor = "#fff";
+            contrastTag = '<span class="swatch__contrast" style="background:' + tagBg + ';color:' + tagColor + '">' + ratio.toFixed(1) + " " + passLevel + '</span>';
+          }
+          swatch.innerHTML =
+            '<div class="swatch__color" style="background-color: var(' + s.t + ');' +
+            (s.t === "--color-border" ? "border-bottom: 1px solid var(--color-text-muted);" : "") + '">' +
+            contrastTag + '</div>' +
+            '<div class="swatch__info">' +
+            '<div class="swatch__name">' + s.label + '</div>' +
+            '<div class="swatch__value">' + hex + '</div></div>';
+          grid.appendChild(swatch);
+        });
+      }
+      renderSemanticGrid();
+
+      // --- Contrast matrix ---
+      var contrastPairs = [
+        { fg: "--color-text", label: "Text" },
+        { fg: "--color-text-muted", label: "Muted" },
+        { fg: "--color-accent", label: "Accent" },
+        { fg: "--color-error", label: "Error" },
+        { fg: "--color-success", label: "Success" },
+        { fg: "--color-warning", label: "Warning" }
+      ];
+      var contrastBgs = [
+        { bg: "--color-surface", label: "Surface" },
+        { bg: "--color-surface-2", label: "Surface 2" }
+      ];
+
+      function renderContrastMatrix() {
+        var wrap = document.getElementById("contrast-wrap");
+        var thead = "<tr><th></th>";
+        contrastBgs.forEach(function (b) { thead += "<th>" + b.label + "</th>"; });
+        thead += "</tr>";
+        var tbody = "";
+        contrastPairs.forEach(function (p) {
+          tbody += "<tr><th>" + p.label + "</th>";
+          contrastBgs.forEach(function (b) {
+            var fgRgb = resolveColor(p.fg);
+            var bgRgb = resolveColor(b.bg);
+            var r = contrastRatio(fgRgb, bgRgb);
+            var cls = r >= 4.5 ? "contrast-pass" : r >= 3 ? "contrast-large" : "contrast-fail";
+            tbody += '<td class="' + cls + '">' + r.toFixed(2) + "</td>";
+          });
+          tbody += "</tr>";
+        });
+        wrap.innerHTML = '<table class="contrast-table"><thead>' + thead + '</thead><tbody>' + tbody + '</tbody></table>';
+      }
+      renderContrastMatrix();
+
+      // --- Type scale ---
+      var typeTokens = [
+        { t: "--text-4xl", label: "4xl" }, { t: "--text-3xl", label: "3xl" },
+        { t: "--text-2xl", label: "2xl" }, { t: "--text-xl", label: "xl" },
+        { t: "--text-lg", label: "lg" }, { t: "--text-base", label: "base" },
+        { t: "--text-sm", label: "sm" }, { t: "--text-xs", label: "xs" }
+      ];
+
+      function renderTypeScale() {
+        var container = document.getElementById("type-scale-rows");
+        container.innerHTML = "";
+        typeTokens.forEach(function (t) {
+          var px = resolvePx(t.t);
+          var row = document.createElement("div");
+          row.className = "type-row";
+          makeClickable(row, t.t);
+          row.innerHTML =
+            '<span class="type-row__token">' + t.t + '</span>' +
+            '<span class="type-row__computed">' + px + '</span>' +
+            '<span style="font-size: var(' + t.t + '); line-height: var(--leading-tight);">Design System Lab</span>';
+          container.appendChild(row);
+        });
+      }
+      renderTypeScale();
+
+      // --- Weights ---
+      var weights = [
+        { t: "--weight-normal", label: "Normal", v: "400" },
+        { t: "--weight-medium", label: "Medium", v: "500" },
+        { t: "--weight-semibold", label: "Semibold", v: "600" },
+        { t: "--weight-bold", label: "Bold", v: "700" }
+      ];
+
+      (function renderWeights() {
+        var container = document.getElementById("weight-samples");
+        weights.forEach(function (w) {
+          var el = document.createElement("span");
+          el.style.fontWeight = "var(" + w.t + ")";
+          makeClickable(el, w.t);
+          el.innerHTML = w.label + ' <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-accent);vertical-align:middle;">' + w.v + '</span>';
+          container.appendChild(el);
+        });
+      })();
+
+      // --- Spacing ---
+      var spaceTokens = [
+        "--space-1", "--space-2", "--space-3", "--space-4", "--space-5", "--space-6",
+        "--space-8", "--space-10", "--space-12", "--space-16", "--space-20", "--space-24"
+      ];
+
+      (function renderSpacing() {
+        var container = document.getElementById("spacing-rows");
+        spaceTokens.forEach(function (t) {
+          var px = resolvePx(t);
+          var row = document.createElement("div");
+          row.className = "spacing-row";
+          row.innerHTML =
+            '<span class="spacing-row__token">' + t + '</span>' +
+            '<span class="spacing-row__px">' + px + '</span>' +
+            '<div class="spacing-bar" style="width: var(' + t + ');"></div>';
+          container.appendChild(row);
+        });
+      })();
+
+      // --- Radius ---
+      var radiusTokens = [
+        { t: "--radius-sm", label: "sm" }, { t: "--radius-md", label: "md" },
+        { t: "--radius-lg", label: "lg" }, { t: "--radius-xl", label: "xl" },
+        { t: "--radius-2xl", label: "2xl" }, { t: "--radius-full", label: "full" }
+      ];
+
+      (function renderRadius() {
+        var grid = document.getElementById("radius-grid");
+        radiusTokens.forEach(function (r) {
+          var px = resolvePx(r.t);
+          var item = document.createElement("div");
+          item.className = "radius-item";
+          makeClickable(item, r.t);
+          item.innerHTML =
+            '<div class="radius-box" style="border-radius: var(' + r.t + ');"></div>' +
+            '<span class="radius-item__label">' + r.label + '</span>' +
+            '<span class="radius-item__px">' + px + '</span>';
+          grid.appendChild(item);
+        });
+      })();
+
+      // --- Shadows ---
+      var shadowTokens = [
+        { t: "--shadow-sm", label: "sm" }, { t: "--shadow-md", label: "md" },
+        { t: "--shadow-lg", label: "lg" }, { t: "--shadow-xl", label: "xl" },
+        { t: "--shadow-2xl", label: "2xl" }, { t: "--shadow-inner", label: "inner" }
+      ];
+
+      (function renderShadows() {
+        var grid = document.getElementById("shadow-grid");
+        shadowTokens.forEach(function (s) {
+          var item = document.createElement("div");
+          item.className = "shadow-item";
+          makeClickable(item, s.t);
+          item.innerHTML =
+            '<div class="shadow-box" style="box-shadow: var(' + s.t + ');"></div>' +
+            '<span class="shadow-item__label">' + s.label + '</span>';
+          grid.appendChild(item);
+        });
+      })();
+
+      // --- Easing ---
+      var easings = [
+        { t: "--ease-out", label: "ease-out", curve: [0.23, 1, 0.32, 1], desc: "Entering, responding to user input" },
+        { t: "--ease-in-out", label: "ease-in-out", curve: [0.77, 0, 0.175, 1], desc: "Moving between positions on screen" },
+        { t: "--ease-drawer", label: "ease-drawer", curve: [0.32, 0.72, 0, 1], desc: "iOS-style drawer / sheet" }
+      ];
+
+      function cubicBezierSVG(cp, size) {
+        var s = size;
+        var pad = 8;
+        var w = s - pad * 2;
+        var h = s - pad * 2;
+        function x(v) { return pad + v * w; }
+        function y(v) { return pad + (1 - v) * h; }
+        var gridColor = "var(--color-border)";
+        var curveColor = "var(--color-accent)";
+        var handleColor = "var(--color-text-muted)";
+        return '<svg viewBox="0 0 ' + s + " " + s + '" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="' + pad + '" y="' + pad + '" width="' + w + '" height="' + h + '" stroke="' + gridColor + '" stroke-width="0.5" rx="2"/>' +
+          '<line x1="' + x(0) + '" y1="' + y(0) + '" x2="' + x(cp[0]) + '" y2="' + y(cp[1]) + '" stroke="' + handleColor + '" stroke-width="1" stroke-dasharray="2 2"/>' +
+          '<line x1="' + x(1) + '" y1="' + y(1) + '" x2="' + x(cp[2]) + '" y2="' + y(cp[3]) + '" stroke="' + handleColor + '" stroke-width="1" stroke-dasharray="2 2"/>' +
+          '<path d="M' + x(0) + ' ' + y(0) + ' C ' + x(cp[0]) + ' ' + y(cp[1]) + ', ' + x(cp[2]) + ' ' + y(cp[3]) + ', ' + x(1) + ' ' + y(1) + '" stroke="' + curveColor + '" stroke-width="2" stroke-linecap="round"/>' +
+          '<circle cx="' + x(cp[0]) + '" cy="' + y(cp[1]) + '" r="3" fill="' + handleColor + '"/>' +
+          '<circle cx="' + x(cp[2]) + '" cy="' + y(cp[3]) + '" r="3" fill="' + handleColor + '"/>' +
+          '<circle cx="' + x(0) + '" cy="' + y(0) + '" r="3" fill="' + curveColor + '"/>' +
+          '<circle cx="' + x(1) + '" cy="' + y(1) + '" r="3" fill="' + curveColor + '"/>' +
+          '</svg>';
+      }
+
+      (function renderEasing() {
+        var grid = document.getElementById("easing-grid");
+        easings.forEach(function (e, i) {
+          var dotId = "edot-" + i;
+          var curveStr = "cubic-bezier(" + e.curve.join(", ") + ")";
+          var card = document.createElement("div");
+          card.className = "easing-card";
+          card.setAttribute("tabindex", "0");
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-label", "Play " + e.label + " animation");
+          card.innerHTML =
+            '<div class="easing-card__header">' +
+            '<span class="easing-card__name">' + e.label + '</span>' +
+            '<span class="easing-card__token">' + e.t + '</span></div>' +
+            '<div class="easing-card__desc">' + e.desc + '</div>' +
+            '<div class="easing-card__viz">' +
+            '<div class="easing-card__curve-wrap">' + cubicBezierSVG(e.curve, 80) + '</div>' +
+            '<div class="easing-card__track-area">' +
+            '<div class="easing-card__track"><div class="easing-card__dot" id="' + dotId + '"></div></div>' +
+            '<div class="easing-card__value">' + curveStr + '</div>' +
+            '</div></div>' +
+            '<div class="easing-card__hint">Click to play</div>';
+          grid.appendChild(card);
+
+          function play() {
+            var dot = document.getElementById(dotId);
+            var dur = isReduced() ? 0 : 600;
+            dot.style.transition = "none";
+            dot.style.left = "0";
+            void dot.offsetWidth;
+            dot.style.transition = "left " + dur + "ms " + curveStr;
+            dot.style.left = "100%";
+            setTimeout(function () {
+              dot.style.transition = "left " + dur + "ms " + curveStr;
+              dot.style.left = "0";
+            }, dur + 400);
+          }
+
+          card.addEventListener("click", play);
+          card.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); play(); }
+          });
+        });
+      })();
+
+      // --- Duration ---
+      var durTokens = [
+        { t: "--duration-instant", label: "instant", base: "100ms", desc: "Micro-feedback" },
+        { t: "--duration-press", label: "press", base: "150ms", desc: "Button feedback" },
+        { t: "--duration-tooltip", label: "tooltip", base: "150ms", desc: "Tooltips, popovers" },
+        { t: "--duration-fast", label: "fast", base: "200ms", desc: "State changes" },
+        { t: "--duration-dropdown", label: "dropdown", base: "200ms", desc: "Dropdowns, selects" },
+        { t: "--duration-normal", label: "normal", base: "300ms", desc: "Reveals, transitions" },
+        { t: "--duration-modal", label: "modal", base: "300ms", desc: "Modals, drawers" },
+        { t: "--duration-slow", label: "slow", base: "500ms", desc: "Complex sequences" }
+      ];
+
+      function renderDurationGrid() {
+        var grid = document.getElementById("duration-grid");
+        grid.innerHTML = "";
+        var reduced = isReduced();
+        durTokens.forEach(function (d) {
+          var resolved = reduced ? "0ms" : d.base;
+          var ms = parseInt(resolved, 10);
+          var card = document.createElement("div");
+          card.className = "dur-card";
+          card.setAttribute("tabindex", "0");
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-label", "Play " + d.label + " duration demo");
+          card.innerHTML =
+            '<div class="dur-card__label">' + d.label + '</div>' +
+            '<div class="dur-card__token">' + d.t + '</div>' +
+            '<div class="dur-card__time">' + resolved + '</div>' +
+            '<div class="dur-card__bar-track"><div class="dur-card__bar-fill" id="df-' + d.t + '"></div></div>' +
+            '<div class="dur-card__desc">' + d.desc + '</div>';
+          grid.appendChild(card);
+
+          function play() {
+            var fill = document.getElementById("df-" + d.t);
+            fill.style.transition = "none";
+            fill.style.width = "0";
+            void fill.offsetWidth;
+            fill.style.transition = "width " + ms + "ms var(--ease-out)";
+            fill.style.width = "100%";
+            setTimeout(function () {
+              fill.style.transition = "width " + Math.max(ms * 0.6, 80) + "ms var(--ease-out)";
+              fill.style.width = "0";
+            }, ms + 300);
+          }
+
+          card.addEventListener("click", play);
+          card.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); play(); }
+          });
+        });
+      }
+      renderDurationGrid();
+
+      // --- Layout ---
+      var layoutTokens = [
+        { t: "--container-sm", label: "sm" }, { t: "--container-md", label: "md" },
+        { t: "--container-lg", label: "lg" }, { t: "--container-xl", label: "xl" },
+        { t: "--container-2xl", label: "2xl" }, { t: "--gutter", label: "Gutter" },
+        { t: "--measure", label: "Measure" }
+      ];
+
+      (function renderLayout() {
+        var grid = document.getElementById("layout-grid");
+        layoutTokens.forEach(function (l) {
+          var val = resolveRaw(l.t) || resolvePx(l.t);
+          var item = document.createElement("div");
+          item.className = "layout-item";
+          makeClickable(item, l.t);
+          item.innerHTML =
+            '<div class="layout-item__name">' + l.label + '</div>' +
+            '<div class="layout-item__value">' + val + '</div>';
+          grid.appendChild(item);
+        });
+      })();
+
+      updateMotionUI();
+    })();
+  </script>
+</body>
+</html>

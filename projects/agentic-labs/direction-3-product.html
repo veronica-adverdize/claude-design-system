@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Labs — Modern Product</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111827;
+  --ground: #ffffff;
+  --surface: #f9fafb;
+  --surface-2: #f3f4f6;
+  --accent: #4f46e5;
+  --accent-light: #6366f1;
+  --accent-bg: #eef2ff;
+  --green: #059669;
+  --green-bg: #ecfdf5;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --red: #dc2626;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --dash-bg: #0f172a;
+  --dash-surface: #1e293b;
+  --dash-border: #334155;
+  --dash-text: #cbd5e1;
+  --dash-accent: #818cf8;
+  --sans: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);color:var(--ink);background:var(--ground);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:1.1rem;font-weight:700;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:0.5rem}
+.nav-logo-mark{width:1.75rem;height:1.75rem;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.nav-logo-mark svg{width:1rem;height:1rem;fill:white}
+.nav-links{display:flex;gap:1.75rem;align-items:center}
+.nav-links a{font-size:0.85rem;color:var(--muted);text-decoration:none;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--accent);color:white;padding:0.55rem 1.25rem;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:600;text-decoration:none}
+.nav-cta:hover{background:#4338ca}
+
+/* HERO */
+.hero{padding:8rem 2rem 4rem;text-align:center;max-width:72rem;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;background:var(--accent-bg);color:var(--accent);border-radius:100px;font-size:0.82rem;font-weight:600;margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.hero h1{font-size:clamp(2.5rem,5.5vw,4rem);font-weight:700;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.25rem;max-width:44rem;margin-left:auto;margin-right:auto}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-size:1.15rem;color:var(--muted);max-width:32rem;margin:0 auto 2rem;line-height:1.7}
+.hero-actions{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.btn-primary{background:var(--accent);color:white;padding:0.8rem 1.75rem;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem}
+.btn-primary:hover{background:#4338ca}
+.btn-secondary{background:var(--ground);color:var(--ink);padding:0.8rem 1.75rem;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:500;text-decoration:none;border:1px solid var(--border);cursor:pointer}
+.btn-secondary:hover{border-color:var(--border-strong);background:var(--surface)}
+.hero-trust{display:flex;gap:1.25rem;justify-content:center;margin-top:1.25rem}
+.hero-trust span{font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:0.35rem}
+.hero-trust span svg{width:1rem;height:1rem;stroke:var(--green);fill:none;stroke-width:2}
+
+/* HERO PRODUCT DASHBOARD */
+.hero-product{max-width:56rem;margin:3rem auto 0;position:relative}
+.hero-product::before{content:'';position:absolute;inset:-2rem;background:radial-gradient(ellipse at center,var(--accent-bg) 0%,transparent 70%);z-index:-1;border-radius:50%}
+.product-frame{background:var(--dash-bg);border-radius:var(--radius);overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.15),0 0 0 1px rgba(0,0,0,0.05)}
+.product-topbar{display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1rem;background:#0b1120;border-bottom:1px solid var(--dash-border)}
+.product-topbar-dots{display:flex;gap:5px}
+.product-topbar-dots span{width:10px;height:10px;border-radius:50%}
+.product-topbar-dots .r{background:#f87171}
+.product-topbar-dots .y{background:#fbbf24}
+.product-topbar-dots .g{background:#34d399}
+.product-topbar-title{flex:1;text-align:center;font-size:0.72rem;color:var(--dash-text);font-family:var(--mono)}
+.product-body{display:grid;grid-template-columns:200px 1fr;min-height:320px}
+
+/* Sidebar */
+.product-sidebar{background:#0b1120;padding:1rem 0;border-right:1px solid var(--dash-border)}
+.sidebar-section{padding:0 0.75rem;margin-bottom:1rem}
+.sidebar-label{font-size:0.72rem;color:#94a3b8;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;padding:0.4rem 0.5rem;margin-bottom:0.25rem}
+.sidebar-item{display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.5rem;border-radius:6px;font-size:0.72rem;color:var(--dash-text);cursor:pointer;margin-bottom:0.1rem}
+.sidebar-item:hover{background:var(--dash-surface)}
+.sidebar-item.active{background:var(--dash-surface);color:white}
+.sidebar-dot{width:6px;height:6px;border-radius:50%}
+.sidebar-dot.green{background:#34d399}
+.sidebar-dot.blue{background:var(--dash-accent)}
+.sidebar-dot.amber{background:#fbbf24}
+.sidebar-dot.red{background:#f87171}
+
+/* Main dashboard content */
+.product-main{padding:1rem 1.25rem;background:var(--dash-bg)}
+.product-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-bottom:1rem}
+.p-stat{background:var(--dash-surface);border-radius:8px;padding:0.65rem 0.75rem;border:1px solid var(--dash-border)}
+.p-stat-label{font-size:0.72rem;color:#94a3b8;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem}
+.p-stat-val{font-size:1.2rem;font-weight:700;color:white}
+.p-stat-val.green{color:#34d399}
+.p-stat-val.amber{color:#fbbf24}
+.p-stat-val.blue{color:var(--dash-accent)}
+
+/* Activity list */
+.product-activity{background:var(--dash-surface);border-radius:8px;border:1px solid var(--dash-border);overflow:hidden}
+.pa-header{display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.75rem;border-bottom:1px solid var(--dash-border)}
+.pa-header h4{font-size:0.72rem;color:white;font-weight:500}
+.pa-header span{font-size:0.6rem;color:#64748b;font-family:var(--mono)}
+.pa-item{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(51,65,85,0.5);font-size:0.72rem;color:var(--dash-text)}
+.pa-item:last-child{border:none}
+.pa-agent{background:var(--dash-border);color:white;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.6rem;font-weight:500;font-family:var(--mono);min-width:3rem;text-align:center}
+.pa-time{margin-left:auto;font-size:0.72rem;color:#94a3b8;font-family:var(--mono)}
+.pa-status{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.pa-status.auto{background:#34d399}
+.pa-status.escalation{background:#fbbf24}
+.pa-status.sent{background:var(--dash-accent)}
+
+/* Escalation banner */
+.pa-escalation{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.75rem;background:rgba(251,191,36,0.08);border-bottom:1px solid var(--dash-border)}
+.pa-escalation-badge{font-size:0.72rem;font-family:var(--mono);background:rgba(251,191,36,0.2);color:#fbbf24;padding:0.15rem 0.4rem;border-radius:3px;text-transform:uppercase;letter-spacing:0.04em}
+.pa-escalation-text{font-size:0.72rem;color:white;flex:1}
+.pa-escalation-btns{display:flex;gap:0.25rem}
+.pa-escalation-btns button{font-size:0.72rem;padding:0.2rem 0.5rem;border-radius:4px;border:1px solid var(--dash-border);background:var(--dash-surface);color:var(--dash-text);font-family:var(--mono);cursor:pointer}
+.pa-escalation-btns button.primary{background:var(--dash-accent);color:white;border-color:var(--dash-accent)}
+
+.conceptual-label{display:flex;align-items:center;gap:0.35rem;padding:0.5rem 1rem;font-size:0.72rem;color:var(--muted);background:var(--surface);border-radius:0 0 var(--radius) var(--radius)}
+.conceptual-label::before{content:'';width:5px;height:5px;background:var(--amber);border-radius:50%}
+
+/* SECTION UTILITY */
+section{padding:5rem 2rem}
+.section-label{font-size:0.8rem;color:var(--accent);font-weight:600;margin-bottom:0.5rem}
+.section-heading{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:700;letter-spacing:-0.025em;max-width:36rem;margin-bottom:1rem;line-height:1.15}
+
+/* HOW IT WORKS */
+.how{background:var(--surface)}
+.how-content{max-width:72rem;margin:0 auto}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.how-right p{font-size:0.95rem;color:var(--muted);line-height:1.75;margin-bottom:1.25rem;max-width:28rem}
+.how-right p strong{color:var(--ink)}
+
+/* PROBLEMS */
+.problems-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:72rem;margin:2rem auto 0}
+.problem-card{padding:1.75rem;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border)}
+.problem-card:hover{border-color:var(--accent);background:var(--accent-bg)}
+.problem-icon{width:2.5rem;height:2.5rem;border-radius:var(--radius-sm);background:var(--amber-bg);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.1rem}
+.problem-title{font-size:1.05rem;font-weight:600;margin-bottom:0.5rem}
+.problem-desc{font-size:0.88rem;color:var(--muted);line-height:1.6}
+
+/* COMPARISON */
+.comparison{background:var(--surface)}
+.comparison-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:72rem;margin:2rem auto 0}
+.comp-card{padding:1.75rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--ground)}
+.comp-card.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 4px 12px rgba(79,70,229,0.1)}
+.comp-badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.72rem;font-weight:600;margin-bottom:0.75rem}
+.comp-card:nth-child(1) .comp-badge{background:#f3f4f6;color:#6b7280}
+.comp-card:nth-child(2) .comp-badge{background:#fef3c7;color:#92400e}
+.comp-card.featured .comp-badge{background:var(--accent-bg);color:var(--accent)}
+.comp-title{font-size:1.1rem;font-weight:600;margin-bottom:0.5rem}
+.comp-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.comp-list{list-style:none}
+.comp-list li{font-size:0.82rem;color:var(--muted);padding:0.35rem 0;display:flex;gap:0.5rem;align-items:center}
+.comp-list li svg{width:1rem;height:1rem;flex-shrink:0}
+.comp-card:nth-child(1) .comp-list li svg,.comp-card:nth-child(2) .comp-list li svg{stroke:#d1d5db;fill:none;stroke-width:2}
+.comp-card.featured .comp-list li svg{stroke:var(--accent);fill:none;stroke-width:2}
+
+/* AGENTS */
+.agents-section{background:var(--ground)}
+.agents-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.75rem;max-width:72rem;margin:2rem auto 0}
+.agent-card{padding:1.25rem;border:1px solid var(--border);border-radius:var(--radius);text-align:center;background:var(--ground);transition:all 0.15s}
+.agent-card:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(79,70,229,0.08)}
+.agent-avatar{width:2.5rem;height:2.5rem;border-radius:50%;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:white}
+.agent-card:nth-child(1) .agent-avatar{background:var(--accent)}
+.agent-card:nth-child(2) .agent-avatar{background:#3b82f6}
+.agent-card:nth-child(3) .agent-avatar{background:#8b5cf6}
+.agent-card:nth-child(4) .agent-avatar{background:#06b6d4}
+.agent-card:nth-child(5) .agent-avatar{background:#10b981}
+.agent-card:nth-child(6) .agent-avatar{background:#f59e0b}
+.agent-card:nth-child(7) .agent-avatar{background:#ef4444}
+.agent-name{font-size:0.95rem;font-weight:600;margin-bottom:0.15rem}
+.agent-role{font-size:0.72rem;color:var(--accent);font-weight:500;margin-bottom:0.5rem}
+.agent-desc{font-size:0.75rem;color:var(--muted);line-height:1.5}
+
+/* WORKFLOW */
+.workflow{background:var(--surface)}
+.wf-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;max-width:72rem;margin:2rem auto 0}
+.wf-step{text-align:center;padding:1.5rem 1rem;background:var(--ground);border-radius:var(--radius);border:1px solid var(--border);position:relative}
+.wf-step::after{content:'→';position:absolute;right:-0.7rem;top:50%;transform:translateY(-50%);color:var(--border-strong);font-size:1.2rem;z-index:2}
+.wf-step:last-child::after{display:none}
+.wf-step-num{font-size:0.72rem;color:var(--accent);font-weight:600;margin-bottom:0.5rem}
+.wf-step-icon{width:2.75rem;height:2.75rem;border-radius:var(--radius-sm);margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;background:var(--accent-bg)}
+.wf-step-icon svg{width:1.2rem;height:1.2rem;stroke:var(--accent);fill:none;stroke-width:2}
+.wf-step-title{font-size:0.9rem;font-weight:600;margin-bottom:0.3rem}
+.wf-step-desc{font-size:0.75rem;color:var(--muted);line-height:1.5}
+
+/* DEPARTMENTS */
+.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:72rem;margin:2rem auto 0}
+.dept-card{padding:1.75rem;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border)}
+.dept-card:hover{border-color:var(--accent)}
+.dept-icon{width:2.25rem;height:2.25rem;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;font-size:1.1rem}
+.dept-card:nth-child(1) .dept-icon{background:#ecfdf5}
+.dept-card:nth-child(2) .dept-icon{background:var(--accent-bg)}
+.dept-card:nth-child(3) .dept-icon{background:#fef3c7}
+.dept-card:nth-child(4) .dept-icon{background:#ede9fe}
+.dept-card:nth-child(5) .dept-icon{background:#fce7f3}
+.dept-card:nth-child(6) .dept-icon{background:#e0f2fe}
+.dept-title{font-size:1.05rem;font-weight:600;margin-bottom:0.5rem}
+.dept-list{list-style:none}
+.dept-list li{font-size:0.82rem;color:var(--muted);padding:0.3rem 0;display:flex;align-items:center;gap:0.4rem}
+.dept-list li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--border-strong);flex-shrink:0}
+
+/* DAILY REVIEW */
+.daily{background:var(--surface)}
+.daily-content{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:72rem;margin:0 auto;align-items:center}
+.daily-card{background:var(--ground);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.04)}
+.daily-card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.daily-card-header h4{font-size:0.9rem;font-weight:600}
+.daily-card-header span{font-size:0.75rem;color:var(--muted)}
+.review-item{display:flex;align-items:flex-start;gap:0.75rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.review-item:last-child{border:none}
+.review-dot{width:8px;height:8px;border-radius:50%;margin-top:0.35rem;flex-shrink:0}
+.review-dot.pending{background:var(--amber)}
+.review-dot.done{background:var(--green)}
+.review-text{flex:1}
+.review-title{font-size:0.85rem;font-weight:500;margin-bottom:0.2rem}
+.review-detail{font-size:0.78rem;color:var(--muted);line-height:1.5}
+.review-actions{display:flex;gap:0.35rem;margin-top:0.5rem}
+.review-actions button{font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:6px;border:1px solid var(--border);background:var(--ground);color:var(--ink);font-family:var(--sans);cursor:pointer;font-weight:500}
+.review-actions button.approve{background:var(--accent);color:white;border-color:var(--accent)}
+.daily-right p{font-size:0.95rem;color:var(--muted);line-height:1.7;margin-top:1rem;max-width:26rem}
+
+/* OUTCOMES */
+.outcomes{background:var(--ground)}
+.outcomes-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:60rem;margin:2rem auto 0}
+.outcomes-col{padding:2rem;border-radius:var(--radius);border:1px solid var(--border)}
+.outcomes-col.before{background:var(--surface)}
+.outcomes-col.after{background:var(--green-bg);border-color:#a7f3d0}
+.outcomes-col h3{font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem}
+.outcomes-col.before h3{color:var(--muted)}
+.outcomes-col.after h3{color:var(--green)}
+.outcome-item{font-size:0.88rem;color:var(--ink);padding:0.45rem 0;display:flex;align-items:center;gap:0.5rem}
+.outcome-item svg{width:1rem;height:1rem;flex-shrink:0;stroke-width:2;fill:none}
+.outcomes-col.before .outcome-item svg{stroke:var(--border-strong)}
+.outcomes-col.after .outcome-item svg{stroke:var(--green)}
+
+/* PRICING */
+.pricing{background:var(--surface)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:64rem;margin:2rem auto 0}
+.price-card{padding:2rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--ground)}
+.price-card.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 8px 24px rgba(79,70,229,0.12);position:relative}
+.price-card.featured::before{content:'Most popular';position:absolute;top:-0.55rem;left:50%;transform:translateX(-50%);font-size:0.72rem;font-weight:600;color:var(--accent);background:var(--ground);padding:0 0.75rem}
+.price-plan{font-size:0.82rem;color:var(--muted);font-weight:500;margin-bottom:0.4rem}
+.price-amount{font-size:2.5rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:0.15rem}
+.price-amount span{font-size:0.9rem;color:var(--muted);font-weight:400}
+.price-scope{font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem}
+.price-features{list-style:none;margin-bottom:1.5rem}
+.price-features li{font-size:0.82rem;color:var(--muted);padding:0.35rem 0;display:flex;align-items:center;gap:0.4rem}
+.price-features li::before{content:'✓';color:var(--accent);font-size:0.75rem;font-weight:700}
+.price-btn{display:block;text-align:center;padding:0.7rem;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:600;text-decoration:none}
+.price-card .price-btn{background:var(--surface);color:var(--ink);border:1px solid var(--border)}
+.price-card .price-btn:hover{border-color:var(--accent)}
+.price-card.featured .price-btn{background:var(--accent);color:white;border:none}
+.pricing-note{text-align:center;margin-top:1.5rem;font-size:0.82rem;color:var(--muted);max-width:40rem;margin-left:auto;margin-right:auto;line-height:1.6}
+
+/* INDUSTRIES */
+.industries{background:var(--ground)}
+.industry-tags{display:flex;flex-wrap:wrap;gap:0.5rem;max-width:72rem;margin:2rem auto 0}
+.industry-tag{padding:0.5rem 1rem;border:1px solid var(--border);border-radius:100px;font-size:0.82rem;color:var(--muted);background:var(--ground);text-decoration:none;font-weight:500;transition:all 0.15s}
+.industry-tag:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+
+/* CTA */
+.cta-section{background:var(--accent);color:white;text-align:center;padding:5rem 2rem;border-radius:var(--radius);max-width:72rem;margin:0 auto 3rem}
+.cta-section .section-heading{color:white;max-width:28rem;margin:0 auto 0.75rem}
+.cta-sub{font-size:0.95rem;color:rgba(255,255,255,0.9);margin-bottom:2rem;max-width:28rem;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+.btn-white{background:white;color:var(--accent);padding:0.8rem 1.75rem;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;text-decoration:none}
+.btn-white:hover{background:rgba(255,255,255,0.9)}
+.btn-ghost-white{color:white;padding:0.8rem 1.75rem;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,0.3)}
+.btn-ghost-white:hover{border-color:white}
+
+/* FOOTER */
+footer{padding:4rem 2rem 2rem;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:72rem;margin:0 auto}
+.footer-brand{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem}
+.footer-tagline{font-size:0.82rem;color:var(--muted);line-height:1.6;max-width:18rem}
+.footer-col h4{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--ink);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.82rem;color:var(--muted);text-decoration:none;margin-bottom:0.4rem}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{max-width:72rem;margin:2.5rem auto 0;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .product-body{grid-template-columns:1fr}
+  .product-sidebar{display:none}
+  .agents-grid{grid-template-columns:repeat(4,1fr)}
+  .wf-steps{grid-template-columns:repeat(3,1fr)}
+  .wf-step::after{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links a:not(.nav-cta){display:none}
+  .hero h1{font-size:2.2rem}
+  .hero-trust{flex-direction:column;align-items:center;gap:0.5rem}
+  .how-grid,.daily-content{grid-template-columns:1fr}
+  .comparison-grid,.problems-grid,.dept-grid,.pricing-grid,.outcomes-grid{grid-template-columns:1fr}
+  .agents-grid,.wf-steps{grid-template-columns:repeat(2,1fr)}
+  .product-stats{grid-template-columns:repeat(2,1fr)}
+  section{padding:3.5rem 1.25rem}
+  .cta-section{border-radius:0;margin:0}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
+    Agentic Labs
+  </a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#agents">Agents</a>
+    <a href="#industries">Industries</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#book" class="nav-cta">Book a free call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">AI staff for Singapore businesses</div>
+  <h1>Seven AI teammates. One <span>connected</span> department.</h1>
+  <p class="hero-sub">Your AI staff handle quotes, scheduling, chasing, and follow-ups — and check with you before anything goes out.</p>
+  <div class="hero-actions">
+    <a href="#book" class="btn-primary">Book a free 30-minute call →</a>
+    <a href="#how" class="btn-secondary">Show me how it works</a>
+  </div>
+  <div class="hero-trust">
+    <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Singapore-based</span>
+    <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> No technical knowledge needed</span>
+    <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Nothing to install</span>
+  </div>
+
+  <!-- HERO PRODUCT DASHBOARD -->
+  <div class="hero-product">
+    <div class="product-frame">
+      <div class="product-topbar">
+        <div class="product-topbar-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+        <span class="product-topbar-title">Agentic Labs — Dashboard</span>
+      </div>
+      <div class="product-body">
+        <div class="product-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Agents</div>
+            <div class="sidebar-item active"><span class="sidebar-dot green"></span> All activity</div>
+            <div class="sidebar-item"><span class="sidebar-dot blue"></span> Ben — Intake</div>
+            <div class="sidebar-item"><span class="sidebar-dot blue"></span> Chloe — Planning</div>
+            <div class="sidebar-item"><span class="sidebar-dot blue"></span> Tiffany — Scheduling</div>
+            <div class="sidebar-item"><span class="sidebar-dot blue"></span> Sarah — Coordination</div>
+            <div class="sidebar-item"><span class="sidebar-dot amber"></span> Priya — Risk</div>
+            <div class="sidebar-item"><span class="sidebar-dot blue"></span> Haziq — Reporting</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Views</div>
+            <div class="sidebar-item">📋 Morning review</div>
+            <div class="sidebar-item">📊 Reports</div>
+          </div>
+        </div>
+        <div class="product-main">
+          <div class="product-stats">
+            <div class="p-stat"><div class="p-stat-label">Actions today</div><div class="p-stat-val green">46</div></div>
+            <div class="p-stat"><div class="p-stat-label">Escalations</div><div class="p-stat-val amber">1</div></div>
+            <div class="p-stat"><div class="p-stat-label">Your time</div><div class="p-stat-val blue">8 sec</div></div>
+            <div class="p-stat"><div class="p-stat-label">Uptime</div><div class="p-stat-val">24/7</div></div>
+          </div>
+          <div class="product-activity">
+            <div class="pa-header"><h4>Recent Activity</h4><span>Last 2 hours</span></div>
+            <div class="pa-escalation">
+              <span class="pa-escalation-badge">Needs decision</span>
+              <span class="pa-escalation-text">Supplier 18h late — Meridian job</span>
+              <div class="pa-escalation-btns"><button class="primary">Accept 3pm</button><button>Reschedule</button></div>
+            </div>
+            <div class="pa-item"><span class="pa-status auto"></span><span class="pa-agent">TIF</span>Rescheduled Koh & Sons — no clashes<span class="pa-time">11:42</span></div>
+            <div class="pa-item"><span class="pa-status sent"></span><span class="pa-agent">SAR</span>Sent quote: Ng Renovation — $8,400<span class="pa-time">11:38</span></div>
+            <div class="pa-item"><span class="pa-status auto"></span><span class="pa-agent">BEN</span>Logged WhatsApp enquiry — Bukit Batok<span class="pa-time">11:15</span></div>
+            <div class="pa-item"><span class="pa-status auto"></span><span class="pa-agent">CHL</span>Scoped 3 quotes from this week's leads<span class="pa-time">10:50</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="conceptual-label">Worked example — illustrative figures, not a client</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-content">
+    <div class="how-grid">
+      <div>
+        <div class="section-label">In plain English</div>
+        <div class="section-heading">They handle the admin. You make the decisions.</div>
+      </div>
+      <div class="how-right">
+        <p>Your agents take care of the work that piles up after hours — enquiries, quoting, scheduling, chasing suppliers, following up on invoices. <strong>They never send anything without your say-so.</strong></p>
+        <p>You don't learn new software or manage another system. We build the agents around your existing tools — your accounting package, email, WhatsApp, whatever you already use — and we keep everything running.</p>
+        <p>Think of it like hiring someone for one specific job. You give them access to what they need, tell them when to check in, and they get on with it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="problems">
+  <div class="section-label">Sound familiar?</div>
+  <div class="section-heading">The work that never quite gets done</div>
+  <div class="problems-grid">
+    <div class="problem-card"><div class="problem-icon">⏰</div><div class="problem-title">The evening admin pile</div><p class="problem-desc">You finish the real work at 6pm, then spend two hours on quotes, replies, and scheduling that should have gone out this morning.</p></div>
+    <div class="problem-card"><div class="problem-icon">📄</div><div class="problem-title">The quote that never left</div><p class="problem-desc">A good lead came in last week. You meant to send the quote. It's still sitting in a tab somewhere, and the customer's moved on.</p></div>
+    <div class="problem-card"><div class="problem-icon">📞</div><div class="problem-title">The follow-up that didn't happen</div><p class="problem-desc">Three quotes went out. None got a reply. Nobody chased. That's $30,000 in pipeline sitting there because everyone's busy with today's fire.</p></div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="comparison">
+  <div class="section-label">Not another chatbot</div>
+  <div class="section-heading">What makes this different</div>
+  <div class="comparison-grid">
+    <div class="comp-card">
+      <span class="comp-badge">Chatbot</span>
+      <div class="comp-title">Waits for you to ask</div>
+      <p class="comp-desc">You type a prompt, copy the answer, paste it somewhere. Does nothing on its own.</p>
+      <ul class="comp-list">
+        <li><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Needs a prompt every time</li>
+        <li><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Manual copy-paste</li>
+        <li><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Doesn't know your business</li>
+      </ul>
+    </div>
+    <div class="comp-card">
+      <span class="comp-badge">DIY automation</span>
+      <div class="comp-title">Breaks on the unusual</div>
+      <p class="comp-desc">Works for simple cases. Breaks on exceptions. You fix it.</p>
+      <ul class="comp-list">
+        <li><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Handles only predictable flows</li>
+        <li><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Breaks on exceptions</li>
+        <li><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Needs technical knowledge</li>
+      </ul>
+    </div>
+    <div class="comp-card featured">
+      <span class="comp-badge">Agentic Labs</span>
+      <div class="comp-title">Runs your back office</div>
+      <p class="comp-desc">Starts automatically. Knows your business. Handles exceptions. Asks when not sure. We maintain it.</p>
+      <ul class="comp-list">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Runs automatically, 24/7</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Knows your business context</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Handles exceptions intelligently</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Asks before sending anything</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>We build, run, and maintain it</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section class="agents-section" id="agents">
+  <div class="section-label">Your AI team</div>
+  <div class="section-heading">Seven roles. Hire the ones you need.</div>
+  <div class="agents-grid">
+    <div class="agent-card"><div class="agent-avatar">N</div><div class="agent-name">Nigel</div><div class="agent-role">Orchestrator</div><p class="agent-desc">Routes work and keeps everything in sync</p></div>
+    <div class="agent-card"><div class="agent-avatar">B</div><div class="agent-name">Ben</div><div class="agent-role">Intake</div><p class="agent-desc">Logs every request so nothing falls through</p></div>
+    <div class="agent-card"><div class="agent-avatar">C</div><div class="agent-name">Chloe</div><div class="agent-role">Planning</div><p class="agent-desc">Scopes and prices from your rate card</p></div>
+    <div class="agent-card"><div class="agent-avatar">T</div><div class="agent-name">Tiffany</div><div class="agent-role">Scheduling</div><p class="agent-desc">Books without clashes</p></div>
+    <div class="agent-card"><div class="agent-avatar">S</div><div class="agent-name">Sarah</div><div class="agent-role">Coordination</div><p class="agent-desc">Keeps everyone in the loop</p></div>
+    <div class="agent-card"><div class="agent-avatar">P</div><div class="agent-name">Priya</div><div class="agent-role">Risk</div><p class="agent-desc">Flags problems with clear options</p></div>
+    <div class="agent-card"><div class="agent-avatar">H</div><div class="agent-name">Haziq</div><div class="agent-role">Reporting</div><p class="agent-desc">Checks and files at end of day</p></div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="workflow">
+  <div class="section-label">How a job flows</div>
+  <div class="section-heading">From site to invoice — without your evening</div>
+  <div class="wf-steps">
+    <div class="wf-step"><div class="wf-step-num">Step 1</div><div class="wf-step-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div><div class="wf-step-title">Job done</div><p class="wf-step-desc">Supervisor marks complete</p></div>
+    <div class="wf-step"><div class="wf-step-num">Step 2</div><div class="wf-step-icon"><svg viewBox="0 0 24 24"><path d="M9 7h6m-6 4h6m-6 4h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg></div><div class="wf-step-title">Write-up</div><p class="wf-step-desc">Agent drafts from your rate card</p></div>
+    <div class="wf-step"><div class="wf-step-num">Step 3</div><div class="wf-step-icon"><svg viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.75-2.97L13.04 4a2 2 0 00-3.5 0L1.32 16.03A2 2 0 003.07 19z"/></svg></div><div class="wf-step-title">Threshold</div><p class="wf-step-desc">Above limit? Waits for you.</p></div>
+    <div class="wf-step"><div class="wf-step-num">Step 4</div><div class="wf-step-icon"><svg viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div><div class="wf-step-title">Sent & tracked</div><p class="wf-step-desc">Quote out, clock starts</p></div>
+    <div class="wf-step"><div class="wf-step-num">Step 5</div><div class="wf-step-icon"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="wf-step-title">Follow-up</div><p class="wf-step-desc">Reminders at 7, 14, 30 days</p></div>
+  </div>
+</section>
+
+<!-- DEPARTMENTS -->
+<section class="departments">
+  <div class="section-label">Hire only what you need</div>
+  <div class="section-heading">Cover one role or the whole back office</div>
+  <div class="dept-grid">
+    <div class="dept-card"><div class="dept-icon">💰</div><div class="dept-title">Finance</div><ul class="dept-list"><li>Invoicing from completed jobs</li><li>Collections and payment matching</li><li>Month-end position summary</li></ul></div>
+    <div class="dept-card"><div class="dept-icon">📈</div><div class="dept-title">Sales</div><ul class="dept-list"><li>Enquiry capture and logging</li><li>Quote generation from rate card</li><li>Follow-ups at 7, 14, 30 days</li></ul></div>
+    <div class="dept-card"><div class="dept-icon">⚙️</div><div class="dept-title">Operations</div><ul class="dept-list"><li>Scheduling without clashes</li><li>Client status updates</li><li>Supplier coordination and chasing</li></ul></div>
+    <div class="dept-card"><div class="dept-icon">💬</div><div class="dept-title">Customer Service</div><ul class="dept-list"><li>Routine question handling</li><li>Escalation when judgment is needed</li><li>Every enquiry gets a reply</li></ul></div>
+    <div class="dept-card"><div class="dept-icon">📣</div><div class="dept-title">Marketing</div><ul class="dept-list"><li>Posts and emails in your voice</li><li>Content scheduled and sent</li><li>Consistent without your time</li></ul></div>
+    <div class="dept-card"><div class="dept-icon">👥</div><div class="dept-title">Staff Admin</div><ul class="dept-list"><li>Leave and claims processing</li><li>Onboarding paperwork</li><li>First-pass CV screening</li></ul></div>
+  </div>
+</section>
+
+<!-- DAILY REVIEW -->
+<section class="daily">
+  <div class="daily-content">
+    <div>
+      <div class="section-label">Your daily 10 minutes</div>
+      <div class="section-heading">One list. Approve, edit, or leave it.</div>
+      <p class="daily-right" style="margin-top:0">Every morning you get a short list of things needing your sign-off. Everything else already happened.</p>
+    </div>
+    <div>
+      <div class="daily-card">
+        <div class="daily-card-header"><h4>Morning Review</h4><span>3 items · ~4 min</span></div>
+        <div class="review-item">
+          <span class="review-dot pending"></span>
+          <div class="review-text">
+            <div class="review-title">Quote: Meridian Tower — $12,400</div>
+            <div class="review-detail">Above your $10,000 threshold. Priced from rate card + site hours.</div>
+            <div class="review-actions"><button class="approve">Approve</button><button>Edit</button><button>View breakdown</button></div>
+          </div>
+        </div>
+        <div class="review-item">
+          <span class="review-dot pending"></span>
+          <div class="review-text">
+            <div class="review-title">Follow-up: Koh & Sons — 14 days</div>
+            <div class="review-detail">Second reminder. Previous quote: $6,200.</div>
+            <div class="review-actions"><button class="approve">Send</button><button>Edit</button></div>
+          </div>
+        </div>
+        <div class="review-item">
+          <span class="review-dot done"></span>
+          <div class="review-text">
+            <div class="review-title">4 actions completed overnight</div>
+            <div class="review-detail">2 enquiries logged · Thursday crew booked · Reports filed</div>
+          </div>
+        </div>
+      </div>
+      <div class="conceptual-label" style="border-radius:0 0 12px 12px;border:1px solid var(--border);border-top:none">Worked example — illustrative figures, not a client</div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section class="outcomes">
+  <div class="section-label">The difference</div>
+  <div class="section-heading">Before and after</div>
+  <div class="outcomes-grid">
+    <div class="outcomes-col before">
+      <h3>Before</h3>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Two hours of evening paperwork</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Quotes go out late, or not at all</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Customers left waiting</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Follow-ups forgotten</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Hiring admin staff you can't justify</div>
+    </div>
+    <div class="outcomes-col after">
+      <h3>After</h3>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Ten minutes of approvals each morning</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Same-day quotes, every time</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Every enquiry answered promptly</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Automatic follow-ups at 7, 14, 30 days</div>
+      <div class="outcome-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Your staff doing work they're good at</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-heading">Simple, monthly</div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">One agent</div>
+      <div class="price-amount">$1,500<span>/mo</span></div>
+      <p class="price-scope">One workflow, one job done well</p>
+      <ul class="price-features"><li>Single agent, one process</li><li>Works with your existing tools</li><li>We build, run, and maintain it</li><li>Setup billed once</li></ul>
+      <a href="#book" class="price-btn">Get started</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-plan">Up to three</div>
+      <div class="price-amount">$3,000<span>/mo</span></div>
+      <p class="price-scope">One department covered</p>
+      <ul class="price-features"><li>Up to three agents</li><li>Coordinated workflows</li><li>Daily review dashboard</li><li>Priority support</li></ul>
+      <a href="#book" class="price-btn">Book a call</a>
+    </div>
+    <div class="price-card">
+      <div class="price-plan">Up to ten</div>
+      <div class="price-amount">$5,000<span>/mo</span></div>
+      <p class="price-scope">Whole back office</p>
+      <ul class="price-features"><li>Full agent team</li><li>Custom domain & branding</li><li>Complete dashboard</li><li>Custom build option</li></ul>
+      <a href="#book" class="price-btn">Book a call</a>
+    </div>
+  </div>
+  <p class="pricing-note">Six-month minimum, then monthly with no exit fee. Annual prepayment saves 20%. Custom builds available as a one-off — you own the system.</p>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="industries">
+  <div class="section-label">Industries</div>
+  <div class="section-heading">Built for Singapore businesses</div>
+  <div class="industry-tags">
+    <a href="#" class="industry-tag">Construction</a>
+    <a href="#" class="industry-tag">Renovation & ID</a>
+    <a href="#" class="industry-tag">Accountancy</a>
+    <a href="#" class="industry-tag">Legal</a>
+    <a href="#" class="industry-tag">Property</a>
+    <a href="#" class="industry-tag">F&B</a>
+    <a href="#" class="industry-tag">Logistics</a>
+    <a href="#" class="industry-tag">Clinics & Dental</a>
+    <a href="#" class="industry-tag">Tuition Centres</a>
+    <a href="#" class="industry-tag">Aircon Servicing</a>
+    <a href="#" class="industry-tag">Professional Services</a>
+    <a href="#" class="industry-tag" style="background:var(--accent-bg);border-color:var(--accent);color:var(--accent)">All 30 industries →</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-bottom:0">
+<div class="cta-section" id="book">
+  <div class="section-heading">Get your evenings back</div>
+  <p class="cta-sub">Book a free 30-minute call and we'll walk through how agents would handle your specific admin.</p>
+  <div class="cta-buttons">
+    <a href="#" class="btn-white">Book a free call</a>
+    <a href="#" class="btn-ghost-white">Try the live demo</a>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Agentic Labs</div>
+      <p class="footer-tagline">AI staff for Singapore businesses. We build them, run them, and keep them running.</p>
+      <p style="margin-top:0.75rem;font-size:0.78rem;color:var(--muted)">hello@agenticai.com.sg</p>
+    </div>
+    <div class="footer-col"><h4>Understand it</h4><a href="#">What an agent is</a><a href="#">How it works</a><a href="#">Your controls</a><a href="#">Security & data</a></div>
+    <div class="footer-col"><h4>See it</h4><a href="#">All agents</a><a href="#">Industries</a><a href="#">Live demo</a><a href="#">Pricing</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Questions</a><a href="#">Contact</a><a href="#">Legal</a></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Agentic Labs Pte. Ltd. Singapore</span>
+    <a href="#">Legal</a>
+  </div>
+</footer>
+
+</body>
+</html>

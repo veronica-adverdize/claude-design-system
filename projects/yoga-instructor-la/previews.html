@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direction Previews — Yoga Instructor L.A.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@400;800&family=Literata:ital,wght@0,400;0,600;1,400&family=Archivo:wdth,wght@62..125,100..900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #111;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 32px;
+}
+.page-header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.page-header p {
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 8px;
+  max-width: 600px;
+}
+
+.direction {
+  max-width: 1200px;
+  margin: 0 auto 64px;
+  padding: 0 24px;
+}
+.direction-label {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+.direction-label h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+.direction-label span {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.previews-row {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.frame {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.4);
+}
+.frame-label {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ==============================
+   DIRECTION A — Split Stage
+   ============================== */
+.a-desktop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 540px;
+}
+.a-photo-col {
+  background: linear-gradient(135deg, #c4b5a0 0%, #d9cbb7 40%, #a89880 100%);
+  position: relative;
+  overflow: hidden;
+}
+.a-photo-col::after {
+  content: '[Placeholder: portrait photograph — L.A. light, natural setting]';
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  font-family: system-ui, sans-serif;
+  background: rgba(0,0,0,0.25);
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.a-text-col {
+  background: #f7f9fa;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+.a-text-col nav {
+  font-family: 'Literata', serif;
+  font-size: 13px;
+  color: #4a575e;
+  margin-bottom: 48px;
+  display: flex;
+  gap: 24px;
+}
+.a-text-col nav a {
+  color: #5d6b72;
+  text-decoration: none;
+}
+.a-name {
+  font-family: 'Rokkitt', serif;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  color: #1f3038;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.a-descriptor {
+  font-family: 'Literata', serif;
+  font-size: 15px;
+  color: #5d6b72;
+  margin-bottom: 32px;
+}
+.a-body {
+  font-family: 'Literata', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1f3038;
+  max-width: 38ch;
+  margin-bottom: 24px;
+}
+.a-facts {
+  font-family: 'Literata', serif;
+  font-size: 13px;
+  color: #5d6b72;
+  margin-bottom: 24px;
+}
+.a-facts dt { font-weight: 600; color: #1f3038; display: inline; }
+.a-facts dt::after { content: ' — '; }
+.a-facts dd { display: inline; margin-bottom: 8px; }
+.a-facts div { margin-bottom: 6px; }
+.a-cta {
+  display: inline-block;
+  font-family: 'Literata', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #0d7480;
+  padding: 10px 24px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* A mobile */
+.a-mobile {
+  width: 320px;
+  height: 580px;
+  overflow: hidden;
+}
+.a-mobile-photo {
+  height: 220px;
+  background: linear-gradient(135deg, #c4b5a0 0%, #d9cbb7 40%, #a89880 100%);
+  position: relative;
+}
+.a-mobile-photo::after {
+  content: '[Placeholder photo]';
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+  font-family: system-ui;
+  background: rgba(0,0,0,0.25);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.a-mobile-text {
+  background: #f7f9fa;
+  padding: 24px 20px;
+}
+.a-mobile-text .a-name { font-size: 28px; margin-bottom: 6px; }
+.a-mobile-text .a-descriptor { font-size: 14px; margin-bottom: 20px; }
+.a-mobile-text .a-body { font-size: 15px; max-width: none; margin-bottom: 16px; }
+.a-mobile-text .a-cta { font-size: 13px; padding: 8px 20px; }
+
+/* ==============================
+   DIRECTION B — Type Only
+   ============================== */
+.b-desktop {
+  height: 540px;
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.b-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 20px 32px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 13px;
+  color: #6b6b6b;
+}
+.b-nav a { color: #6b6b6b; text-decoration: none; }
+.b-hero-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 32px 32px;
+}
+.b-statement {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-stretch: 62%;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  max-width: 100%;
+}
+.b-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.b-support {
+  font-family: 'Archivo', sans-serif;
+  font-size: 16px;
+  color: #6b6b6b;
+  max-width: 340px;
+  line-height: 1.4;
+}
+.b-action {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  background: #2436ff;
+  padding: 10px 24px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* B about section */
+.b-about {
+  background: #f3f3f3;
+  padding: 48px 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+.b-about-inner {
+  max-width: 28ch;
+}
+.b-about-inner p {
+  font-family: 'Archivo', sans-serif;
+  font-size: 22px;
+  line-height: 1.45;
+  color: #0a0a0a;
+  font-weight: 400;
+}
+.b-about-inner .b-facts-list {
+  margin-top: 24px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 14px;
+  color: #6b6b6b;
+  line-height: 1.6;
+}
+
+/* B mobile */
+.b-mobile {
+  width: 320px;
+  height: 580px;
+  overflow: hidden;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+.b-mobile .b-nav {
+  padding: 16px 20px;
+  font-size: 12px;
+}
+.b-mobile .b-hero-area {
+  padding: 0 20px 20px;
+}
+.b-mobile .b-statement {
+  font-size: 40px;
+}
+.b-mobile .b-support {
+  font-size: 14px;
+  max-width: 240px;
+}
+.b-mobile .b-action {
+  font-size: 13px;
+  padding: 8px 20px;
+}
+.b-mobile .b-about {
+  padding: 24px 20px;
+  justify-content: flex-start;
+}
+.b-mobile .b-about-inner p { font-size: 18px; }
+
+/* ==============================
+   DIRECTION C — Place Carries It
+   ============================== */
+.c-desktop {
+  height: 540px;
+  position: relative;
+  overflow: hidden;
+}
+.c-hero-img {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #7a9e8e 0%, #b8c4a8 30%, #d4c9a0 60%, #c4956a 100%);
+}
+.c-hero-img::after {
+  content: '[Placeholder: full-bleed photograph — L.A. canyon, golden hour, or practice space with calm area for text]';
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  font-family: system-ui;
+  background: rgba(0,0,0,0.3);
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.c-hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.c-hero-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 28px;
+  font-family: 'Public Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+.c-hero-top a { color: rgba(255,255,255,0.85); text-decoration: none; }
+.c-hero-bottom {
+  padding: 0 28px 24px;
+}
+.c-hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(56px, 14vw, 120px);
+  line-height: 0.88;
+  color: #fff;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+  margin-bottom: 8px;
+}
+.c-hero-desc {
+  font-family: 'Public Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  max-width: 320px;
+}
+
+/* C about section */
+.c-about {
+  background: #faf8f4;
+  padding: 64px 28px;
+  display: flex;
+  justify-content: center;
+}
+.c-about-inner {
+  max-width: 52ch;
+  text-align: left;
+}
+.c-about-inner p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  line-height: 1.55;
+  color: #2a2a22;
+  margin-bottom: 24px;
+}
+.c-about-facts {
+  font-family: 'Public Sans', sans-serif;
+  font-size: 13px;
+  color: #636358;
+  display: flex;
+  gap: 32px;
+}
+.c-about-facts div { display: flex; flex-direction: column; gap: 2px; }
+.c-about-facts strong { color: #2a2a22; font-weight: 600; }
+
+/* C mobile */
+.c-mobile {
+  width: 320px;
+  height: 580px;
+  overflow: hidden;
+}
+.c-mobile-hero {
+  height: 340px;
+  position: relative;
+  background: linear-gradient(160deg, #7a9e8e 0%, #b8c4a8 30%, #d4c9a0 60%, #c4956a 100%);
+}
+.c-mobile-hero::after {
+  content: '[Placeholder photo]';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+  font-family: system-ui;
+  background: rgba(0,0,0,0.25);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.c-mobile-hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+}
+.c-mobile-hero-overlay .c-hero-name {
+  font-size: 48px;
+}
+.c-mobile-hero-overlay .c-hero-desc {
+  font-size: 13px;
+  max-width: none;
+}
+.c-mobile-about {
+  background: #faf8f4;
+  padding: 20px 16px;
+}
+.c-mobile-about p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #2a2a22;
+  margin-bottom: 16px;
+}
+.c-mobile-about .c-about-facts {
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Shared content labels */
+.placeholder {
+  color: #999;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Direction Previews — Yoga Instructor, L.A.</h1>
+  <p>Three compositions, same content, hero + one supporting section each. All business details are placeholders. Imagery is labeled as placeholder.</p>
+</div>
+
+<!-- ========== DIRECTION A — Split Stage ========== -->
+<div class="direction">
+  <div class="direction-label">
+    <h2>A — The Split Stage</h2>
+    <span>Rokkitt + Literata · frost/slate · teal accent · sticky photo, scrolling text column</span>
+  </div>
+  <div class="previews-row">
+    <div>
+      <div class="frame-label">Desktop 1440</div>
+      <div class="frame">
+        <div class="a-desktop">
+          <div class="a-photo-col"></div>
+          <div class="a-text-col">
+            <nav><a href="#">About</a> <a href="#">Classes</a> <a href="#">Contact</a></nav>
+            <div>
+              <div class="a-name">[Instructor<br>Name]</div>
+              <div class="a-descriptor">Yoga · Los Angeles</div>
+              <div class="a-body">[A short paragraph about the instructor's approach to teaching — in their own words. What makes this practice personal. 2–3 sentences from the instructor.]</div>
+              <div class="a-facts">
+                <div><dt>Location</dt><dd>[Neighborhood, L.A.]</dd></div>
+                <div><dt>Style</dt><dd>[Yoga style — placeholder]</dd></div>
+                <div><dt>Experience</dt><dd>[Years teaching — placeholder]</dd></div>
+              </div>
+              <a href="#" class="a-cta">Book a class</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Mobile 390</div>
+      <div class="frame a-mobile">
+        <div class="a-mobile-photo"></div>
+        <div class="a-mobile-text">
+          <div class="a-name">[Instructor Name]</div>
+          <div class="a-descriptor">Yoga · Los Angeles</div>
+          <div class="a-body">[Instructor's approach — 2–3 sentences, their own words.]</div>
+          <a href="#" class="a-cta">Book a class</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DIRECTION B — Type Only ========== -->
+<div class="direction">
+  <div class="direction-label">
+    <h2>B — Type and Nothing Else</h2>
+    <span>Archivo variable · white/light grey · blue accent · no hero image, typography is the design</span>
+  </div>
+  <div class="previews-row">
+    <div>
+      <div class="frame-label">Desktop 1440</div>
+      <div class="frame">
+        <div class="b-desktop">
+          <div class="b-nav">
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+          </div>
+          <div class="b-hero-area">
+            <div class="b-statement">Yoga in<br>Los Angeles</div>
+            <div class="b-bottom-row">
+              <div class="b-support">[A single sentence about what this practice offers and who it's for — from the instructor.]</div>
+              <a href="#" class="b-action">Book a class</a>
+            </div>
+          </div>
+        </div>
+        <div class="b-about">
+          <div class="b-about-inner">
+            <p>[The instructor's philosophy of teaching — what they believe about the practice, how they work with students. In their own voice. 3–4 sentences.]</p>
+            <div class="b-facts-list">
+              [Yoga style — placeholder]<br>
+              [Neighborhood, L.A. — placeholder]<br>
+              [Years teaching — placeholder]
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Mobile 390</div>
+      <div class="frame b-mobile">
+        <div class="b-nav">
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="b-hero-area">
+          <div class="b-statement">Yoga in<br>Los Angeles</div>
+          <div class="b-bottom-row">
+            <div class="b-support">[What this practice offers — one sentence.]</div>
+            <a href="#" class="b-action">Book a class</a>
+          </div>
+        </div>
+        <div class="b-about">
+          <div class="b-about-inner">
+            <p>[Instructor's philosophy — 3–4 sentences in their voice.]</p>
+            <div class="b-facts-list">
+              [Style] · [Location] · [Experience]
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DIRECTION C — Place Carries It ========== -->
+<div class="direction">
+  <div class="direction-label">
+    <h2>C — The Place Carries It</h2>
+    <span>Cormorant Garamond + Public Sans · warm paper · full-bleed hero photograph, name as film title</span>
+  </div>
+  <div class="previews-row">
+    <div>
+      <div class="frame-label">Desktop 1440</div>
+      <div class="frame">
+        <div class="c-desktop">
+          <div class="c-hero-img"></div>
+          <div class="c-hero-overlay">
+            <div class="c-hero-top">
+              <span>[Instructor Name]</span>
+              <div style="display:flex;gap:20px;">
+                <a href="#">About</a>
+                <a href="#">Classes</a>
+                <a href="#">Contact</a>
+              </div>
+            </div>
+            <div class="c-hero-bottom">
+              <div class="c-hero-name">[Name]</div>
+              <div class="c-hero-desc">Yoga in Los Angeles · [A single line about the practice — placeholder]</div>
+            </div>
+          </div>
+        </div>
+        <div class="c-about">
+          <div class="c-about-inner">
+            <p>[The instructor's story — how they came to yoga, what their practice is about, why they teach. Written in their voice, grounded and warm. 3–4 sentences.]</p>
+            <div class="c-about-facts">
+              <div><strong>Location</strong> [Neighborhood, L.A.]</div>
+              <div><strong>Style</strong> [Yoga style]</div>
+              <div><strong>Contact</strong> [email — placeholder]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Mobile 390</div>
+      <div class="frame c-mobile">
+        <div class="c-mobile-hero">
+          <div class="c-mobile-hero-overlay">
+            <div class="c-hero-name">[Name]</div>
+            <div class="c-hero-desc">Yoga in Los Angeles</div>
+          </div>
+        </div>
+        <div class="c-mobile-about">
+          <p>[Instructor's story — 3–4 sentences in their voice.]</p>
+          <div class="c-about-facts">
+            <div><strong>Location</strong> [Neighborhood]</div>
+            <div><strong>Style</strong> [Yoga style]</div>
+            <div><strong>Contact</strong> [email]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="max-width:1200px;margin:0 auto;padding:24px 24px 64px;">
+  <p style="font-size:13px;color:#aaa;">All imagery is labeled as placeholder. No business details, testimonials, credentials, or schedules have been invented. Typography and palette choices are deliberate adaptations of each direction's composition for this client — not mechanical copies of dealt values.</p>
+</div>
+
+</body>
+</html>

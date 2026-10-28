@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f6f5f9">
+  <title>Taste Vault — Your visual library</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="specimens.css">
+  <script src="specimens.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to references</a>
+  <header class="topbar">
+    <a class="brand" href="#all" aria-label="Taste Vault, all references"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Taste Vault<span class="brand-caption">A place for your eye.</span></a>
+    <div class="top-actions"><button class="button quiet" id="preferencesButton">My preferences</button><button class="button primary" id="addButton"><span aria-hidden="true">＋</span> Add reference</button></div>
+  </header>
+  <aside class="sidebar" aria-label="Library navigation">
+    <div class="sidebar-heading">Library</div><nav id="libraryNav" aria-label="Library views"></nav>
+    <div class="sidebar-heading collection-label">Collections <span id="collectionCount"></span></div><nav id="collectionNav" aria-label="Collections"></nav>
+    <div class="sidebar-footer"><span class="status-dot"></span> Your collection, on your computer.<span id="libraryCount"></span></div>
+  </aside>
+  <main id="main">
+    <div class="mobile-navigation"><label for="collectionSelect">Collection</label><select id="collectionSelect"></select></div>
+    <section class="page-heading">
+      <div><h1 id="pageTitle">All references<span class="title-count" id="resultCount"></span></h1><p id="pageDescription">Collect what catches your eye. Make it your own.</p></div>
+      <button class="button quiet" id="collectionDetailsButton" hidden>About this collection <span aria-hidden="true">↗</span></button>
+    </section>
+    <div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="searchInput" type="search" placeholder="Search references, styles, details…" aria-label="Search references, styles, and details"><kbd aria-hidden="true">/</kbd></label><label class="sort-label">Sort <select id="sortSelect"><option value="newest">Newest first</option><option value="name">Name A–Z</option></select></label></div>
+    <div class="browse-hint" id="browseHint"><span>Select up to 3 references to compare</span></div>
+    <div id="grid" class="gallery" aria-label="Reference gallery"></div>
+    <section class="empty-state" id="emptyState" hidden><span class="empty-icon" aria-hidden="true">⌕</span><h2>No references found</h2><p>Try a different word or browse the full library.</p><button class="button" id="resetSearch">Clear filters</button></section>
+    <div class="page-footer"><span id="footerCount"></span><span>Good work starts with a good reference.</span></div>
+  </main>
+  <div id="compareTray" class="compare-tray" hidden><div id="trayThumbs" class="tray-thumbs"></div><span id="selectionCount"></span><button class="button quiet" id="clearSelection">Clear</button><button class="button primary" id="compareButton">Compare references <span aria-hidden="true">↗</span></button></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="inspector" class="inspector">
+    <div class="dialog-header"><span class="dialog-label" id="inspectorLabel">Reference</span><div class="dialog-tools"><button class="icon-button" id="previousReference" aria-label="Previous reference">←</button><button class="icon-button" id="nextReference" aria-label="Next reference">→</button><button class="button quiet" id="zoomButton" aria-pressed="false">Zoom in</button><button class="icon-button" data-close="inspector" aria-label="Close reference">✕</button></div></div>
+    <div class="inspector-layout"><div class="image-stage" id="imageStage"><img id="detailImage" alt=""></div><section class="detail-panel"><div class="eyebrow" id="detailCollection"></div><h2 id="detailTitle"></h2><p class="detail-family" id="detailFamily"></p><div class="detail-section"><h3>The idea to take</h3><p id="detailNote"></p></div><div class="detail-section"><h3>Design vocabulary</h3><div id="detailVocabulary" class="tags"></div></div><div class="detail-section"><h3>Composition & placement</h3><p id="detailPlacement"></p></div><details class="recipe-detail"><summary>Image recipe <span aria-hidden="true">＋</span></summary><p id="detailRecipe"></p><button class="button" id="copyImagePrompt">Copy image prompt</button></details><div class="detail-actions"><button class="button primary" id="copyReferenceBrief">Copy design brief</button><button class="button" id="detailSelect">Select to compare</button><p class="preference-status" id="detailPreferenceStatus"></p></div></section></div>
+  </dialog>
+  <dialog id="comparison" class="comparison"><div class="dialog-header"><div><span class="eyebrow">Explore together</span><h2>Choose your direction.</h2></div><button class="icon-button" data-close="comparison" aria-label="Close comparison">✕</button></div><div class="comparison-grid" id="comparisonGrid"></div><div class="comparison-footer"><p>One brief with every selected reference, its vocabulary, and image recipe.</p><button class="button primary" id="copyCombinedBrief">Copy combined brief</button></div></dialog>
+  <dialog id="preferences" class="small-dialog"><div class="dialog-header"><h2>My preferences</h2><button class="icon-button" data-close="preferences" aria-label="Close preferences">✕</button></div><div class="dialog-body"><p class="muted">Your usual starting point. Each project can take a different direction.</p><label class="toggle-row"><span><strong>Include House DNA in copied briefs</strong><small>Off keeps the brief focused on the selected references.</small></span><input type="checkbox" id="includeDna"></label><details class="preference-list"><summary>What I usually gravitate toward</summary><ul id="dnaConstants"></ul></details><details class="preference-list"><summary>What I usually avoid</summary><ul id="dnaNever"></ul></details><label class="field-label" for="projectOverrides">For this project</label><textarea id="projectOverrides" rows="4" placeholder="For example: embrace the pastel palette in these references; keep the typography restrained."></textarea><p class="field-help">These notes take priority over general preferences. Saved in this browser until you change them.</p><button class="button primary" id="savePreferences">Save preferences</button></div></dialog>
+  <dialog id="collectionDialog" class="small-dialog"><div class="dialog-header"><h2 id="collectionDialogTitle"></h2><button class="icon-button" data-close="collectionDialog" aria-label="Close collection details">✕</button></div><div class="dialog-body"><p id="collectionDescription"></p><div class="detail-section"><h3>Works well for</h3><p id="collectionUse"></p></div><div id="collectionVocabulary" class="tags"></div><div class="detail-section"><h3>A direction to explore</h3><p id="collectionRisk"></p></div><div class="row-actions"><button class="button primary" id="copyCollectionBrief">Copy collection brief</button><button class="button" id="copyCollectionVocabulary">Copy vocabulary</button></div></div></dialog>
+  <dialog id="addDialog" class="small-dialog"><div class="dialog-header"><h2>Add a reference</h2><button class="icon-button" data-close="addDialog" aria-label="Close add reference">✕</button></div><form id="addForm" class="dialog-body"><label class="upload-zone" for="referenceFile"><span class="upload-icon" aria-hidden="true">＋</span><strong id="uploadLabel">Choose a screenshot</strong><span>PNG, JPEG or WebP · up to 20 MB</span><input id="referenceFile" type="file" accept="image/png,image/jpeg,image/webp" required></label><img id="uploadPreview" class="upload-preview" alt="New reference preview" hidden><label class="field-label" for="referenceTitle">Name</label><input id="referenceTitle" name="title" maxlength="120" placeholder="A name you'll recognize" required><label class="field-label" for="referenceCollection">Collection</label><select id="referenceCollection" name="collection" required></select><label class="field-label" for="referenceNote">What caught your eye?</label><textarea id="referenceNote" name="note" rows="3" maxlength="5000" placeholder="The composition, the typography, that particular shade of blue…"></textarea><details class="additional-fields"><summary>Add vocabulary and an image recipe</summary><label class="field-label" for="referenceVocabulary">Vocabulary, separated by commas</label><input id="referenceVocabulary" name="vocabulary" maxlength="2000" placeholder="oversized typography, grain, quiet space"><label class="field-label" for="referenceRecipe">Image recipe</label><textarea id="referenceRecipe" name="imageRecipe" rows="3" maxlength="5000" placeholder="Optional. The collection's recipe is used if left blank."></textarea></details><p class="field-help">Saved to your Taste Vault library and available after refresh.</p><p id="uploadError" class="form-error" role="alert"></p><button type="submit" class="button primary" id="saveReference">Save reference</button></form></dialog>
+  <dialog id="copyDialog" class="small-dialog"><div class="dialog-header"><h2>Your brief</h2><button class="icon-button" data-close="copyDialog" aria-label="Close brief">✕</button></div><div class="dialog-body"><p>Automatic copying is unavailable. Select and copy the text below.</p><textarea id="copyFallback" rows="15" readonly aria-label="Brief ready to copy"></textarea></div></dialog>
+</body>
+</html>

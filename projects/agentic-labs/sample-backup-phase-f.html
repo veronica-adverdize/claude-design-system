@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Labs — AI Staff for Singapore Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground: #f7f5f2;
+  --surface: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #595959;
+  --accent: #2d5a3d;
+  --accent-light: #e8f0eb;
+  --border: #e5e2dd;
+  --dash-bg: #0f1117;
+  --dash-surface: #1a1d27;
+  --dash-border: #2a2d3a;
+  --dash-text: #c8cad0;
+  --dash-accent: #4a9eff;
+  --dash-green: #3ecf8e;
+  --dash-amber: #f0b429;
+  --dash-red: #ef6b6b;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --container: 1200px;
+  --gutter: clamp(20px, 3vw, 48px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--sans); color: var(--ink); background: var(--ground); line-height: 1.65; overflow-x: hidden; }
+
+/* === NAV === */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--container); margin: 0 auto;
+  padding: 1.25rem var(--gutter);
+}
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+  height: 60px; background: rgba(247,245,242,0.92); backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: var(--serif); font-weight: 400; font-size: 1.15rem;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.02em;
+}
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a {
+  font-size: 0.85rem; color: var(--muted); text-decoration: none; font-weight: 500;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.nav-cta {
+  background: var(--ink); color: var(--ground); padding: 0.55rem 1.2rem;
+  border-radius: 0; font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; transition: background 0.2s ease;
+}
+.nav-cta:hover { background: var(--accent); }
+.nav-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* === HERO === */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem); align-items: center;
+  max-width: var(--container); margin: 0 auto;
+  padding: clamp(120px, 10vw, 160px) var(--gutter) clamp(80px, 8vw, 120px);
+}
+.hero-text { }
+.hero h1 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2.4rem, 1rem + 3.5vw, 3.2rem);
+  line-height: 1.05; letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+.hero-sub {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7; max-width: 440px;
+  margin-bottom: 2rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--ink); color: var(--ground);
+  padding: 0.85rem 1.75rem; border: none; border-radius: 0;
+  font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; letter-spacing: 0.01em;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+.btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-secondary {
+  display: inline-flex; align-items: center;
+  color: var(--muted); font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  transition: color 0.2s ease;
+}
+.btn-secondary:hover { color: var(--ink); }
+.btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-secondary::after { content: ' \2192'; margin-left: 0.3em; }
+.hero-trust {
+  display: flex; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;
+}
+.hero-trust span {
+  font-size: 0.8rem; color: var(--muted);
+}
+
+/* === DASHBOARD EXHIBIT === */
+.dash-exhibit { position: relative; }
+.dash-frame {
+  background: var(--dash-bg); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08); /* taste-skill-ignore: data-ui exhibit */
+}
+.dash-frame[data-ui] { }
+.dash-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.65rem 1rem; border-bottom: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  font-size: 0.8rem; color: var(--dash-text);
+}
+.dash-topbar-title { font-weight: 500; color: #fff; }
+.dash-body { padding: 1rem; }
+.dash-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.dash-stat {
+  background: var(--dash-surface); border: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  border-radius: 6px; padding: 0.75rem 0.85rem;
+}
+.dash-stat-label {
+  font-size: 0.8125rem; color: var(--dash-text);
+  margin-bottom: 0.25rem;
+}
+.dash-stat-val {
+  font-size: 1.2rem; font-weight: 600; color: #fff;
+}
+.dash-stat-val.green { color: var(--dash-green); }
+.dash-stat-val.blue { color: var(--dash-accent); }
+.dash-stat-val.amber { color: var(--dash-amber); }
+
+.activity-feed { display: flex; flex-direction: column; gap: 0.35rem; }
+.activity-item {
+  display: grid; grid-template-columns: 6px 4rem 1fr auto;
+  align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.75rem; background: var(--dash-surface);
+  border-radius: 4px; font-size: 0.8rem; color: var(--dash-text);
+}
+.activity-dot { width: 6px; height: 6px; border-radius: 50%; }
+.activity-dot.auto { background: var(--dash-green); }
+.activity-dot.sent { background: var(--dash-accent); }
+.activity-dot.sched { background: var(--dash-amber); }
+.activity-agent { color: #fff; font-weight: 500; }
+.activity-time { color: var(--dash-text); font-size: 0.8125rem; }
+
+.conceptual-label {
+  display: inline-block; font-size: 0.8125rem;
+  color: var(--dash-text);
+  padding: 0.25rem 0.5rem; background: var(--dash-surface);
+  border-radius: 3px;
+}
+
+/* Annotation callouts */
+.dash-annotation {
+  position: absolute; font-size: 0.8rem;
+  color: var(--accent); background: var(--surface);
+  padding: 0.35rem 0.7rem; border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.dash-annotation { display: none; }
+
+/* Mobile annotation legend */
+.annotation-legend {
+  display: block; margin-top: 1rem;
+  font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+}
+.annotation-legend span { color: var(--accent); font-weight: 500; }
+
+/* === SECTION UTILITY === */
+.section { padding: clamp(100px, 8vw, 160px) var(--gutter); }
+.section-inner { max-width: var(--container); margin: 0 auto; }
+
+/* === PROBLEMS === */
+.problems { background: var(--surface); }
+.problems-head { max-width: 600px; margin-bottom: clamp(48px, 5vw, 72px); }
+.problems-head h2 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.problems-head p {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7;
+}
+.problem-entries {
+  display: grid; grid-template-columns: 1fr; gap: 0;
+  max-width: 720px;
+}
+.problem-entry {
+  padding: clamp(28px, 3vw, 44px) 0;
+}
+.problem-entry + .problem-entry {
+  border-top: none;
+  padding-top: clamp(28px, 3vw, 44px);
+  position: relative;
+}
+.problem-entry + .problem-entry::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 48px; height: 2px; background: var(--accent); opacity: 0.3;
+}
+.problem-title {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 0.75rem;
+}
+.problem-desc {
+  font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  color: var(--muted); line-height: 1.7; max-width: 560px;
+}
+
+/* === HOW IT WORKS === */
+.how-works { background: var(--ground); }
+.how-head { max-width: 600px; margin-bottom: clamp(40px, 4vw, 64px); }
+.how-head h2 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.how-head p {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7;
+}
+.how-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem); align-items: start;
+}
+.how-text p {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; max-width: 440px;
+}
+.how-text p strong { color: var(--ink); font-weight: 600; }
+
+/* Review dashboard — interactive demo */
+.review-frame {
+  background: var(--dash-bg); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.12); /* taste-skill-ignore: data-ui exhibit */
+}
+.review-frame[data-ui] { }
+.review-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem; border-bottom: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+}
+.review-topbar-title { font-size: 0.85rem; color: #fff; font-weight: 500; }
+.review-topbar-meta { font-size: 0.8rem; color: var(--dash-text); }
+.review-body { padding: 0.75rem; }
+.review-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.75rem; border-radius: 4px;
+  transition: background 0.2s ease;
+}
+.review-item + .review-item { margin-top: 0.25rem; }
+.review-item:hover { background: rgba(255,255,255,0.03); }
+.review-status {
+  width: 8px; height: 8px; border-radius: 50%;
+  margin-top: 0.3rem; flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+.review-status.pending { background: var(--dash-amber); }
+.review-status.done { background: var(--dash-green); }
+.review-content { flex: 1; }
+.review-title-text {
+  font-size: 0.85rem; color: #fff; font-weight: 500; margin-bottom: 0.2rem;
+}
+.review-detail {
+  font-size: 0.8rem; color: var(--dash-text); line-height: 1.5;
+}
+.review-actions {
+  display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;
+}
+.review-btn {
+  font-size: 0.8rem; padding: 0.4rem 0.75rem; border-radius: 3px;
+  border: 1px solid var(--dash-border); background: var(--dash-surface); /* taste-skill-ignore: data-ui */
+  color: var(--dash-text); font-family: var(--sans); cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.review-btn:hover { border-color: var(--dash-text); color: #fff; }
+.review-btn:focus-visible { outline: 2px solid var(--dash-accent); outline-offset: 2px; }
+.review-btn.approve {
+  border-color: var(--dash-green); color: var(--dash-green);
+}
+.review-btn.approve:hover { background: var(--dash-green); color: var(--dash-bg); }
+
+/* Approved state */
+.review-item.approved .review-status { background: var(--dash-green); }
+.review-item.approved .review-actions { display: none; }
+.review-approved-msg {
+  display: none; margin-top: 0.4rem;
+  font-size: 0.8rem; color: var(--dash-green); font-weight: 500;
+}
+.review-item.approved .review-approved-msg { display: block; }
+
+.review-footer {
+  padding: 0.65rem 1rem; border-top: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  font-size: 0.8125rem; color: var(--dash-text); text-align: center;
+}
+
+/* Demo notice */
+.demo-notice {
+  margin-top: 0.75rem; padding: 0.6rem 0.85rem;
+  background: var(--accent-light); border-radius: 4px;
+  font-size: 0.8rem; color: var(--accent); line-height: 1.5;
+}
+
+/* === SCROLL ANIMATION === */
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up.d1 { transition-delay: 80ms; }
+.fade-up.d2 { transition-delay: 160ms; }
+.fade-up.d3 { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1023px) {
+  .hero { grid-template-columns: 1fr; padding-top: 100px; }
+  .hero-text { max-width: 600px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .dash-annotation { display: none; }
+}
+@media (max-width: 767px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .hero { padding-top: 80px; gap: 2rem; }
+  .dash-stats { grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+  .dash-stat { padding: 0.6rem 0.5rem; }
+  .dash-stat-label { font-size: 0.7rem; }
+  .dash-stat-val { font-size: 1rem; }
+  .activity-item { grid-template-columns: 6px 3.5rem 1fr auto; font-size: 0.8125rem; padding: 0.5rem 0.6rem; }
+  .section { padding: clamp(64px, 6vw, 80px) var(--gutter); }
+  .review-item { padding: 0.6rem 0.5rem; }
+}
+@media (max-width: 390px) {
+  .hero h1 { font-size: 2.2rem; }
+  .activity-item { grid-template-columns: 6px 1fr; }
+  .activity-agent { display: none; }
+  .activity-time { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-bar"></div>
+<nav class="nav" role="navigation" aria-label="Main">
+  <a href="/" class="nav-logo">Agentic Labs</a>
+  <div class="nav-links">
+    <a href="#problems">Why us</a>
+    <a href="#how">How it works</a>
+    <a href="#" class="nav-cta">Book a free call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1 class="fade-up">They handle the admin. You make the decisions.</h1>
+    <p class="hero-sub fade-up d1">AI staff that handle quotes, scheduling, and follow-ups for your business. They check with you before anything goes out.</p>
+    <div class="hero-actions fade-up d2">
+      <a href="#" class="btn-primary">Book a free 30-minute call</a>
+      <a href="#how" class="btn-secondary">See how it works</a>
+    </div>
+    <div class="hero-trust fade-up d3">
+      <span>Singapore-based</span>
+      <span>Nothing to install</span>
+      <span>No technical knowledge needed</span>
+    </div>
+  </div>
+  <div class="dash-exhibit fade-up d1">
+    <div class="dash-frame" data-ui>
+      <div class="dash-topbar">
+        <span class="dash-topbar-title">Activity — today</span>
+        <span class="conceptual-label">Worked example — illustrative</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-label">Actions today</div>
+            <div class="dash-stat-val green">46</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Need your sign-off</div>
+            <div class="dash-stat-val amber">1</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Your time spent</div>
+            <div class="dash-stat-val blue">8 sec</div>
+          </div>
+        </div>
+        <div class="activity-feed">
+          <div class="activity-item">
+            <span class="activity-dot auto"></span>
+            <span class="activity-agent">Tiffany</span>
+            <span>Rescheduled Koh &amp; Sons to Thursday — no clashes</span>
+            <span class="activity-time">11:42</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot sent"></span>
+            <span class="activity-agent">Sarah</span>
+            <span>Sent quote to Ng Renovation — $8,400 from rate card</span>
+            <span class="activity-time">11:38</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot auto"></span>
+            <span class="activity-agent">Ben</span>
+            <span>Logged WhatsApp enquiry — Bukit Batok 3-room reno</span>
+            <span class="activity-time">11:15</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot sched"></span>
+            <span class="activity-agent">Chloe</span>
+            <span>Scoped 3 outstanding quotes from this week's leads</span>
+            <span class="activity-time">10:50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dash-annotation left" style="top: 28%;">Automated — no input needed</div>
+    <div class="dash-annotation left" style="top: 58%;">Sent after your approval</div>
+    <div class="annotation-legend">
+      <span>Green dot</span> = automated, no input needed. <span>Blue dot</span> = sent after your approval.
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section problems" id="problems">
+  <div class="section-inner">
+    <div class="problems-head fade-up">
+      <h2>The work that falls through</h2>
+      <p>You finish the real work at 6pm. Then the other job starts, the one nobody hired you for.</p>
+    </div>
+    <div class="problem-entries">
+      <div class="problem-entry fade-up">
+        <h3 class="problem-title">The evening admin pile</h3>
+        <p class="problem-desc">You finish the real work at 6pm, then spend two hours on quotes, replies, and scheduling that should have gone out this morning.</p>
+      </div>
+      <div class="problem-entry fade-up">
+        <h3 class="problem-title">The quote that never left</h3>
+        <p class="problem-desc">A good lead came in last week. You meant to send the quote. It's still sitting in a tab somewhere, and the customer's moved on.</p>
+      </div>
+      <div class="problem-entry fade-up">
+        <h3 class="problem-title">The follow-up that didn't happen</h3>
+        <p class="problem-desc">Three quotes went out. None got a reply. Nobody chased. That's pipeline sitting idle because everyone's busy with today's fire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — with interactive demo -->
+<section class="section how-works" id="how">
+  <div class="section-inner">
+    <div class="how-head fade-up">
+      <h2>Your morning takes four minutes</h2>
+      <p>Every morning you get a short list of items that need your sign-off. Everything else already happened.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-text fade-up d1">
+        <p>Approve a quote, send a follow-up, or leave it. Your agents know what to do either way. <strong>They never send anything without your say-so.</strong></p>
+        <p>Think of it like hiring someone for one specific job. You give them access to what they need, tell them when to check in, and they get on with it.</p>
+        <p>Try it: tap Approve on the quote in the review panel to see what happens.</p>
+      </div>
+      <div class="fade-up d2">
+        <div class="review-frame" data-ui>
+          <div class="review-topbar">
+            <span class="review-topbar-title">Morning Review — Wednesday</span>
+            <span class="review-topbar-meta" id="review-meta">2 items need sign-off</span>
+          </div>
+          <div class="review-body" role="list" aria-label="Review items — worked example, illustrative. Nothing is sent externally.">
+            <div class="review-item" role="listitem" id="review-quote">
+              <span class="review-status pending" aria-label="Needs approval"></span>
+              <div class="review-content">
+                <div class="review-title-text">Quote: Meridian Tower — $12,400</div>
+                <div class="review-detail">Above your $10,000 threshold. Chloe priced from rate card plus site hours. Breakdown attached.</div>
+                <div class="review-actions">
+                  <button class="review-btn approve" id="approve-quote" aria-label="Approve quote — demo only, nothing is sent">Approve</button>
+                  <button class="review-btn" tabindex="0">Edit amount</button>
+                  <button class="review-btn" tabindex="0">View breakdown</button>
+                </div>
+                <div class="review-approved-msg" aria-live="polite">Approved — quote will be sent to Meridian Tower</div>
+              </div>
+            </div>
+            <div class="review-item" role="listitem" id="review-followup">
+              <span class="review-status pending" aria-label="Needs approval"></span>
+              <div class="review-content">
+                <div class="review-title-text">Follow-up: Koh &amp; Sons — 14 days since quote</div>
+                <div class="review-detail">Second reminder. Sarah drafted a polite check-in. Previous quote: $6,200.</div>
+                <div class="review-actions">
+                  <button class="review-btn approve" id="approve-followup" aria-label="Send follow-up — demo only, nothing is sent">Send</button>
+                  <button class="review-btn" tabindex="0">Edit</button>
+                </div>
+                <div class="review-approved-msg" aria-live="polite">Sent — follow-up going to Koh &amp; Sons</div>
+              </div>
+            </div>
+            <div class="review-item" role="listitem">
+              <span class="review-status done" aria-label="Completed automatically"></span>
+              <div class="review-content">
+                <div class="review-title-text">4 actions completed overnight</div>
+                <div class="review-detail">Ben logged 2 enquiries. Tiffany booked Thursday crew. Haziq filed yesterday's reports.</div>
+              </div>
+            </div>
+          </div>
+          <div class="review-footer">Worked example — illustrative. No data leaves this page.</div>
+        </div>
+        <div class="demo-notice">
+          This is a demo. Tapping Approve or Send shows the result state — nothing is sent externally.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // Scroll entrance
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
+
+  // Interactive demo — approve/send buttons
+  function approveItem(itemId, btnId) {
+    var btn = document.getElementById(btnId);
+    var item = document.getElementById(itemId);
+    if (!btn || !item) return;
+    btn.addEventListener('click', function() {
+      item.classList.add('approved');
+      updateMeta();
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+    });
+  }
+  function updateMeta() {
+    var pending = document.querySelectorAll('.review-item:not(.approved) .review-status.pending').length;
+    var meta = document.getElementById('review-meta');
+    if (meta) meta.textContent = pending === 0 ? 'All clear' : pending + ' item' + (pending > 1 ? 's' : '') + ' need' + (pending === 1 ? 's' : '') + ' sign-off';
+  }
+  approveItem('review-quote', 'approve-quote');
+  approveItem('review-followup', 'approve-followup');
+})();
+</script>
+
+</body>
+</html>

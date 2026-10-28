@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teamflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #ffffff; --surface: #f8fafc; --text: #0f172a; --muted: #64748b;
+  --accent: #2563eb; --accent-hover: #1d4ed8; --accent-light: #eff6ff;
+  --border: #e2e8f0; --success: #16a34a; --warning: #f59e0b;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 12px; --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 14px clamp(20px, 4vw, 48px); background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color 0.3s; }
+.nav.scrolled { border-bottom-color: var(--border); }
+.nav__mark { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+.nav__mark svg { width: 24px; height: 24px; }
+.nav__links { display: flex; gap: 28px; list-style: none; font-size: 0.85rem; font-weight: 500; }
+.nav__links a { color: var(--muted); transition: color 0.2s; }
+.nav__links a:hover { color: var(--text); }
+.nav__right { display: flex; gap: 12px; align-items: center; }
+.nav__login { font-size: 0.85rem; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+.nav__login:hover { color: var(--text); }
+.nav__cta { font-size: 0.82rem; font-weight: 600; padding: 8px 20px; background: var(--accent); color: #fff; border-radius: var(--radius); transition: background 0.2s; }
+.nav__cta:hover { background: var(--accent-hover); }
+
+/* HERO */
+.hero { padding: clamp(120px, 16vw, 200px) clamp(20px, 4vw, 64px) clamp(80px, 10vw, 140px); text-align: center; background: linear-gradient(180deg, var(--accent-light) 0%, var(--bg) 100%); }
+.hero__badge { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 500; color: var(--accent); background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; margin-bottom: 24px; }
+.hero__badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+.hero__title { font-family: var(--font-heading); font-size: clamp(2.5rem, 5.5vw, 4.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto; }
+.hero__sub { font-size: 1.1rem; line-height: 1.7; color: var(--muted); max-width: 520px; margin: 0 auto 36px; }
+.hero__actions { display: flex; gap: 12px; justify-content: center; align-items: center; }
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--accent); color: #fff; font-size: 0.9rem; font-weight: 600; border-radius: var(--radius); transition: background 0.2s, transform 0.15s; box-shadow: 0 1px 3px rgba(37,99,235,0.2); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; color: var(--text); font-size: 0.9rem; font-weight: 500; border-radius: var(--radius); border: 1px solid var(--border); transition: border-color 0.2s; }
+.btn-ghost:hover { border-color: var(--muted); }
+.hero__proof { display: flex; gap: 32px; justify-content: center; align-items: center; margin-top: 48px; font-size: 0.82rem; color: var(--muted); }
+.hero__proof-avatars { display: flex; }
+.hero__proof-avatars span { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -8px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #fff; font-weight: 600; }
+.hero__proof-avatars span:first-child { margin-left: 0; }
+
+/* PRODUCT PREVIEW */
+.preview { padding: 0 clamp(20px, 4vw, 80px) clamp(60px, 8vw, 100px); }
+.preview__window { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+.preview__bar { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--bg); }
+.preview__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+.preview__url { margin-left: 12px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); background: var(--surface); padding: 4px 12px; border-radius: 6px; flex: 1; max-width: 300px; }
+.preview__body { display: grid; grid-template-columns: 220px 1fr; min-height: 340px; }
+.preview__sidebar { border-right: 1px solid var(--border); padding: 20px 16px; }
+.preview__sidebar-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; color: var(--muted); margin-bottom: 2px; }
+.preview__sidebar-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+.preview__sidebar-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.preview__sidebar-item.active .dot { background: var(--accent); }
+.preview__main { padding: 24px; }
+.preview__main-header { font-family: var(--font-heading); font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
+.preview__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.preview__card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.preview__card-tag { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+.preview__card-tag.blue { background: #dbeafe; color: #1d4ed8; }
+.preview__card-tag.green { background: #dcfce7; color: #15803d; }
+.preview__card-tag.amber { background: #fef3c7; color: #b45309; }
+.preview__card-title { font-size: 0.82rem; font-weight: 500; margin-bottom: 6px; }
+.preview__card-meta { font-size: 0.72rem; color: var(--muted); }
+
+/* LOGOS */
+.logos { padding: clamp(48px, 6vw, 80px) clamp(20px, 4vw, 64px); text-align: center; border-top: 1px solid var(--border); }
+.logos__label { font-size: 0.78rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 28px; }
+.logos__grid { display: flex; gap: clamp(32px, 4vw, 64px); justify-content: center; align-items: center; flex-wrap: wrap; }
+.logos__grid span { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; color: var(--border); letter-spacing: -0.02em; }
+
+/* FEATURES */
+.features { padding: clamp(80px, 10vw, 140px) clamp(20px, 4vw, 64px); }
+.features__header { text-align: center; margin-bottom: clamp(48px, 6vw, 80px); }
+.features__label { font-size: 0.78rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.features__title { font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+.features__desc { font-size: 1rem; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+.features__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.feat { padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); transition: box-shadow 0.3s, transform 0.2s; }
+.feat:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
+.feat__icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 1.1rem; }
+.feat__name { font-family: var(--font-heading); font-weight: 600; font-size: 1rem; margin-bottom: 8px; }
+.feat__desc { font-size: 0.88rem; line-height: 1.65; color: var(--muted); }
+
+/* TESTIMONIAL */
+.testimonial { padding: clamp(80px, 10vw, 140px) clamp(20px, 4vw, 64px); background: var(--surface); }
+.testimonial__inner { max-width: 640px; margin: 0 auto; text-align: center; }
+.testimonial__quote { font-family: var(--font-heading); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 500; line-height: 1.5; margin-bottom: 28px; color: var(--text); }
+.testimonial__avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--accent); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-heading); font-weight: 600; }
+.testimonial__name { font-weight: 600; font-size: 0.9rem; }
+.testimonial__role { font-size: 0.82rem; color: var(--muted); }
+
+/* STATS */
+.stats { padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 64px); }
+.stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+.stat__number { font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: var(--accent); margin-bottom: 4px; }
+.stat__label { font-size: 0.85rem; color: var(--muted); }
+
+/* CTA */
+.cta { padding: clamp(80px, 10vw, 140px) clamp(20px, 4vw, 64px); text-align: center; }
+.cta__inner { background: var(--text); color: var(--bg); padding: clamp(48px, 6vw, 80px) clamp(24px, 4vw, 64px); border-radius: 20px; }
+.cta__title { font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+.cta__desc { font-size: 1rem; color: var(--muted); max-width: 440px; margin: 0 auto 32px; line-height: 1.7; }
+.cta__actions { display: flex; gap: 12px; justify-content: center; }
+.btn-white { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: #fff; color: var(--text); font-size: 0.9rem; font-weight: 600; border-radius: var(--radius); transition: transform 0.15s; }
+.btn-white:hover { transform: translateY(-1px); }
+.btn-outline-white { display: inline-flex; align-items: center; padding: 14px 28px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); font-size: 0.9rem; font-weight: 500; border-radius: var(--radius); transition: border-color 0.2s; }
+.btn-outline-white:hover { border-color: rgba(255,255,255,0.5); }
+
+/* FOOTER */
+.footer { padding: 28px clamp(20px, 4vw, 64px); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--muted); }
+.footer__links { display: flex; gap: 20px; list-style: none; }
+.footer__links a { color: var(--muted); transition: color 0.2s; }
+.footer__links a:hover { color: var(--text); }
+
+/* RESPONSIVE */
+@media (max-width: 1023px) {
+  .features__grid { grid-template-columns: repeat(2, 1fr); }
+  .stats__grid { grid-template-columns: repeat(2, 1fr); }
+  .preview__body { grid-template-columns: 1fr; }
+  .preview__sidebar { display: none; }
+  .preview__cards { grid-template-columns: repeat(2, 1fr); }
+  .nav__links { display: none; }
+}
+@media (max-width: 640px) {
+  .features__grid { grid-template-columns: 1fr; }
+  .stats__grid { grid-template-columns: 1fr 1fr; }
+  .preview__cards { grid-template-columns: 1fr; }
+  .hero__actions { flex-direction: column; }
+  .hero__proof { flex-direction: column; gap: 12px; }
+  .cta__actions { flex-direction: column; align-items: center; }
+  .footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__mark">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" fill="#2563eb"/><rect x="13" y="3" width="8" height="8" rx="2" fill="#2563eb" opacity="0.5"/><rect x="3" y="13" width="8" height="8" rx="2" fill="#2563eb" opacity="0.5"/><rect x="13" y="13" width="8" height="8" rx="2" fill="#2563eb" opacity="0.3"/></svg>
+    Teamflow
+  </div>
+  <ul class="nav__links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Integrations</a></li>
+    <li><a href="#">Resources</a></li>
+  </ul>
+  <div class="nav__right">
+    <a href="#" class="nav__login">Sign in</a>
+    <a href="#" class="nav__cta">Start Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__badge reveal"><span></span> Now with AI-powered workflows</div>
+  <h1 class="hero__title reveal">Where teams do their best work together</h1>
+  <p class="hero__sub reveal">Teamflow brings your projects, docs, and conversations into one place. Less switching, more shipping.</p>
+  <div class="hero__actions reveal">
+    <a href="#" class="btn-primary">Get Started Free &rarr;</a>
+    <a href="#" class="btn-ghost">Watch Demo</a>
+  </div>
+  <div class="hero__proof reveal">
+    <div class="hero__proof-avatars">
+      <span style="background:#6366f1">KL</span>
+      <span style="background:#ec4899">MR</span>
+      <span style="background:#f59e0b">AJ</span>
+      <span style="background:#10b981">TP</span>
+      <span style="background:#8b5cf6">SN</span>
+    </div>
+    <span>Trusted by 4,200+ teams worldwide</span>
+  </div>
+</section>
+
+<!-- PRODUCT PREVIEW -->
+<section class="preview reveal">
+  <div class="preview__window">
+    <div class="preview__bar">
+      <div class="preview__dot"></div>
+      <div class="preview__dot"></div>
+      <div class="preview__dot"></div>
+      <div class="preview__url">app.teamflow.io/acme/projects</div>
+    </div>
+    <div class="preview__body">
+      <div class="preview__sidebar">
+        <div class="preview__sidebar-item active"><span class="dot"></span> Sprint Board</div>
+        <div class="preview__sidebar-item"><span class="dot"></span> Backlog</div>
+        <div class="preview__sidebar-item"><span class="dot"></span> Roadmap</div>
+        <div class="preview__sidebar-item"><span class="dot"></span> Documents</div>
+        <div class="preview__sidebar-item"><span class="dot"></span> Analytics</div>
+      </div>
+      <div class="preview__main">
+        <div class="preview__main-header">Sprint 24 &mdash; In Progress</div>
+        <div class="preview__cards">
+          <div class="preview__card">
+            <span class="preview__card-tag blue">Feature</span>
+            <div class="preview__card-title">User onboarding flow v2</div>
+            <div class="preview__card-meta">3 subtasks &middot; Due Wed</div>
+          </div>
+          <div class="preview__card">
+            <span class="preview__card-tag green">Done</span>
+            <div class="preview__card-title">API rate limiting</div>
+            <div class="preview__card-meta">Completed &middot; 2d ago</div>
+          </div>
+          <div class="preview__card">
+            <span class="preview__card-tag amber">Review</span>
+            <div class="preview__card-title">Dashboard redesign</div>
+            <div class="preview__card-meta">Needs review &middot; 1 comment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section class="logos reveal">
+  <div class="logos__label">Trusted by teams at</div>
+  <div class="logos__grid">
+    <span>Stripe</span><span>Linear</span><span>Vercel</span><span>Notion</span><span>Figma</span><span>Loom</span>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features__header">
+    <div class="features__label reveal">Features</div>
+    <h2 class="features__title reveal">Built for how modern teams actually work</h2>
+    <p class="features__desc reveal">Every feature is designed to reduce friction and keep your team in flow state.</p>
+  </div>
+  <div class="features__grid">
+    <div class="feat reveal">
+      <div class="feat__icon">&#128196;</div>
+      <div class="feat__name">Living Documents</div>
+      <p class="feat__desc">Real-time collaborative docs that stay connected to your projects, tasks, and conversations. No more outdated specs.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="feat__icon">&#9889;</div>
+      <div class="feat__name">Smart Workflows</div>
+      <p class="feat__desc">Automate repetitive processes with if/then logic. Move tasks, notify people, and update status automatically.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="feat__icon">&#128200;</div>
+      <div class="feat__name">Sprint Analytics</div>
+      <p class="feat__desc">See velocity trends, bottlenecks, and team workload at a glance. Make data-driven decisions about your process.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="feat__icon">&#128172;</div>
+      <div class="feat__name">Inline Threads</div>
+      <p class="feat__desc">Discuss any task, doc, or decision in context. Threaded conversations that live where the work happens.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="feat__icon">&#128279;</div>
+      <div class="feat__name">200+ Integrations</div>
+      <p class="feat__desc">Connect your existing tools — GitHub, Slack, Figma, Linear, and more. Two-way sync keeps everything current.</p>
+    </div>
+    <div class="feat reveal">
+      <div class="feat__icon">&#128274;</div>
+      <div class="feat__name">Enterprise Security</div>
+      <p class="feat__desc">SOC 2 Type II certified. SSO, SCIM provisioning, audit logs, and granular permissions for your whole org.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="testimonial__inner reveal">
+    <p class="testimonial__quote">"Teamflow replaced three tools for us. Our sprint planning went from a two-hour meeting to a 20-minute async check-in. The team has never been more aligned."</p>
+    <div class="testimonial__avatar">SR</div>
+    <div class="testimonial__name">Sarah Reyes</div>
+    <div class="testimonial__role">VP Engineering, Acme Corp</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats reveal">
+  <div class="stats__grid">
+    <div>
+      <div class="stat__number">4,200+</div>
+      <div class="stat__label">Teams worldwide</div>
+    </div>
+    <div>
+      <div class="stat__number">38%</div>
+      <div class="stat__label">Faster shipping</div>
+    </div>
+    <div>
+      <div class="stat__number">2.4M</div>
+      <div class="stat__label">Tasks completed / week</div>
+    </div>
+    <div>
+      <div class="stat__number">4.8/5</div>
+      <div class="stat__label">Average rating</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta__inner reveal">
+    <h2 class="cta__title">Ready to bring your team together?</h2>
+    <p class="cta__desc">Free for teams up to 10. No credit card required. Set up in under 3 minutes.</p>
+    <div class="cta__actions">
+      <a href="#" class="btn-white">Start Free &rarr;</a>
+      <a href="#" class="btn-outline-white">Talk to Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>&copy; 2025 Teamflow, Inc.</div>
+  <ul class="footer__links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Security</a></li>
+    <li><a href="#">Status</a></li>
+  </ul>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+  var nav = document.getElementById('nav');
+  var scrolled = false;
+  window.addEventListener('scroll', function() {
+    var s = window.scrollY > 30;
+    if (s !== scrolled) { scrolled = s; nav.classList.toggle('scrolled', s); }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Local cache and state
+.taste-skill/
+.impeccable/hook.cache.json
+
+# Generated assets (project-specific, often large)
+assets/generated/
+
+# Node modules (if any)
+node_modules/
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Claude Code local config
+.claude/

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Verre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Sans:wght@400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --ink: #1c1c1c; --stone: #a3a096; --warm-white: #faf9f7; --bg: #f4f3f0;
+  --border: #e0ded8; --accent: #8a8578;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--ink); background: var(--bg); line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-fade { opacity: 0; transition: opacity 1.4s var(--ease); }
+.reveal-fade.visible { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .reveal, .reveal-fade { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px clamp(24px, 5vw, 64px); background: transparent; transition: background 0.5s, border-color 0.5s; border-bottom: 1px solid transparent; }
+.nav.scrolled { background: rgba(244,243,240,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--border); }
+.nav__mark { font-family: var(--font-heading); font-weight: 300; font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; }
+.nav__links { display: flex; gap: 36px; list-style: none; font-family: var(--font-heading); font-size: 0.72rem; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; }
+.nav__links a { color: var(--stone); transition: color 0.3s; }
+.nav__links a:hover { color: var(--ink); }
+.nav__cta { font-family: var(--font-heading); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); transition: color 0.3s; }
+.nav__cta:hover { color: var(--ink); }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px clamp(24px, 5vw, 80px) clamp(80px, 10vw, 140px); }
+.hero__kicker { font-family: var(--font-heading); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); margin-bottom: 32px; }
+.hero__title { font-family: var(--font-heading); font-size: clamp(2.5rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 28px; max-width: 800px; }
+.hero__sub { font-size: 1rem; font-weight: 400; line-height: 1.8; color: var(--stone); max-width: 420px; margin-bottom: 48px; }
+.hero__cta { font-family: var(--font-heading); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); padding-bottom: 4px; border-bottom: 1px solid var(--border); transition: border-color 0.3s; }
+.hero__cta:hover { border-color: var(--ink); }
+
+/* PROJECTS */
+.projects { padding: clamp(80px, 10vw, 160px) clamp(24px, 5vw, 80px); }
+.projects__header { margin-bottom: clamp(48px, 6vw, 80px); }
+.projects__label { font-family: var(--font-heading); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); margin-bottom: 16px; }
+.projects__title { font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300; letter-spacing: -0.01em; }
+.project { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 4vw, 64px); padding: clamp(40px, 5vw, 72px) 0; border-top: 1px solid var(--border); align-items: center; }
+.project:nth-child(even) { direction: rtl; }
+.project:nth-child(even) > * { direction: ltr; }
+.project__visual { aspect-ratio: 4/3; background: var(--warm-white); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.project__visual svg { width: 50%; opacity: 0.08; }
+.project__meta { font-family: var(--font-heading); font-weight: 300; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); margin-bottom: 16px; }
+.project__name { font-family: var(--font-heading); font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 300; line-height: 1.2; margin-bottom: 16px; }
+.project__desc { font-size: 0.9rem; line-height: 1.75; color: var(--stone); max-width: 400px; margin-bottom: 24px; }
+.project__link { font-family: var(--font-heading); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: border-color 0.3s; }
+.project__link:hover { border-color: var(--ink); }
+
+/* PHILOSOPHY */
+.philosophy { padding: clamp(100px, 14vw, 220px) clamp(24px, 5vw, 80px); text-align: center; }
+.philosophy__text { font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.4; color: var(--ink); max-width: 680px; margin: 0 auto; }
+
+/* APPROACH */
+.approach { padding: clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px); border-top: 1px solid var(--border); }
+.approach__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 4vw, 64px); }
+.approach__item {}
+.approach__number { font-family: var(--font-mono); font-size: 0.72rem; color: var(--stone); margin-bottom: 16px; }
+.approach__name { font-family: var(--font-heading); font-weight: 300; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+.approach__desc { font-size: 0.88rem; line-height: 1.7; color: var(--stone); }
+
+/* CTA */
+.cta { padding: clamp(100px, 14vw, 200px) clamp(24px, 5vw, 80px); text-align: center; }
+.cta__label { font-family: var(--font-heading); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); margin-bottom: 24px; }
+.cta__title { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 32px; }
+.cta__link { font-family: var(--font-heading); font-weight: 300; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); padding-bottom: 4px; border-bottom: 1px solid var(--ink); transition: color 0.3s; }
+.cta__link:hover { color: var(--stone); }
+
+/* FOOTER */
+.footer { padding: 32px clamp(24px, 5vw, 80px); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-heading); font-weight: 300; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); }
+.footer__links { display: flex; gap: 28px; list-style: none; }
+.footer__links a { color: var(--stone); transition: color 0.3s; }
+.footer__links a:hover { color: var(--ink); }
+
+/* RESPONSIVE */
+@media (max-width: 1023px) {
+  .project { grid-template-columns: 1fr; }
+  .project:nth-child(even) { direction: ltr; }
+  .approach__grid { grid-template-columns: 1fr; gap: 40px; }
+  .nav__links { display: none; }
+}
+@media (max-width: 640px) {
+  .footer { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__mark">Maison Verre</div>
+  <ul class="nav__links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#">Studio</a></li>
+    <li><a href="#">Press</a></li>
+  </ul>
+  <a href="#contact" class="nav__cta">Inquire</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__kicker reveal">Architecture &amp; Interior Design</div>
+  <h1 class="hero__title reveal">Spaces shaped by light, silence, and intention</h1>
+  <p class="hero__sub reveal">Maison Verre creates residential and cultural architecture that honors the relationship between structure and the life it holds.</p>
+  <a href="#projects" class="hero__cta reveal">Explore Projects</a>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects__header">
+    <div class="projects__label reveal">Selected Work</div>
+    <h2 class="projects__title reveal">Recent Projects</h2>
+  </div>
+  <div class="project reveal">
+    <div class="project__visual"><svg viewBox="0 0 200 200"><rect x="30" y="50" width="140" height="100" fill="none" stroke="#1c1c1c" stroke-width="0.5"/><line x1="100" y1="50" x2="100" y2="150" stroke="#1c1c1c" stroke-width="0.5"/><line x1="30" y1="100" x2="170" y2="100" stroke="#1c1c1c" stroke-width="0.5"/></svg></div>
+    <div class="project__info">
+      <div class="project__meta">Residential &mdash; Kyoto, 2024</div>
+      <h3 class="project__name">The Glass Pavilion</h3>
+      <p class="project__desc">A private residence where floor-to-ceiling glass dissolves the boundary between interior and garden. Concrete, timber, and water compose each room.</p>
+      <a href="#" class="project__link">View Project</a>
+    </div>
+  </div>
+
+  <div class="project reveal">
+    <div class="project__visual"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="60" fill="none" stroke="#1c1c1c" stroke-width="0.5"/><line x1="40" y1="100" x2="160" y2="100" stroke="#1c1c1c" stroke-width="0.5"/></svg></div>
+    <div class="project__info">
+      <div class="project__meta">Cultural &mdash; Oslo, 2023</div>
+      <h3 class="project__name">Nordic Light Museum</h3>
+      <p class="project__desc">A public gallery designed around natural light cycles. The building shifts character with the seasons, inviting visitors to return and see it differently.</p>
+      <a href="#" class="project__link">View Project</a>
+    </div>
+  </div>
+
+  <div class="project reveal">
+    <div class="project__visual"><svg viewBox="0 0 200 200"><polygon points="100,30 170,170 30,170" fill="none" stroke="#1c1c1c" stroke-width="0.5"/></svg></div>
+    <div class="project__info">
+      <div class="project__meta">Residential &mdash; Lisbon, 2023</div>
+      <h3 class="project__name">Casa Branca</h3>
+      <p class="project__desc">A coastal home built from local limestone. Every room frames the Atlantic. The material palette — white plaster, warm oak, linen — ages with grace.</p>
+      <a href="#" class="project__link">View Project</a>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <p class="philosophy__text reveal">We believe architecture is the art of organizing silence. Every decision — material, proportion, light — serves the quiet experience of being in a place.</p>
+</section>
+
+<!-- APPROACH -->
+<section class="approach" id="approach">
+  <div class="approach__grid">
+    <div class="approach__item reveal">
+      <div class="approach__number">01</div>
+      <div class="approach__name">Listen</div>
+      <p class="approach__desc">Every project begins with understanding — the site, the light, the rhythms of the people who will inhabit the space. We listen before we draw.</p>
+    </div>
+    <div class="approach__item reveal">
+      <div class="approach__number">02</div>
+      <div class="approach__name">Reduce</div>
+      <p class="approach__desc">We subtract until only the essential remains. Restraint is not a limitation — it is the discipline that lets each material and proportion speak clearly.</p>
+    </div>
+    <div class="approach__item reveal">
+      <div class="approach__number">03</div>
+      <div class="approach__name">Endure</div>
+      <p class="approach__desc">Our buildings are designed to age well. We choose materials that patina with dignity and forms that feel as right in twenty years as they do today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="cta__label reveal">Begin a Conversation</div>
+  <h2 class="cta__title reveal">Every great space<br>starts with a question</h2>
+  <a href="#" class="cta__link reveal">Get in Touch</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>&copy; 2025 Maison Verre</div>
+  <ul class="footer__links">
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">Archinect</a></li>
+    <li><a href="#">Press</a></li>
+  </ul>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal, .reveal-fade');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+  var nav = document.getElementById('nav');
+  var scrolled = false;
+  window.addEventListener('scroll', function() {
+    var s = window.scrollY > 60;
+    if (s !== scrolled) { scrolled = s; nav.classList.toggle('scrolled', s); }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

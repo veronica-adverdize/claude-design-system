@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Labs — AI Staff for Singapore Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground: #f7f5f2;
+  --surface: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #595959;
+  --accent: #2d5a3d;
+  --accent-light: #e8f0eb;
+  --border: #e5e2dd;
+  --dash-bg: #0f1117;
+  --dash-surface: #1a1d27;
+  --dash-border: #2a2d3a;
+  --dash-text: #c8cad0;
+  --dash-accent: #4a9eff;
+  --dash-green: #3ecf8e;
+  --dash-amber: #f0b429;
+  --dash-red: #ef6b6b;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --container: 1200px;
+  --gutter: clamp(20px, 3vw, 48px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--sans); color: var(--ink); background: var(--ground); line-height: 1.65; overflow-x: hidden; }
+
+/* === NAV === */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem var(--gutter);
+  background: rgba(247,245,242,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--serif); font-weight: 300; font-size: 1.25rem;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.02em;
+}
+.nav-logo strong { font-weight: 400; color: var(--accent); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a {
+  font-size: 0.82rem; color: var(--muted); text-decoration: none;
+  font-weight: 500; letter-spacing: 0.01em;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.nav-cta {
+  background: var(--ink); color: var(--ground); padding: 0.6rem 1.25rem;
+  border-radius: 3px; font-size: 0.8rem; font-weight: 600;
+  text-decoration: none; letter-spacing: 0.02em;
+  transition: background 0.2s ease;
+}
+.nav-cta:hover { background: var(--accent); }
+.nav-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* === HERO === */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem); align-items: center;
+  max-width: var(--container); margin: 0 auto;
+  padding: clamp(120px, 12vw, 160px) var(--gutter) clamp(80px, 8vw, 120px);
+}
+.hero-text { max-width: 520px; }
+.hero-kicker {
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 400;
+  color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.hero h1 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2.8rem, 1.5rem + 5vw, 4.5rem);
+  line-height: 1.05; letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+.hero h1 em { font-style: italic; }
+.hero-sub {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7; max-width: 440px;
+  margin-bottom: 2rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--ink); color: var(--ground);
+  padding: 0.8rem 1.75rem; border: none; border-radius: 3px;
+  font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; letter-spacing: 0.02em;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+.btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-secondary {
+  display: inline-flex; align-items: center;
+  color: var(--ink); font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
+  text-decoration: none; cursor: pointer; border-bottom: 1px solid var(--border);
+  padding-bottom: 2px; transition: border-color 0.2s ease;
+}
+.btn-secondary:hover { border-color: var(--ink); }
+.btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.hero-trust {
+  display: flex; gap: 1.5rem; margin-top: 1.75rem; flex-wrap: wrap;
+}
+.hero-trust span {
+  font-size: 0.75rem; color: var(--muted);
+  font-family: var(--mono); letter-spacing: 0.02em;
+}
+
+/* === DASHBOARD EXHIBIT === */
+.dash-exhibit { position: relative; }
+.dash-frame {
+  background: var(--dash-bg); border-radius: 10px; overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid var(--dash-border);
+}
+.dash-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--dash-border);
+  font-size: 0.75rem; color: var(--dash-text); font-family: var(--mono);
+}
+.dash-dots { display: flex; gap: 4px; }
+.dash-dots span { width: 7px; height: 7px; border-radius: 50%; }
+.dash-dots .r { background: var(--dash-red); }
+.dash-dots .y { background: var(--dash-amber); }
+.dash-dots .g { background: var(--dash-green); }
+.dash-body { padding: 0.85rem; }
+.dash-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+.dash-stat {
+  background: var(--dash-surface); border: 1px solid var(--dash-border);
+  border-radius: 6px; padding: 0.6rem 0.75rem;
+}
+.dash-stat-label {
+  font-size: 0.75rem; color: var(--dash-text); font-family: var(--mono);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.15rem;
+}
+.dash-stat-val {
+  font-size: 1.1rem; font-weight: 600; color: #fff; font-family: var(--mono);
+}
+.dash-stat-val.green { color: var(--dash-green); }
+.dash-stat-val.blue { color: var(--dash-accent); }
+.dash-stat-val.amber { color: var(--dash-amber); }
+
+.activity-feed { display: flex; flex-direction: column; gap: 0.25rem; }
+.activity-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 0.65rem; background: var(--dash-surface);
+  border-radius: 4px; font-size: 0.75rem; color: var(--dash-text);
+  font-family: var(--mono);
+}
+.activity-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.activity-dot.auto { background: var(--dash-green); }
+.activity-dot.sent { background: var(--dash-accent); }
+.activity-dot.sched { background: var(--dash-amber); }
+.activity-agent { color: #fff; font-weight: 500; min-width: 3rem; }
+.activity-desc { flex: 1; }
+.activity-time { color: var(--dash-text); margin-left: auto; flex-shrink: 0; }
+
+.conceptual-label {
+  display: inline-block; font-size: 0.75rem; font-family: var(--mono);
+  color: var(--dash-text); text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 0.3rem 0.55rem; border: 1px solid var(--dash-border);
+  border-radius: 2px;
+}
+
+/* Annotation callouts */
+.dash-annotation {
+  position: absolute; font-family: var(--mono); font-size: 0.75rem;
+  color: var(--accent); background: var(--surface);
+  padding: 0.3rem 0.6rem; border-radius: 3px; border: 1px solid var(--border);
+  white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+.dash-annotation::before {
+  content: ''; position: absolute; width: 8px; height: 8px;
+  background: var(--surface); border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.dash-annotation.left { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
+.dash-annotation.left::before { right: -5px; top: 50%; transform: translateY(-50%) rotate(-45deg); }
+.dash-annotation.bottom { left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%); }
+.dash-annotation.bottom::before { bottom: -5px; left: 50%; transform: translateX(-50%) rotate(45deg); }
+
+/* === SECTION UTILITY === */
+.section { padding: clamp(80px, 8vw, 140px) var(--gutter); }
+.section-inner { max-width: var(--container); margin: 0 auto; }
+.section-kicker {
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 400;
+  color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.section-heading {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+.section-heading em { font-style: italic; }
+
+/* === PROBLEMS — CHAPTERED ARGUMENT === */
+.problems { background: var(--surface); }
+.problems-intro {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7; max-width: 520px;
+  margin-bottom: clamp(48px, 5vw, 72px);
+}
+.problem-entries { max-width: 720px; }
+.problem-entry {
+  padding: clamp(24px, 3vw, 40px) 0;
+  border-top: 1px solid var(--border);
+}
+.problem-entry:last-child { border-bottom: 1px solid var(--border); }
+.problem-num {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+  margin-bottom: 0.75rem; letter-spacing: 0.04em;
+}
+.problem-title {
+  font-family: var(--serif); font-weight: 300; font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 0.75rem;
+}
+.problem-desc {
+  font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  color: var(--muted); line-height: 1.7; max-width: 560px;
+}
+
+/* === HOW IT WORKS — ANNOTATED EXHIBIT === */
+.how-works { background: var(--ground); }
+.how-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem); align-items: center;
+  margin-top: clamp(40px, 4vw, 64px);
+}
+.how-text p {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; max-width: 440px;
+}
+.how-text p strong { color: var(--ink); font-weight: 600; }
+
+/* Morning review dashboard */
+.review-frame {
+  background: var(--dash-bg); border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--dash-border);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.1);
+}
+.review-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem; border-bottom: 1px solid var(--dash-border);
+}
+.review-header h4 { font-size: 0.78rem; color: #fff; font-weight: 500; }
+.review-header span { font-size: 0.75rem; color: var(--dash-text); font-family: var(--mono); }
+.review-body { padding: 0.75rem; }
+.review-item {
+  display: flex; align-items: flex-start; gap: 0.65rem;
+  padding: 0.65rem 0; border-bottom: 1px solid var(--dash-border);
+}
+.review-item:last-child { border: none; }
+.review-status {
+  width: 6px; height: 6px; border-radius: 50%;
+  margin-top: 0.35rem; flex-shrink: 0;
+}
+.review-status.pending { background: var(--dash-amber); }
+.review-status.done { background: var(--dash-green); }
+.review-content { flex: 1; }
+.review-title {
+  font-size: 0.72rem; color: #fff; font-weight: 500; margin-bottom: 0.15rem;
+}
+.review-detail {
+  font-size: 0.75rem; color: var(--dash-text); line-height: 1.45;
+}
+.review-actions { display: flex; gap: 0.3rem; margin-top: 0.3rem; }
+.review-actions button {
+  font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 3px;
+  border: 1px solid var(--dash-border); background: var(--dash-surface);
+  color: var(--dash-text); font-family: var(--mono); cursor: pointer;
+}
+.review-actions button.approve {
+  border-color: var(--dash-green); color: var(--dash-green);
+}
+
+/* === SCROLL ANIMATION === */
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-up.visible {
+  opacity: 1; transform: translateY(0);
+}
+.fade-up.delay-1 { transition-delay: 80ms; }
+.fade-up.delay-2 { transition-delay: 160ms; }
+.fade-up.delay-3 { transition-delay: 240ms; }
+.fade-up.delay-4 { transition-delay: 320ms; }
+.fade-up.delay-5 { transition-delay: 400ms; }
+.fade-up.delay-6 { transition-delay: 480ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    opacity: 1 !important; transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1023px) {
+  .hero { grid-template-columns: 1fr; padding-top: 120px; }
+  .hero-text { max-width: 600px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .dash-annotation { display: none; }
+}
+@media (max-width: 767px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .hero { padding-top: 100px; gap: 2rem; }
+  .hero h1 { font-size: clamp(2.2rem, 8vw, 2.8rem); }
+  .dash-stats { grid-template-columns: repeat(3, 1fr); }
+  .section { padding: clamp(60px, 6vw, 80px) var(--gutter); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">Agentic<strong>Labs</strong></a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#problems">Why us</a>
+    <a href="#" class="nav-cta">Book a free call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-kicker fade-up">AI staff for Singapore businesses</div>
+    <h1 class="fade-up delay-1">They handle the admin. You make the <em>decisions.</em></h1>
+    <p class="hero-sub fade-up delay-2">Your AI staff handle quotes, scheduling, chasing, and follow-ups — and check with you before anything goes out. You don't install anything. We build them, run them, and keep them running.</p>
+    <div class="hero-actions fade-up delay-3">
+      <a href="#" class="btn-primary">Book a free 30-minute call</a>
+      <a href="#how" class="btn-secondary">See how it works</a>
+    </div>
+    <div class="hero-trust fade-up delay-4">
+      <span>🇸🇬 Singapore-based</span>
+      <span>Nothing to install</span>
+      <span>No technical knowledge needed</span>
+    </div>
+  </div>
+  <div class="dash-exhibit fade-up delay-2">
+    <div class="dash-frame">
+      <div class="dash-topbar">
+        <div class="dash-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+        <span>Agentic Labs — Activity</span>
+        <span class="conceptual-label">Worked example — illustrative</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-label">Actions today</div>
+            <div class="dash-stat-val green">46</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Escalations</div>
+            <div class="dash-stat-val amber">1</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Your time</div>
+            <div class="dash-stat-val blue">8 sec</div>
+          </div>
+        </div>
+        <div class="activity-feed">
+          <div class="activity-item fade-up delay-3">
+            <span class="activity-dot auto"></span>
+            <span class="activity-agent">Tiffany</span>
+            <span class="activity-desc">Rescheduled Koh & Sons to Thursday — no clashes</span>
+            <span class="activity-time">11:42</span>
+          </div>
+          <div class="activity-item fade-up delay-4">
+            <span class="activity-dot sent"></span>
+            <span class="activity-agent">Sarah</span>
+            <span class="activity-desc">Sent quote to Ng Renovation — $8,400 from rate card</span>
+            <span class="activity-time">11:38</span>
+          </div>
+          <div class="activity-item fade-up delay-5">
+            <span class="activity-dot auto"></span>
+            <span class="activity-agent">Ben</span>
+            <span class="activity-desc">Logged WhatsApp enquiry — Bukit Batok 3-room reno</span>
+            <span class="activity-time">11:15</span>
+          </div>
+          <div class="activity-item fade-up delay-6">
+            <span class="activity-dot sched"></span>
+            <span class="activity-agent">Chloe</span>
+            <span class="activity-desc">Scoped 3 outstanding quotes from this week's leads</span>
+            <span class="activity-time">10:50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Annotations (desktop only) -->
+    <div class="dash-annotation left" style="top: 30%; right: calc(100% + 14px);">Automated — no input needed</div>
+    <div class="dash-annotation left" style="top: 62%; right: calc(100% + 14px);">Sent after your approval</div>
+  </div>
+</section>
+
+<!-- PROBLEMS — CHAPTERED ARGUMENT -->
+<section class="section problems" id="problems">
+  <div class="section-inner">
+    <div class="section-kicker fade-up">Sound familiar?</div>
+    <h2 class="section-heading fade-up delay-1">The work that never quite <em>gets done</em></h2>
+    <p class="problems-intro fade-up delay-2">You finish the real work at 6pm. Then the other job starts — the one nobody hired you for.</p>
+    <div class="problem-entries">
+      <div class="problem-entry fade-up">
+        <div class="problem-num">01</div>
+        <h3 class="problem-title">The evening admin pile</h3>
+        <p class="problem-desc">You finish the real work at 6pm, then spend two hours on quotes, replies, and scheduling that should have gone out this morning.</p>
+      </div>
+      <div class="problem-entry fade-up">
+        <div class="problem-num">02</div>
+        <h3 class="problem-title">The quote that never left</h3>
+        <p class="problem-desc">A good lead came in last week. You meant to send the quote. It's still sitting in a tab somewhere, and the customer's moved on.</p>
+      </div>
+      <div class="problem-entry fade-up">
+        <div class="problem-num">03</div>
+        <h3 class="problem-title">The follow-up that didn't happen</h3>
+        <p class="problem-desc">Three quotes went out. None got a reply. Nobody chased. That's pipeline sitting there because everyone's busy with today's fire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — ANNOTATED EXHIBIT -->
+<section class="section how-works" id="how">
+  <div class="section-inner">
+    <div class="section-kicker fade-up">Your daily 10 minutes</div>
+    <h2 class="section-heading fade-up delay-1">One list. Approve, edit, <em>or leave it.</em></h2>
+    <div class="how-grid">
+      <div class="how-text fade-up delay-2">
+        <p>Every morning you get a short list of the things that need your sign-off. <strong>Everything else already happened.</strong></p>
+        <p>Approve, make a quick edit, or leave it — your agents know what to do either way. They never send anything without your say-so.</p>
+        <p>Think of it like hiring someone for one specific job. You give them access to what they need, tell them when to check in, and they get on with it.</p>
+      </div>
+      <div class="fade-up delay-3">
+        <div class="review-frame">
+          <span class="conceptual-label" style="margin: 0.6rem 0.85rem; display: inline-block;">Worked example — illustrative</span>
+          <div class="review-header">
+            <h4>Morning Review — Wednesday</h4>
+            <span>3 items · ~4 min</span>
+          </div>
+          <div class="review-body">
+            <div class="review-item">
+              <span class="review-status pending"></span>
+              <div class="review-content">
+                <div class="review-title">Quote: Meridian Tower — $12,400</div>
+                <div class="review-detail">Above your $10,000 threshold. Chloe priced from rate card + site hours. Breakdown attached.</div>
+                <div class="review-actions">
+                  <button class="approve">Approve</button>
+                  <button>Edit amount</button>
+                  <button>View breakdown</button>
+                </div>
+              </div>
+            </div>
+            <div class="review-item">
+              <span class="review-status pending"></span>
+              <div class="review-content">
+                <div class="review-title">Follow-up email: Koh & Sons — 14 days</div>
+                <div class="review-detail">Second reminder. Sarah drafted a polite check-in. Previous quote: $6,200.</div>
+                <div class="review-actions">
+                  <button class="approve">Send</button>
+                  <button>Edit</button>
+                </div>
+              </div>
+            </div>
+            <div class="review-item">
+              <span class="review-status done"></span>
+              <div class="review-content">
+                <div class="review-title">4 actions completed overnight</div>
+                <div class="review-detail">Ben logged 2 enquiries · Tiffany booked Thursday crew · Haziq filed yesterday's reports</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-up').forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Labs — AI Staff for Singapore Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground: #f7f5f2;
+  --surface: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #595959;
+  --accent: #2d5a3d;
+  --accent-light: #e8f0eb;
+  --border: #e5e2dd;
+  --dash-bg: #0f1117;
+  --dash-surface: #1a1d27;
+  --dash-border: #2a2d3a;
+  --dash-text: #c8cad0;
+  --dash-accent: #4a9eff;
+  --dash-green: #3ecf8e;
+  --dash-amber: #f0b429;
+  --dash-red: #ef6b6b;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --container: 1200px;
+  --gutter: clamp(20px, 3vw, 48px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--sans); color: var(--ink); background: var(--ground); line-height: 1.65; overflow-x: hidden; }
+
+/* === NAV === */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--container); margin: 0 auto;
+  padding: 1.25rem var(--gutter);
+}
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+  height: 60px; background: rgba(247,245,242,0.92); backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: var(--serif); font-weight: 400; font-size: 1.15rem;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.02em;
+}
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a:not(.nav-cta) {
+  font-size: 0.85rem; color: var(--muted); text-decoration: none; font-weight: 500;
+}
+.nav-links a:not(.nav-cta):hover { color: var(--ink); }
+.nav-links a:not(.nav-cta):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.nav-cta {
+  background: var(--ink); color: var(--ground); padding: 0.55rem 1.2rem;
+  border-radius: 0; font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; transition: background 0.2s ease;
+}
+.nav-cta:hover { background: var(--accent); color: var(--ground); }
+.nav-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* === HERO === */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem); align-items: center;
+  max-width: var(--container); margin: 0 auto;
+  padding: clamp(120px, 10vw, 160px) var(--gutter) clamp(80px, 8vw, 120px);
+}
+.hero-text { }
+.hero h1 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2.4rem, 1rem + 3.5vw, 3.2rem);
+  line-height: 1.05; letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+.hero-sub {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7; max-width: 440px;
+  margin-bottom: 2rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--ink); color: var(--ground);
+  padding: 0.85rem 1.75rem; border: none; border-radius: 0;
+  font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; letter-spacing: 0.01em;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent); transform: translateY(-1px); }
+.btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-primary:disabled { opacity: 0.85; }
+.btn-secondary {
+  display: inline-flex; align-items: center;
+  color: var(--muted); font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  transition: color 0.2s ease;
+}
+.btn-secondary:hover { color: var(--ink); }
+.btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-secondary::after { content: ' \2192'; margin-left: 0.3em; }
+.hero-trust {
+  display: flex; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;
+}
+.hero-trust span {
+  font-size: 0.8125rem; color: var(--muted);
+}
+
+/* === DASHBOARD EXHIBIT === */
+.dash-exhibit { position: relative; }
+.dash-frame {
+  background: var(--dash-bg); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08); /* taste-skill-ignore: data-ui exhibit */
+}
+.dash-frame[data-ui] { }
+.dash-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.65rem 1rem; border-bottom: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  font-size: 0.8rem; color: var(--dash-text);
+}
+.dash-topbar-title { font-weight: 500; color: #fff; }
+.dash-body { padding: 1rem; }
+.dash-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.dash-stat {
+  background: var(--dash-surface); border: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  border-radius: 6px; padding: 0.75rem 0.85rem;
+}
+.dash-stat-label {
+  font-size: 0.8125rem; color: var(--dash-text);
+  margin-bottom: 0.25rem;
+}
+.dash-stat-val {
+  font-size: 1.2rem; font-weight: 600; color: #fff;
+}
+.dash-stat-val.green { color: var(--dash-green); }
+.dash-stat-val.blue { color: var(--dash-accent); }
+.dash-stat-val.amber { color: var(--dash-amber); }
+
+.activity-feed { display: flex; flex-direction: column; gap: 0.35rem; }
+.activity-item {
+  display: grid; grid-template-columns: 6px 4rem 1fr auto;
+  align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.75rem; background: var(--dash-surface);
+  border-radius: 4px; font-size: 0.8rem; color: var(--dash-text);
+}
+.activity-dot { width: 6px; height: 6px; border-radius: 50%; }
+.activity-dot.auto { background: var(--dash-green); }
+.activity-dot.sent { background: var(--dash-accent); }
+.activity-dot.sched { background: var(--dash-amber); }
+.activity-agent { color: #fff; font-weight: 500; }
+.activity-time { color: var(--dash-text); font-size: 0.8125rem; }
+
+.conceptual-label {
+  display: inline-block; font-size: 0.8125rem;
+  color: var(--dash-text);
+  padding: 0.25rem 0.5rem; background: var(--dash-surface);
+  border-radius: 3px;
+}
+
+/* Annotation callouts */
+.dash-annotation {
+  position: absolute; font-size: 0.8125rem;
+  color: var(--accent); background: var(--surface);
+  padding: 0.35rem 0.7rem; border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.dash-annotation { display: none; }
+
+/* Mobile annotation legend */
+.annotation-legend {
+  display: block; margin-top: 1rem;
+  font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+}
+.annotation-legend span { color: var(--accent); font-weight: 500; }
+
+/* === SECTION UTILITY === */
+.section { padding: clamp(100px, 8vw, 160px) var(--gutter); }
+.section-inner { max-width: var(--container); margin: 0 auto; }
+
+/* === PROBLEMS === */
+.problems { background: var(--surface); }
+.problems-head { max-width: 600px; margin-bottom: clamp(48px, 5vw, 72px); }
+.problems-head h2 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.problems-head p {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7;
+}
+.problem-entries {
+  display: grid; grid-template-columns: 1fr; gap: 0;
+  max-width: 720px;
+}
+.problem-entry {
+  padding: clamp(28px, 3vw, 44px) 0;
+}
+.problem-entry + .problem-entry {
+  border-top: none;
+  padding-top: clamp(28px, 3vw, 44px);
+  position: relative;
+}
+.problem-entry + .problem-entry::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 48px; height: 2px; background: var(--accent); opacity: 0.3;
+}
+.problem-title {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 0.75rem;
+}
+.problem-desc {
+  font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  color: var(--muted); line-height: 1.7; max-width: 560px;
+}
+
+/* === HOW IT WORKS === */
+.how-works { background: var(--ground); }
+.how-head { max-width: 600px; margin-bottom: clamp(40px, 4vw, 64px); }
+.how-head h2 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.how-head p {
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  color: var(--muted); line-height: 1.7;
+}
+
+/* === TASK JOURNEY === */
+.task-journey { max-width: 640px; }
+.journey-stages { display: flex; flex-direction: column; gap: 0; }
+.journey-stage-label {
+  font-family: var(--sans); font-size: 0.8125rem; font-weight: 600;
+  color: var(--muted); margin-bottom: 0.5rem;
+}
+.journey-card {
+  background: var(--dash-bg); border-radius: 6px; overflow: hidden;
+  border: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  transition: border-color 0.3s ease;
+}
+.journey-card[data-ui] { }
+.journey-card.active { border-color: var(--dash-amber); }
+.journey-card.is-approved { border-color: var(--dash-green); }
+.journey-card-head {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--dash-border); /* taste-skill-ignore: data-ui */
+  font-size: 0.8125rem;
+}
+.journey-card-title { color: #fff; font-weight: 500; flex: 1; }
+.journey-card-time { color: var(--dash-text); font-size: 0.8125rem; }
+.journey-card-body { padding: 0.75rem 0.85rem; }
+.journey-detail {
+  font-size: 0.8125rem; color: var(--dash-text); line-height: 1.55; margin-bottom: 0.2rem;
+}
+.journey-detail strong { color: #fff; }
+.journey-detail.muted { color: var(--dash-text); opacity: 0.7; font-style: italic; }
+
+.journey-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+.journey-dot.prep { background: var(--dash-accent); }
+.journey-dot.review { background: var(--dash-amber); }
+.journey-dot.done { background: var(--dash-border); }
+.journey-dot.done.completed { background: var(--dash-green); }
+
+.journey-connector {
+  display: flex; justify-content: center; padding: 0.5rem 0;
+  color: var(--dash-border); font-size: 1.2rem;
+}
+
+.review-actions {
+  display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;
+}
+.review-btn {
+  font-size: 0.8125rem; padding: 0.4rem 0.75rem; border-radius: 3px;
+  border: 1px solid var(--dash-border); background: var(--dash-surface); /* taste-skill-ignore: data-ui */
+  color: var(--dash-text); font-family: var(--sans); cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.review-btn:hover { border-color: var(--dash-text); color: #fff; }
+.review-btn:focus-visible { outline: 2px solid var(--dash-accent); outline-offset: 2px; }
+.review-btn.approve { border-color: var(--dash-green); color: var(--dash-green); }
+.review-btn.approve:hover { background: var(--dash-green); color: var(--dash-bg); }
+.review-btn.illustrative {
+  opacity: 0.45; cursor: default; pointer-events: none;
+  border-style: dashed;
+}
+.review-approved-msg {
+  display: none; margin-top: 0.4rem;
+  font-size: 0.8125rem; color: var(--dash-green); font-weight: 500;
+}
+
+/* Demo controls */
+.demo-controls { margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.demo-reset-btn {
+  font-family: var(--sans); font-size: 0.8125rem; padding: 0.4rem 0.85rem;
+  background: var(--surface); color: var(--muted); border: 1px solid var(--border);
+  border-radius: 3px; cursor: pointer; transition: color 0.15s ease;
+}
+.demo-reset-btn:hover { color: var(--ink); }
+.demo-reset-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.demo-notice {
+  font-size: 0.8125rem; color: var(--accent); line-height: 1.5;
+  padding: 0.4rem 0.65rem; background: var(--accent-light); border-radius: 4px;
+}
+
+/* === SCROLL ANIMATION === */
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up.d1 { transition-delay: 80ms; }
+.fade-up.d2 { transition-delay: 160ms; }
+.fade-up.d3 { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1023px) {
+  .hero { grid-template-columns: 1fr; padding-top: 100px; }
+  .hero-text { max-width: 600px; }
+  .dash-annotation { display: none; }
+}
+@media (max-width: 767px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .hero { padding-top: 80px; gap: 2rem; }
+  .dash-stats { grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+  .dash-stat { padding: 0.6rem 0.5rem; }
+  .dash-stat-label { font-size: 0.8125rem; }
+  .dash-stat-val { font-size: 1rem; }
+  .activity-item { grid-template-columns: 6px 3.5rem 1fr auto; font-size: 0.8125rem; padding: 0.5rem 0.6rem; }
+  .section { padding: clamp(64px, 6vw, 80px) var(--gutter); }
+  .review-item { padding: 0.6rem 0.5rem; }
+}
+@media (max-width: 390px) {
+  .hero h1 { font-size: 2.2rem; }
+  .activity-item { grid-template-columns: 6px 3rem 1fr; }
+  .activity-time { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-bar"></div>
+<nav class="nav" role="navigation" aria-label="Main">
+  <a href="/" class="nav-logo">Agentic Labs</a>
+  <div class="nav-links">
+    <a href="#problems">Why us</a>
+    <a href="#how">How it works</a>
+    <span class="nav-cta" aria-label="Booking unavailable in this prototype" title="Booking link unavailable in this prototype" style="cursor:default;">Book a free call</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1 class="fade-up">They handle the admin. You make the decisions.</h1>
+    <p class="hero-sub fade-up d1">AI staff that handle quotes, scheduling, and follow-ups for your business. They check with you before anything goes out.</p>
+    <div class="hero-actions fade-up d2">
+      <button class="btn-primary" type="button" aria-label="Booking unavailable in this prototype" title="Booking link unavailable in this prototype" style="cursor:default;" disabled>Book a free 30-minute call</button>
+      <a href="#how" class="btn-secondary">See how it works</a>
+    </div>
+    <div class="hero-trust fade-up d3">
+      <span>Singapore-based</span>
+      <span>Nothing to install</span>
+      <span>No technical knowledge needed</span>
+    </div>
+  </div>
+  <div class="dash-exhibit fade-up d1">
+    <div class="dash-frame" data-ui>
+      <div class="dash-topbar">
+        <span class="dash-topbar-title">Activity — today</span>
+        <span class="conceptual-label">Worked example — illustrative</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-label">Actions today</div>
+            <div class="dash-stat-val green">46</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Need your sign-off</div>
+            <div class="dash-stat-val amber">1</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Your time spent</div>
+            <div class="dash-stat-val blue">8 sec</div>
+          </div>
+        </div>
+        <div class="activity-feed">
+          <div class="activity-item">
+            <span class="activity-dot auto"></span>
+            <span class="activity-agent">Tiffany</span>
+            <span>Rescheduled Koh &amp; Sons to Thursday, no clashes</span>
+            <span class="activity-time">11:42</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot sent"></span>
+            <span class="activity-agent">Sarah</span>
+            <span>Sent quote to Ng Renovation. $8,400 from rate card</span>
+            <span class="activity-time">11:38</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot auto"></span>
+            <span class="activity-agent">Ben</span>
+            <span>Logged WhatsApp enquiry, Bukit Batok 3-room reno</span>
+            <span class="activity-time">11:15</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot sched"></span>
+            <span class="activity-agent">Chloe</span>
+            <span>Scoped 3 outstanding quotes from this week's leads</span>
+            <span class="activity-time">10:50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dash-annotation left" style="top: 28%;">Automated — no input needed</div>
+    <div class="dash-annotation left" style="top: 58%;">Sent after your approval</div>
+    <div class="annotation-legend">
+      <span>Green dot</span> = automated, no input needed. <span>Blue dot</span> = sent after your approval.
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section problems" id="problems">
+  <div class="section-inner">
+    <div class="problems-head fade-up">
+      <h2>The work that falls through</h2>
+      <p>You finish the real work at 6pm. Then the other job starts, the one nobody hired you for.</p>
+    </div>
+    <div class="problem-entries">
+      <div class="problem-entry fade-up">
+        <h3 class="problem-title">The evening admin pile</h3>
+        <p class="problem-desc">You finish the real work at 6pm, then spend two hours on quotes, replies, and scheduling that should have gone out this morning.</p>
+      </div>
+      <div class="problem-entry fade-up">
+        <h3 class="problem-title">The quote that never left</h3>
+        <p class="problem-desc">A good lead came in last week. You meant to send the quote. It's still sitting in a tab somewhere, and the customer's moved on.</p>
+      </div>
+      <div class="problem-entry fade-up">
+        <h3 class="problem-title">The follow-up that didn't happen</h3>
+        <p class="problem-desc">Three quotes went out. None got a reply. Nobody chased. That's pipeline sitting idle because everyone's busy with today's fire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-works" id="how">
+  <div class="section-inner">
+    <div class="how-head fade-up">
+      <h2>How the daily approval works</h2>
+      <p>Your agents handle the preparation. You see the result and decide. One task, three stages.</p>
+    </div>
+
+    <!-- Task journey: one quote moving through three stages -->
+    <div class="task-journey fade-up d1">
+      <div class="journey-stages">
+        <div class="journey-stage" id="stage-prep">
+          <div class="journey-stage-label">Preparation</div>
+          <div class="journey-card" data-ui>
+            <div class="journey-card-head">
+              <span class="journey-dot prep"></span>
+              <span class="journey-card-title">Chloe is pricing a quote</span>
+              <span class="journey-card-time">Tuesday 4:12pm</span>
+            </div>
+            <div class="journey-card-body">
+              <div class="journey-detail">Meridian Tower — 3-room HDB renovation</div>
+              <div class="journey-detail">Rate card: labour $7,600 + materials $4,800</div>
+              <div class="journey-detail muted">Above your $10,000 threshold. Flagged for review.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey-connector"><span class="connector-arrow">&#8595;</span></div>
+
+        <div class="journey-stage" id="stage-review">
+          <div class="journey-stage-label">Owner review</div>
+          <div class="journey-card active" data-ui>
+            <div class="journey-card-head">
+              <span class="journey-dot review"></span>
+              <span class="journey-card-title">Quote ready for sign-off</span>
+              <span class="journey-card-time">Wednesday 7:15am</span>
+            </div>
+            <div class="journey-card-body">
+              <div class="journey-detail"><strong>Meridian Tower — $12,400</strong></div>
+              <div class="journey-detail">Chloe priced from rate card plus site visit hours. Breakdown attached.</div>
+              <div class="review-actions" id="demo-actions">
+                <button class="review-btn approve" id="approve-quote" aria-label="Approve quote — demo only, nothing is sent">Approve</button>
+                <button class="review-btn illustrative" tabindex="-1" aria-label="Illustrative — not functional in this demo" title="Illustrative control">Edit amount</button>
+                <button class="review-btn illustrative" tabindex="-1" aria-label="Illustrative — not functional in this demo" title="Illustrative control">View breakdown</button>
+              </div>
+              <div class="review-approved-msg" id="approved-msg" aria-live="polite">Approved — quote will be sent to Meridian Tower</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey-connector"><span class="connector-arrow" id="connector-approved">&#8595;</span></div>
+
+        <div class="journey-stage" id="stage-done">
+          <div class="journey-stage-label">Approved</div>
+          <div class="journey-card done" data-ui id="card-done">
+            <div class="journey-card-head">
+              <span class="journey-dot done"></span>
+              <span class="journey-card-title" id="done-title">Waiting for your decision</span>
+              <span class="journey-card-time" id="done-time"></span>
+            </div>
+            <div class="journey-card-body" id="done-body">
+              <div class="journey-detail muted">Tap Approve above to see this stage complete.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-controls">
+        <button class="demo-reset-btn" id="demo-reset" style="display:none;" aria-label="Reset demo to initial state">Reset demo</button>
+        <div class="demo-notice">Worked example — illustrative. Nothing is sent externally.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
+
+  var approveBtn = document.getElementById('approve-quote');
+  var actions = document.getElementById('demo-actions');
+  var approvedMsg = document.getElementById('approved-msg');
+  var resetBtn = document.getElementById('demo-reset');
+  var reviewCard = document.querySelector('#stage-review .journey-card');
+  var doneCard = document.getElementById('card-done');
+  var doneDot = doneCard.querySelector('.journey-dot');
+  var doneTitle = document.getElementById('done-title');
+  var doneTime = document.getElementById('done-time');
+  var doneBody = document.getElementById('done-body');
+  var reviewDot = document.querySelector('#stage-review .journey-dot');
+
+  function setApproved() {
+    actions.style.display = 'none';
+    approvedMsg.style.display = 'block';
+    reviewCard.classList.remove('active');
+    reviewCard.classList.add('is-approved');
+    reviewDot.style.background = 'var(--dash-green)';
+    doneDot.classList.add('completed');
+    doneTitle.textContent = 'Quote sent to Meridian Tower';
+    doneTime.textContent = 'Wednesday 7:16am';
+    doneBody.innerHTML = '<div class="journey-detail">Sarah will follow up if no reply in 7 days.</div><div class="journey-detail muted">Sent automatically after your approval.</div>';
+    doneCard.classList.add('is-approved');
+    resetBtn.style.display = 'inline-flex';
+  }
+
+  function resetDemo() {
+    actions.style.display = 'flex';
+    approvedMsg.style.display = 'none';
+    reviewCard.classList.add('active');
+    reviewCard.classList.remove('is-approved');
+    reviewDot.style.background = '';
+    doneDot.classList.remove('completed');
+    doneTitle.textContent = 'Waiting for your decision';
+    doneTime.textContent = '';
+    doneBody.innerHTML = '<div class="journey-detail muted">Tap Approve above to see this stage complete.</div>';
+    doneCard.classList.remove('is-approved');
+    resetBtn.style.display = 'none';
+    approveBtn.focus();
+  }
+
+  approveBtn.addEventListener('click', setApproved);
+  resetBtn.addEventListener('click', resetDemo);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lantern Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --ink: #1a1a18; --ink-soft: #4a4a46; --cream: #f6f3ed; --warm-white: #faf8f4;
+  --paper: #ffffff; --rule: #d4cfc6; --gold: #a0894d; --gold-muted: #c4b68a; --caption: #7a756a;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--ink); background: var(--cream); line-height: 1.6; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-line { transform: scaleX(0); transform-origin: left; transition: transform 1s var(--ease-in-out); }
+.reveal-line.visible { transform: scaleX(1); }
+.reveal-fade { opacity: 0; transition: opacity 1.2s var(--ease-out); }
+.reveal-fade.visible { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-fade { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .reveal-line { transform: scaleX(1) !important; transition: none !important; }
+}
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px clamp(24px, 5vw, 64px); background: rgba(246, 243, 237, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color 0.4s; }
+.nav.scrolled { border-bottom-color: var(--rule); }
+.nav__mark { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.nav__links { display: flex; gap: 32px; list-style: none; font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.nav__links a { text-decoration: none; color: var(--ink-soft); transition: color 0.3s; }
+.nav__links a:hover { color: var(--ink); }
+.nav__cta { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 24px; border: 1px solid var(--ink); transition: background 0.3s, color 0.3s; }
+.nav__cta:hover { background: var(--ink); color: var(--cream); }
+
+/* HERO */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; }
+.hero__text { display: flex; flex-direction: column; justify-content: center; padding: clamp(48px, 8vw, 120px) clamp(24px, 5vw, 80px); }
+.hero__issue { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+.hero__title { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 32px; }
+.hero__title em { font-style: italic; font-weight: 300; color: var(--gold); }
+.hero__intro { max-width: 420px; font-size: 1.05rem; line-height: 1.7; color: var(--ink-soft); margin-bottom: 40px; }
+.hero__actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.btn-primary { display: inline-block; padding: 14px 32px; background: var(--ink); color: var(--cream); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background 0.3s; }
+.btn-primary:hover { background: #333; }
+.btn-ghost { display: inline-flex; align-items: center; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px; min-height: 48px; transition: color 0.3s, border-color 0.3s; }
+.btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+.hero__visual { position: relative; background: var(--ink); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero__visual-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.hero__visual svg { width: 70%; height: auto; opacity: 0.12; }
+.hero__caption { position: absolute; bottom: 32px; left: 32px; right: 32px; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; color: rgba(255,255,255,0.5); text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 12px; }
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--rule); margin: 0 clamp(24px, 5vw, 80px); }
+
+/* STATEMENT */
+.statement { padding: clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px); max-width: 900px; }
+.statement__text { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.35; color: var(--ink); }
+.statement__text strong { font-weight: 600; color: var(--gold); }
+.statement__attr { margin-top: 32px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--caption); }
+
+/* CHAPTERS */
+.chapters { padding: clamp(60px, 8vw, 120px) clamp(24px, 5vw, 80px); }
+.chapters__header { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: clamp(60px, 8vw, 100px); align-items: end; }
+.chapters__label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.chapters__title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.1; }
+.chapters__desc { font-size: 0.95rem; line-height: 1.7; color: var(--ink-soft); max-width: 480px; align-self: end; }
+.chapter { display: grid; grid-template-columns: 200px 1fr; gap: 40px; padding: clamp(40px, 4vw, 64px) 0; border-top: 1px solid var(--rule); align-items: start; }
+.chapter__number { font-family: var(--font-display); font-size: clamp(4rem, 6vw, 7rem); font-weight: 300; line-height: 1; color: var(--rule); }
+.chapter__content { max-width: 640px; }
+.chapter__category { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.chapter__heading { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 400; line-height: 1.2; margin-bottom: 16px; }
+.chapter__excerpt { font-size: 0.95rem; line-height: 1.75; color: var(--ink-soft); margin-bottom: 20px; }
+.chapter__meta { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--caption); }
+
+/* PULLQUOTE */
+.pullquote { background: var(--ink); color: var(--cream); padding: clamp(80px, 10vw, 160px) clamp(24px, 5vw, 80px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 80px); align-items: center; }
+.pullquote__text { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.8rem); font-weight: 300; font-style: italic; line-height: 1.35; }
+.pullquote__text::before { content: '\201C'; }
+.pullquote__text::after { content: '\201D'; }
+.pullquote__author { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; }
+.pullquote__role { font-size: 0.85rem; color: var(--gold-muted); margin-bottom: 24px; }
+.pullquote__context { font-size: 0.85rem; line-height: 1.7; color: rgba(246,243,237,0.6); border-top: 1px solid rgba(255,255,255,0.12); padding-top: 20px; }
+
+/* EVIDENCE */
+.evidence { padding: clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px); }
+.evidence__label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: clamp(40px, 5vw, 64px); }
+.evidence__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.evidence__item { border-top: 1px solid var(--rule); padding-top: 24px; }
+.evidence__number { font-family: var(--font-display); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; line-height: 1; margin-bottom: 8px; }
+.evidence__desc { font-size: 0.85rem; line-height: 1.5; color: var(--ink-soft); }
+
+/* CONTRIBUTORS */
+.contributors { padding: clamp(60px, 8vw, 120px) clamp(24px, 5vw, 80px); background: var(--warm-white); }
+.contributors__header { display: flex; justify-content: space-between; align-items: end; margin-bottom: clamp(48px, 5vw, 72px); }
+.contributors__title { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.1; }
+.contributors__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.contributor { padding: 32px; border: 1px solid var(--rule); background: var(--paper); transition: border-color 0.3s; }
+.contributor:hover { border-color: var(--gold-muted); }
+.contributor__avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--ink); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.1rem; color: var(--cream); font-weight: 300; }
+.contributor__name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; margin-bottom: 4px; }
+.contributor__field { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.contributor__bio { font-size: 0.85rem; line-height: 1.65; color: var(--ink-soft); }
+
+/* CTA */
+.cta { padding: clamp(100px, 14vw, 200px) clamp(24px, 5vw, 80px); text-align: center; }
+.cta__kicker { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+.cta__title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 300; line-height: 1.1; max-width: 700px; margin: 0 auto 24px; }
+.cta__desc { font-size: 1rem; color: var(--ink-soft); max-width: 480px; margin: 0 auto 40px; line-height: 1.7; }
+.cta__actions { display: flex; gap: 16px; justify-content: center; }
+
+/* FOOTER */
+.footer { padding: 32px clamp(24px, 5vw, 80px); border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--caption); }
+.footer__links { display: flex; gap: 24px; list-style: none; }
+.footer__links a { text-decoration: none; color: var(--caption); transition: color 0.3s; }
+.footer__links a:hover { color: var(--ink); }
+
+/* RESPONSIVE */
+@media (max-width: 1023px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero__visual { min-height: 50vh; }
+  .chapters__header { grid-template-columns: 1fr; }
+  .chapter { grid-template-columns: 80px 1fr; gap: 24px; }
+  .chapter__number { font-size: clamp(3rem, 5vw, 4rem); }
+  .pullquote { grid-template-columns: 1fr; }
+  .evidence__grid { grid-template-columns: repeat(2, 1fr); }
+  .contributors__grid { grid-template-columns: repeat(2, 1fr); }
+  .contributors__header { flex-direction: column; align-items: start; gap: 16px; }
+  .nav__links { display: none; }
+}
+@media (max-width: 640px) {
+  .hero__text { padding: 100px 24px 64px; }
+  .hero__visual { min-height: 40vh; }
+  .hero__actions { flex-direction: column; align-items: flex-start; }
+  .evidence__grid { grid-template-columns: 1fr 1fr; }
+  .contributors__grid { grid-template-columns: 1fr; }
+  .chapter { grid-template-columns: 1fr; }
+  .chapter__number { font-size: 3rem; }
+  .cta__actions { flex-direction: column; align-items: center; }
+  .footer { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__mark">The Lantern Review</div>
+  <ul class="nav__links">
+    <li><a href="#chapters">Essays</a></li>
+    <li><a href="#contributors">Contributors</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+  </ul>
+  <button class="nav__cta" onclick="document.getElementById('subscribe').scrollIntoView({behavior:'smooth'})">Subscribe</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__text">
+    <div class="hero__issue reveal">Issue 14 &middot; Autumn 2026</div>
+    <h1 class="hero__title reveal" style="transition-delay:0.1s">The<br>Weight of<br><em>Attention</em></h1>
+    <p class="hero__intro reveal" style="transition-delay:0.2s">
+      Fourteen writers and researchers examine what happens to culture, craft and conviction when attention becomes the scarcest material we work with.
+    </p>
+    <div class="hero__actions reveal" style="transition-delay:0.3s">
+      <a href="#chapters" class="btn-primary">Read this issue</a>
+      <a href="#subscribe" class="btn-ghost">Subscribe</a>
+    </div>
+  </div>
+  <div class="hero__visual">
+    <div class="hero__visual-inner reveal-fade">
+      <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M200 40 L200 460" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+        <path d="M40 250 L360 250" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+        <circle cx="200" cy="250" r="120" stroke="rgba(160,137,77,0.3)" stroke-width="0.8"/>
+        <circle cx="200" cy="250" r="80" stroke="rgba(160,137,77,0.2)" stroke-width="0.5"/>
+        <circle cx="200" cy="250" r="40" stroke="rgba(160,137,77,0.15)" stroke-width="0.5"/>
+        <path d="M80 120 Q200 180 320 120" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" fill="none"/>
+        <path d="M80 380 Q200 320 320 380" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" fill="none"/>
+        <circle cx="200" cy="250" r="3" fill="rgba(160,137,77,0.5)"/>
+        <circle cx="200" cy="130" r="2" fill="rgba(160,137,77,0.3)"/>
+        <circle cx="200" cy="370" r="2" fill="rgba(160,137,77,0.3)"/>
+        <circle cx="80" cy="250" r="2" fill="rgba(160,137,77,0.2)"/>
+        <circle cx="320" cy="250" r="2" fill="rgba(160,137,77,0.2)"/>
+      </svg>
+    </div>
+    <div class="hero__caption reveal-fade" style="transition-delay:0.6s">
+      Cover illustration &middot; Maren Skjold &middot; Graphite and gold leaf on cotton paper
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider reveal-line"></div>
+
+<!-- EDITORIAL STATEMENT -->
+<section class="statement">
+  <p class="statement__text reveal">
+    We started this journal because we believed that <strong>the long sentence still matters</strong> — that some ideas need room to breathe, to turn a corner, to sit with the reader long enough to change something.
+  </p>
+  <p class="statement__attr reveal" style="transition-delay:0.15s">Ava Whitfield, founding editor, 2019</p>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider reveal-line"></div>
+
+<!-- CHAPTERS — FEATURED ESSAYS -->
+<section class="chapters" id="chapters">
+  <div class="chapters__header">
+    <div>
+      <div class="chapters__label reveal">In this issue</div>
+      <h2 class="chapters__title reveal" style="transition-delay:0.1s">Four essays on<br>attention and practice</h2>
+    </div>
+    <p class="chapters__desc reveal" style="transition-delay:0.15s">
+      Each contributor was asked the same question: what have you stopped doing in order to do your real work? Their answers surprised us.
+    </p>
+  </div>
+
+  <article class="chapter reveal">
+    <div class="chapter__number">01</div>
+    <div class="chapter__content">
+      <div class="chapter__category">Essay</div>
+      <h3 class="chapter__heading">The Discipline of Disappearing</h3>
+      <p class="chapter__excerpt">Mika Tanaka spent six months offline to finish her second novel. She thought she was escaping distraction. What she found instead was that silence has its own architecture — and some rooms in it are harder to leave than any feed.</p>
+      <div class="chapter__meta">Mika Tanaka &middot; 4,200 words &middot; 18 min read</div>
+    </div>
+  </article>
+
+  <article class="chapter reveal">
+    <div class="chapter__number">02</div>
+    <div class="chapter__content">
+      <div class="chapter__category">Research</div>
+      <h3 class="chapter__heading">Seventy-Three Seconds: What We Measure When We Measure Engagement</h3>
+      <p class="chapter__excerpt">The average time on page has become a proxy for value. But Daniel Asare's three-year study of reading behavior in academic libraries suggests that depth leaves no trace in the metrics we trust most.</p>
+      <div class="chapter__meta">Daniel Asare &middot; 6,800 words &middot; 28 min read</div>
+    </div>
+  </article>
+
+  <article class="chapter reveal">
+    <div class="chapter__number">03</div>
+    <div class="chapter__content">
+      <div class="chapter__category">Criticism</div>
+      <h3 class="chapter__heading">The Museum That Refused to Hurry</h3>
+      <p class="chapter__excerpt">When the Holmen Kunsthall removed all wayfinding signage, visitors spent three times longer in each room. Elena Rowe argues this wasn't a design failure — it was the most important curatorial decision the museum has made in twenty years.</p>
+      <div class="chapter__meta">Elena Rowe &middot; 3,100 words &middot; 14 min read</div>
+    </div>
+  </article>
+
+  <article class="chapter reveal">
+    <div class="chapter__number">04</div>
+    <div class="chapter__content">
+      <div class="chapter__category">Conversation</div>
+      <h3 class="chapter__heading">What Holds Your Gaze: A Dialogue Between a Painter and a Surgeon</h3>
+      <p class="chapter__excerpt">Nkechi Okafor paints portraits. James Lindqvist operates on hearts. Over twelve hours, they discovered that sustained attention in both fields depends on the same unglamorous skill: learning what to ignore.</p>
+      <div class="chapter__meta">Nkechi Okafor &amp; James Lindqvist &middot; 5,400 words &middot; 22 min read</div>
+    </div>
+  </article>
+</section>
+
+<!-- PULL QUOTE -->
+<section class="pullquote">
+  <p class="pullquote__text reveal">
+    The most radical thing a publication can do right now is assume its reader has time. Not demand it. Assume it. And then be worth the assumption.
+  </p>
+  <div class="pullquote__side reveal" style="transition-delay:0.15s">
+    <div class="pullquote__author">Ava Whitfield</div>
+    <div class="pullquote__role">Founding Editor, The Lantern Review</div>
+    <p class="pullquote__context">
+      From an interview with <em>The New European</em>, March 2026. Whitfield was responding to the question of whether long-form publishing still has an economic model.
+    </p>
+  </div>
+</section>
+
+<!-- EVIDENCE -->
+<section class="evidence" id="about">
+  <div class="evidence__label reveal">Since 2019</div>
+  <div class="evidence__grid">
+    <div class="evidence__item reveal">
+      <div class="evidence__number">14</div>
+      <div class="evidence__desc">Issues published, twice yearly since our founding</div>
+    </div>
+    <div class="evidence__item reveal" style="transition-delay:0.1s">
+      <div class="evidence__number">196</div>
+      <div class="evidence__desc">Essays, studies and conversations commissioned</div>
+    </div>
+    <div class="evidence__item reveal" style="transition-delay:0.2s">
+      <div class="evidence__number">41</div>
+      <div class="evidence__desc">Countries where subscribers receive the print edition</div>
+    </div>
+    <div class="evidence__item reveal" style="transition-delay:0.3s">
+      <div class="evidence__number">28 min</div>
+      <div class="evidence__desc">Average time readers spend with each essay</div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider reveal-line"></div>
+
+<!-- CONTRIBUTORS -->
+<section class="contributors" id="contributors">
+  <div class="contributors__header">
+    <h2 class="contributors__title reveal">This issue's<br>contributors</h2>
+    <a href="#" class="btn-ghost reveal" style="transition-delay:0.1s">View all contributors</a>
+  </div>
+  <div class="contributors__grid">
+    <div class="contributor reveal">
+      <div class="contributor__avatar">MT</div>
+      <div class="contributor__name">Mika Tanaka</div>
+      <div class="contributor__field">Fiction &middot; Tokyo</div>
+      <p class="contributor__bio">Author of <em>Salt Geography</em> and <em>The Returning Room</em>. Her work examines how places remember the people who leave them.</p>
+    </div>
+    <div class="contributor reveal" style="transition-delay:0.1s">
+      <div class="contributor__avatar">DA</div>
+      <div class="contributor__name">Daniel Asare</div>
+      <div class="contributor__field">Research &middot; Accra</div>
+      <p class="contributor__bio">Information scientist at the University of Ghana. His current work maps the gap between measured engagement and actual comprehension.</p>
+    </div>
+    <div class="contributor reveal" style="transition-delay:0.2s">
+      <div class="contributor__avatar">ER</div>
+      <div class="contributor__name">Elena Rowe</div>
+      <div class="contributor__field">Criticism &middot; Oslo</div>
+      <p class="contributor__bio">Architecture and exhibition critic. Regular contributor to <em>Frieze</em> and <em>Domus</em>. Currently writing a book on slowness as institutional strategy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="subscribe">
+  <div class="cta__kicker reveal">Join the conversation</div>
+  <h2 class="cta__title reveal" style="transition-delay:0.1s">Read with the<br>patience it was<br>written with</h2>
+  <p class="cta__desc reveal" style="transition-delay:0.2s">
+    Two issues per year. No advertising. No algorithmic recommendation. Just fourteen writers and the space to read them properly.
+  </p>
+  <div class="cta__actions reveal" style="transition-delay:0.3s">
+    <a href="#" class="btn-primary">Subscribe — $48/year</a>
+    <a href="#" class="btn-ghost">Gift a subscription</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>&copy; 2026 The Lantern Review. All rights reserved.</span>
+  <ul class="footer__links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal, .reveal-line, .reveal-fade');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+  var nav = document.getElementById('nav');
+  var scrolled = false;
+  window.addEventListener('scroll', function() {
+    var s = window.scrollY > 40;
+    if (s !== scrolled) { scrolled = s; nav.classList.toggle('scrolled', s); }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
