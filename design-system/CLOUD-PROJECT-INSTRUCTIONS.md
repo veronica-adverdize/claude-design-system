@@ -276,3 +276,12 @@ Applies whenever a brief asks for custom graphics, illustrated scenes, storybook
 **Quality checklist before presenting:** style sheet followed, 4 or more layers, nothing floating, shading present, moving parts working, characters have faces with life, palette limited, squint test passes, cover-the-logo test passes, icons consistent, checked at 390px and 1440px in a real browser.
 
 **Photos vs illustration:** pictures or photos requested means use photography. Custom graphics requested means SVG. Both requested means deliver both.
+
+
+## No emojis in built pages
+
+Never use emojis in any page, component, button, label, heading, list, or placeholder, even if the brief is playful or fun. This applies to HTML, CSS content, and JavaScript strings.
+
+Use instead: Font Awesome 6.5.1 icons for standard UI needs (arrows, checks, calendar, phone, menu, social), and custom inline SVG for anything branded, decorative, or concept-specific (paws, bones, scenes, badges).
+
+Before presenting, scan the output for emoji characters and replace any found.

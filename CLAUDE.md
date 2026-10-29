@@ -322,6 +322,16 @@ Applies whenever a brief asks for custom graphics, illustrated scenes, storybook
 
 **Photos vs illustration:** when the user asks for pictures, use photography. When they ask for custom graphics, use SVG. When they ask for both, deliver both.
 
+## No emojis in built pages
+
+Never use emojis in any page, component, button, label, heading, list, or placeholder, even if the brief is playful or fun. This applies to HTML, CSS content, and JavaScript strings.
+
+Use instead:
+- **Font Awesome 6.5.1** icons for standard UI needs (arrows, checks, calendar, phone, menu, social).
+- **Custom inline SVG** for anything branded, decorative, or concept-specific (paws, bones, scenes, badges). See the `svg-illustrator` skill.
+
+Before presenting, scan the output for emoji characters and replace any found.
+
 ## Known limitations
 
 - **A1 Gallery requires authentication.** The `a1-gallery:design-researcher` agent and plugin skills are installed but need `/mcp` authentication before they return gallery data. Connecting A1 provides curated gallery search and measured design norms — it does not provide browser screenshots of external sites. Those require the `claude-in-chrome` skill (separate capability).

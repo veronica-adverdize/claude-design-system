@@ -119,3 +119,8 @@ Motion lives inside the scene, not only on scroll reveal. Aim for 3 to 6 small m
 - **Rainbow palette**: cut to the style sheet palette
 - **Static scene**: add the small loops from Step 5
 - **Stiff characters**: tilt, offset, and add a secondary action
+
+## No emojis
+
+Never use emojis anywhere in a built page. Standard UI icons use Font Awesome 6.5.1. Branded, decorative, or concept-specific icons use custom inline SVG from this skill. Scan the output for emoji characters before presenting.
+
