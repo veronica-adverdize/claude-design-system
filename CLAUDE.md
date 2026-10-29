@@ -303,6 +303,25 @@ When the user returns with a follow-up like "add an About page" or "change the h
 - If you generate multiple direction samples, each must be structurally distinct — different layout, different section order, different component patterns. Color and font swaps alone do not count as a different direction.
 - Never deliver duplicate files. Each file must contain meaningfully different content.
 
+## Illustration rules
+
+Applies whenever a brief asks for custom graphics, illustrated scenes, storybook or playful styles, mascots, icons, or maps. Load the `svg-illustrator` skill (`.agents/skills/svg-illustrator/SKILL.md`) for the full method. No API or paid credits are used. Illustrations are hand-coded inline SVG.
+
+**Where it fits in the workflow:**
+- **Step 4 (guidelines):** write an illustration style sheet in DESIGN.md: line style, 5 to 7 color palette, light direction, corner language, character proportions.
+- **Step 5/6 (build and refine):** build each scene in layers (background, midground, subject, foreground accents) with one focal point.
+- **Step 6 (critique):** run the svg-illustrator quality checklist alongside the other critique passes.
+
+**Minimum bar for illustrated scenes:**
+- At least 4 layers, with overlaps and ground shadows so nothing floats.
+- Gradients or shading, not flat fills only.
+- 3 or more small moving parts in each hero scene (tail wag, blink, floating particles). Reduced motion is respected.
+- Characters have faces with life and named groups so they can be animated.
+- One consistent style across every illustration and icon in the project.
+- Look at the result in a real browser before presenting. Do not judge illustrations from code alone.
+
+**Photos vs illustration:** when the user asks for pictures, use photography. When they ask for custom graphics, use SVG. When they ask for both, deliver both.
+
 ## Known limitations
 
 - **A1 Gallery requires authentication.** The `a1-gallery:design-researcher` agent and plugin skills are installed but need `/mcp` authentication before they return gallery data. Connecting A1 provides curated gallery search and measured design norms — it does not provide browser screenshots of external sites. Those require the `claude-in-chrome` skill (separate capability).

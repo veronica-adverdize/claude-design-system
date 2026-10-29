@@ -252,3 +252,27 @@ Six pre-built directions are available in the uploaded knowledge files. Use them
 - Do not add comments explaining what code does (only why, if non-obvious).
 - Do not use emojis unless the user requests them.
 - Never deliver an incomplete page. Every page must feel finished — no "coming soon" sections, no "more chapters planned" teasers, no placeholder sections that admit they are placeholders.
+
+## Illustration rules
+
+Applies whenever a brief asks for custom graphics, illustrated scenes, storybook or playful styles, mascots, icons, or maps. Illustrations are hand-coded inline SVG. No image-generation API is used.
+
+**Before drawing:** write a style sheet for the project: line style (one stroke width, round caps), a palette of 5 to 7 colors plus one ink color, one light direction, one corner language (all round or all angular), and fixed character proportions. Every illustration and icon follows it.
+
+**Scenes:** build in layers, back to front: background, midground, subject, foreground accents. One focal point per scene. Overlap shapes and add a soft ground shadow under every object so nothing floats. The subject fills about 60 percent of the frame.
+
+**Depth:** use linear gradients on large fills, a darker clipped copy of a shape for shading, small highlights in a consistent spot, and reusable parts defined once with symbol and use. Color through CSS variables so a scene can recolor per section.
+
+**Characters:** build from simple shapes (body blob, head, rounded limbs). Faces carry emotion: eye glints, small nose, mouth curve. Give each character 2 or 3 identifying traits and a pose with action. Keep parts in named groups so they can be animated.
+
+**Motion inside scenes:** 3 to 6 small moving parts per hero scene, such as tail wag, blink, breathing, floating zzz or sparkles, steam, a bouncing ball. Animate only transform and opacity, loop 2 to 6 seconds with ease-in-out, and turn it off under prefers-reduced-motion.
+
+**Icons:** one viewBox (24 or 32), one stroke width, one cap and corner style across the set, stroke set to currentColor, plus one distinctive custom detail per icon. Check they read at 24px.
+
+**Maps:** top-down or isometric, not both. Zones are keyboard-focusable groups with hover and focus states and a text alternative. Collapse to a tappable list on mobile.
+
+**Accessibility and size:** meaningful illustrations get role img with a title and desc. Decorative ones get aria-hidden. Keep each scene under about 15 KB.
+
+**Quality checklist before presenting:** style sheet followed, 4 or more layers, nothing floating, shading present, moving parts working, characters have faces with life, palette limited, squint test passes, cover-the-logo test passes, icons consistent, checked at 390px and 1440px in a real browser.
+
+**Photos vs illustration:** pictures or photos requested means use photography. Custom graphics requested means SVG. Both requested means deliver both.
